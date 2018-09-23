@@ -38,7 +38,6 @@ usage()
 
 #### Main
 
-#filename=~/classwork/CSCI362/bin/script.html
-#write_page > $filename
+filename=~/script.html
+write_page > $filename
 usage
-makedirectory

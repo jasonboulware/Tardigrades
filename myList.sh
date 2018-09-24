@@ -1,13 +1,17 @@
 #!/bin/bash
 
 # Tardigrades
+# CSCI 362
+# FALL 2018
 
-title="Directory Contents of ${PWD##*/}"
+# The ${PWD##*/} displays the current directory name
+title="${PWD##*/}"
+header = "Directory Contents of ${PWD##*/}"
 
 displayContents() {
   for file in ./*; do
     echo "<li>"
-    echo "$(basename "$file")"
+    echo "$(basename "$file")" #Removes path information
     echo "</li>"
   done
 }
@@ -20,7 +24,7 @@ cat <<- _EOF_
   </head>
 
   <body>
-    <h1>$title</h1>
+    <h1>$header</h1>
     <ul>
       $(displayContents)
     </ul>

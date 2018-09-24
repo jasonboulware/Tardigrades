@@ -1,43 +1,34 @@
 #!/bin/bash
-# Script for Tardigrades 
 
-write_page()
-{
-	cat <<- _EOF_
-	<html>
-		<head>
-			<title>
-			CSCI 362 Tardigrades Script
-			</title>
-		</head>
+# Tardigrades
 
-		<body>
-			<h1>Tardigrades Project</h1>
-		</body>
-	</html>
+title="Directory Contents of ${PWD##*/}"
+
+displayContents() {
+  for file in ./*; 
+  do
+    echo "<li>"
+    echo "$(basename "$file")"
+    echo "</li>"
+  done
+}
+
+cat <<- _EOF_
+<html>
+  <head>
+    <title>
+      $title
+    </title>
+  </head>
+
+  <body>
+    <h1>
+      $title
+    </h1>
+    
+    <ul>
+      $(displayContents)
+    </ul>
+  </body>
+</html>
 _EOF_
-}
-
-makedirectory()
-{
-	director=~/tardigrades/bin
-	mkdir $directory
-	echo $directory
-	return $directory
-}
-
-usage()
-{
-	echo "HTML file is named script.html"
-}
-
-#move_file(filename)
-#{
-#
-#}
-
-#### Main
-
-filename=~/myList.html
-write_page > $filename
-usage

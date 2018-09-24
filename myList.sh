@@ -38,6 +38,6 @@ usage()
 
 #### Main
 
-filename=~/script.html
+filename=~/myList.html
 write_page > $filename
 usage

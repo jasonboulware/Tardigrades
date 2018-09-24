@@ -4,4 +4,4 @@
 1. `cd` into the folder with the script.
 2. Next run `$ chmod 755 myList.sh`
 3. Run `$ ./myList.sh > list.html`
-4. Finally, close your terminal and open the `list.html` file in the folder you ran the script in.
+4. Finally, run `firefox list.html` (Click the Firefox icon if the file doesn't open).

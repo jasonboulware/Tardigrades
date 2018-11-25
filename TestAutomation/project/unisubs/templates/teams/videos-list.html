@@ -1,0 +1,181 @@
+{% extends "teams/base.html" %}
+
+{% load i18n utils_tags teams_tags paginator profiles_tags %}
+
+{% block title %}
+    {% trans 'Videos' %} - {{ team }} | Amara
+{% endblock %}
+
+{% block html_attrs %}id="team_videos_list"{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    {% include "teams/_search_js.html" %}
+{% endblock %}
+
+{% block select_language_dialog %}
+    {% select_language_dialog %}
+{% endblock %}
+
+{% block view_content %}
+
+    {% if team.is_old_style %}<div class="grid_8 view omega">{% else %}<div class="view">{% endif %}
+        {% with "videos" as current %}
+            {% include 'teams/_tabs.html' %}
+        {% endwith %}
+
+        <div class="tools group">
+            <form action="" method="get" class="search">
+                <fieldset>
+                    {% if project_filter %}
+                    <input type="hidden" name="project" value="{{ project_filter }}" />
+                    {% endif %}
+                    {% if language_filter %}
+                    <input type="hidden" name="lang" value="{{ language_filter }}" />
+                    {% endif %}
+                    {% if language_mode %}
+                    <input type="hidden" name="lang-mode" value="{{ language_mode }}" />
+                    {% endif %}
+                    {% if sort %}
+                    <input type="hidden" name="sort" value="{{ sort }}" />
+                    {% endif %}
+                    <input type="text" name="q" value="{{ query }}" placeholder="Search {{ team }}&hellip;" />
+                </fieldset>
+            </form>
+            {% if can_move_videos %}
+                <a href="{% url "teams:move_videos" team.slug %}{% if project %}?project={{ project_field_initial }}{% endif %}" class="button">{% trans "Move Videos" %}</a>
+            {% endif %}
+            {% if can_add_video %}
+                <a href="{% url "teams:add_video" team.slug %}{% if project %}?project={{ project_field_initial }}{% endif %}" class="button">{% trans "Add Video" %}</a>
+            {% endif %}
+            {% if team|can_view_settings_tab:user %}
+                <a class="button" href="{% url "teams:settings_feeds" slug=team.slug %}">
+                    {% trans "Video Feeds" %}
+                </a>
+            {% endif %}
+            <a href="#filter" id="sort-filter">
+                {% trans 'Filter and Sort' %}
+                <span></span>
+            </a>
+        </div>
+        <form class="filters videos-list group no-ajax{% if filtered %} active{% endif %}" action="" method="GET">
+            <input type="hidden" name="q" value="{{ query }}" />
+            <button class="reduced" id="update">Update</button>
+            {% if filtered %}
+            <a href="{% url "teams:videos" team.slug %}{% if query %}?q={{ query }}{% endif %}" class="button cancel">Clear</a>
+            {% endif %}
+            <div class="group">
+                <div class="filter-chunk">
+                    <span class="inner">{% trans 'Project:' %}</span>
+                    <select name="project" id="project">
+                        <option value="any"{% if project == None %} selected="selected"{% endif %}>{% trans 'any' %}</option>
+                        {% for project_choice in project_choices %}
+                        <option {% if project == project_choice %}selected="selected"{% endif %} value="{{ project_choice.slug }}">{{ project_choice.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="filter-chunk">
+                    {% trans 'Language:' %}
+                    <select name="lang-mode" id="lang_mode">
+                        <option value="+"{% if language_mode == '+' %} selected="selected"{% endif %}>{% trans "has" %}</option>
+                        <option value="-"{% if language_mode == '-' %} selected="selected"{% endif %}>{% trans "doesn't have" %}</option>
+                    </select>
+                    <select name="lang" id="lang">
+                        <option value="any"{% if language_code == None %}selected="selected"{% endif %}>{% trans 'any' %}</option>
+                        {% for label, choices in language_choices %}
+                        <optgroup label="{{ label }}">
+                          {% for code, name in choices %}
+                            <option {% if language_code == code %}selected="selected"{% endif %} value="{{ code }}">{{ name }}</option>
+                          {% endfor %}
+                        </optgroup>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="filter-chunk">
+                <span class="inner">{% trans 'Sort:' %}</span>
+                <select name="sort">
+                    <option {% if sort == 'name' %}selected="selected"{% endif %} value="name">
+                        {% trans 'name, a-z' %}
+                    </option>
+                    <option {% if sort == '-name' %}selected="selected"{% endif %} value="-name">
+                        {% trans 'name, z-a' %}
+                    </option>
+                    <option {% if sort == '-time' or not sort %}selected="selected"{% endif %} value="-time">
+                        {% trans 'time, newest' %}
+                    </option>
+                    <option {% if sort == 'time' %}selected="selected"{% endif %} value="time">
+                        {% trans 'time, oldest' %}
+                    </option>
+                    <option {% if sort == '-subs' %}selected="selected"{% endif %} value="-subs">
+                        {% trans 'most completed languages' %}
+                    </option>
+                    <option {% if sort == 'subs' %}selected="selected"{% endif %} value="subs">
+                        {% trans 'least completed languages' %}
+                    </option>
+                </select>
+            </div>
+        </form>
+
+        {% if team_video_md_list %}
+            <ul class="videos listing group">
+                {% with team|is_team_member:request.user as user_is_team_member %}
+                    {% for md_obj in team_video_md_list %}
+                        {% team_video_detail md_obj %}
+                    {% endfor %}
+                {% endwith %}
+            </ul>
+            {% if is_paginated %}{% paginator %}{% endif %}
+        {% else %}
+            <p class="empty">
+                {% if is_indexing %}
+                    {% trans "Rebuilding video index. Please try again in a few minutes" %}
+                {% else %}
+                    {% trans "Sorry, no videos here" %}
+                {% endif %}
+                ...
+            </p>
+        {% endif %}
+    </div>
+
+    <div class="bootstrap">
+        <div class="modal" id="remove-modal">
+            <div class="modal-header">
+                <a href="#" class="close">x</a>
+                <h3>{% trans 'Remove video' %}</h3>
+            </div>
+            
+            <form method="POST" action="">
+                <div class="modal-body">
+                    <fieldset>
+                        {% if not request.user|can_delete_video_in_team:team %}
+                            <p>{% blocktrans %}You are removing this video from the {{ team }} team.{% endblocktrans %}</p>
+                            <p class="notation">{% blocktrans %}You are removing this video from the {{ team }} team.<br /><br />
+                                It will remain on Amara but will no longer be subject to the team's permissions and worfklows. Any outstanding tasks will be deleted. Private videos will become available for viewing and editing to the general public. Are you sure you want to proceed?{% endblocktrans %}</p>
+                        {% else %}
+                            <p>{% blocktrans %}You can choose to remove the video from the {{ team }} team or to delete the video (and all of its subtitles) from the system entirely. What would you like to do?{% endblocktrans %}</p>
+                            <label class="radio">
+                                <input type="radio" name="del-opt" value="team-removal" checked="checked">
+                                {% blocktrans %}Just remove the video from the team.{% endblocktrans %}
+                            </label>
+                            <p class="notation">{% blocktrans %}It will remain on Amara but will no longer be subject to the team's permissions and worfklows. Any outstanding tasks will be deleted.{% endblocktrans %}</p>
+                            <label class="radio">
+                                <input type="radio" name="del-opt" value="total-destruction">
+                                {% trans "Delete the video entirely." %}
+                            </label>
+                        {% endif %}
+                    </fieldset>
+
+                    {% csrf_token %}
+
+                    <input type="hidden" name="next" value="{{ request.path }}" />
+                </div>
+
+                <div class="modal-footer">
+                    <input type="submit" class="btn danger" value="{% trans "Remove" %}" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

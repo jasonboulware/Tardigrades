@@ -1,0 +1,38 @@
+{% load i18n profiles_tags auth_tags videos_tags %}
+<header class="navbar navbar-static-top" id="top" role="banner">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+      </button>
+      <a href="/"><img class="navbar-brand" src="{{ STATIC_URL }}images/amara-o.png" /></a>
+    </div><!-- .navbar-header -->
+    <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+      <span>
+        <ul class="nav navbar-nav">
+          <li id="nav_submit">
+            <a href="{% url "videos:create" %}">{% trans 'Subtitle Video' %}</a>
+          </li>
+          <li>
+            <a href="/community">{% trans "Community" %}</a>
+          </li>
+          <li>
+            <a id="proamara-link" href="//pro.amara.org">{% trans "Professional Solutions" %}</a>
+          </li>
+          <li>
+            <a class="search-icon" href="{% url "videos:watch_page" %}">
+        	<img alt="Search" src="{{ STATIC_URL }}images/glyphicons_027_search-light.png">
+            </a>
+	  </li>
+        </ul><!-- .nav navbar-nav -->
+
+        <ul class="nav navbar-nav navbar-right">
+            {% include "profiles/_user_menu.html" %}
+        </ul>
+      </span>
+    </nav>
+  </div> <!-- .container -->
+</header> <!-- .navbar -->

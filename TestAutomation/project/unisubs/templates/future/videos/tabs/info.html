@@ -1,0 +1,58 @@
+{% load i18n videos_tags %}
+<dl class="inline-description">
+  <dt>{% trans "Title:" %}</dt>
+  <dd{% if subtitle_version and subtitle_language and subtitle_language.get_title %}
+    {% if subtitle_language.is_rtl %} class="is-rtl"{% endif %}>
+        <bdi>{{ subtitle_language.title_display }}</bdi>
+    {% else %}
+       >{{ video.title_display }}
+    {% endif %}
+  </dd>
+     {% if subtitle_version.get_metadata_for_display %}
+        {% for entry in subtitle_version.get_metadata_for_display %}
+            <dt>{{ entry.label }}</dt>
+            <dd><bdi>{{ entry.content }}</bdi></dd>
+        {% endfor %}
+     {% else %}
+        {% for entry in metadata %}
+            <dt>{{ entry.label }}</dt>
+            <dd>{{ entry.content }}</dd>
+        {% endfor %}
+     {% endif %}
+
+  {% if video.description or subtitle_version.description %}
+  <dt>{% trans "Description:" %}</dt>
+  <dd class="clamp">
+    <div class="clamp-lines clamp-xs-5"
+      {% if subtitle_version %}
+        {% if subtitle_language.is_rtl %} class="is-rtl"{% endif %}>
+        <bdi>{{ subtitle_version.description|linebreaks }}</bdi>
+      {% else %}
+        >{{ video.description|linebreaks }}
+    {% endif %}
+    </div>
+    {% include "future/clamp-toggle.html" %}
+  </dd>
+  {% endif %}
+
+  {% if video.primary_audio_language_code %}
+  <dt>{% trans "Video Language:" %}</dt>
+  <dd>{{ video.get_primary_audio_language_code_display }}</dd>
+  {% endif %}
+
+  {% if team_video %}
+  <dt>{% trans "Team:" %}</dt>
+  <dd>{% include "future/teams/team.html" with team=team_video.team %}</dd>
+
+  {% if not team_video.project.is_default_project %}
+  <dt>{% trans "Project:" %}</dt>
+  <dd>{{ team_video.project.name }}</dd>
+  {% endif %}
+
+  {% endif %}
+
+  {% if video.duration %}
+  <dt>{% trans "Duration:" %}</dt>
+  <dd>{{ video.duration|format_duration }}
+  {% endif %}
+</dl>

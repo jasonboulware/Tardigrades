@@ -1,0 +1,10 @@
+{% extends "rest_framework/base.html" %}
+{% load media_bundle %}
+{% block title %}Amara API Browser{% endblock %}
+{% block branding %}<h3>Amara API Browser</h3>{% endblock %}
+{% block head %}
+{{ block.super }}
+  {% media_bundle "api.css" %}
+  {% media_bundle "api.js" %}
+</script>
+{% endblock %}

@@ -1,0 +1,5 @@
+#!/bin/sh
+cd /repository
+LAST_COMMIT_ID=$(git rev-parse --short=8 HEAD)
+echo "git commit id: ${LAST_COMMIT_ID}"
+echo "LAST_COMMIT_GUID='${LAST_COMMIT_ID}'" > commit.py

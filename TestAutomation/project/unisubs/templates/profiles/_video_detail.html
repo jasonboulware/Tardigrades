@@ -1,0 +1,17 @@
+{% load i18n teams_tags to_json %}
+
+<li>
+    <div class="thumb">
+        <a href="{{ video.get_absolute_url }}" class="thumb"><img src="{{ video.get_thumbnail }}" alt="Thumbnail"></a>
+        <a href="{{ video.get_absolute_url }}" class="languages">
+            {% if video.languages_count > 0 %}
+                {{ video.languages_count }} {% trans 'language' %}{{ video.languages_count|pluralize }}
+            {% else %}
+                {% trans "No subtitles yet" %}
+            {% endif %}
+        </a>
+    </div>
+    <h3>
+        <a href="{{ video.get_absolute_url }}">{{ video.title_display|truncatewords:9 }}</a>
+    </h3>
+</li>

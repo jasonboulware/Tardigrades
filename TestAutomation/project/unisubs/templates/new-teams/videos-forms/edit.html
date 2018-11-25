@@ -1,0 +1,20 @@
+{% load i18n %}
+<aside class="modal" id="edit-form">
+  <h3>
+    {% blocktrans with video_title=first_video.title_display %}
+    Edit {{ video_title }}
+    {% endblocktrans %}
+  </h3>
+  <button class="close"></button>
+  <form action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% include "_non-field-errors.html" %}
+    {{ form.team_video.as_hidden }}
+    {% include "_field.html" with field=form.primary_audio_language %}
+    {% include "_field.html" with field=form.project %}
+    {% include "_field.html" with field=form.thumbnail %}
+    <footer class="buttons">
+      <button>{% trans "Update" %}</button>
+    </footer>
+  </form>
+</aside>

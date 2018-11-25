@@ -1,0 +1,25 @@
+{% load i18n %}
+<ul class="paginator">
+  {% if page.has_previous %}
+  <li><a href="{{ page.first_page_link }}"><span class="fa fa-backward"></span></a></li>
+  <li><a href="{{ page.previous_page_link }}"><span class="fa fa-step-backward"></span></a></li>
+  {% else %}
+    <li><span class="fa fa-backward"></span></li>
+    <li><span class="fa fa-step-backward"></span></li>
+  {% endif %}
+
+  <li class="current">
+    {% blocktrans with number=page.number total=page.paginator.num_pages %}
+    Page {{ number }} of {{ total }}
+    {% endblocktrans %}
+  </li>
+
+  {% if page.has_next %}
+  <li><a href="{{ page.next_page_link }}"><span class="fa fa-step-forward"></span></a></li>
+  <li><a href="{{ page.last_page_link }}"><span class="fa fa-forward"></span></a></li>
+  {% else %}
+  <li><span class="fa fa-step-forward"></span></li>
+  <li><span class="fa fa-forward"></span></li>
+  {% endif %}
+</ul>
+

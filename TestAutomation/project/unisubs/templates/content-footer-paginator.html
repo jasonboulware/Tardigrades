@@ -1,0 +1,7 @@
+<ul class="contentFooter-paginator">
+  <li><a class="contentFooter-paginatorLink{% if page.number == 1 %} disabled{% endif %}" href="{{ page.first_page_link}}" aria-label="Previous"><span class="fa fa-angle-double-left"></span></a></li>
+  {% for number, url in page.nearest_page_links %}
+  <li><a class="contentFooter-paginatorLink{% if number == page.number %} current{% endif %}"href="{{ url }}">{{ number }}</a></li>
+  {% endfor %}
+  <li><a class="contentFooter-paginatorLink{% if page.number == paginator.num_pages %} disabled{% endif %}" href="{{ page.last_page_link}}" aria-label="Next"><span class="fa fa-angle-double-right"></span></a></li>
+</ul>

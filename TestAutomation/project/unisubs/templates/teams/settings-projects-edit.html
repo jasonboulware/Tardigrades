@@ -1,0 +1,103 @@
+{% extends "teams/base.html" %}
+{% load i18n teams_tags paginator %}
+
+{% block title %}
+    {{ team }} {% trans 'Settings' %} | Amara
+{% endblock %}
+
+{% block view_content %}
+
+    <div class="view grid_8 omega">
+        {% with 'settings' as current %}
+            {% if not project %}
+                {% include 'teams/_tabs.html' %}
+            {% else %}
+                {% include 'teams/_tabs_projects.html' %}
+            {% endif %}
+        {% endwith %}
+
+        {% if not project %}
+            <div class="tools subnav">
+                {% with 'projects' as current_sub %}
+                    {% include 'teams/_subnav_settings.html' %}
+                {% endwith %}
+                <!-- <a class="button project-add" href="{% url "teams:add_project" slug=team.slug %}">{% trans 'Add Project' %}</a> -->
+            </div>
+        </div>
+        {% endif %}
+
+        <form action="" method="POST" class="settings">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+
+            <fieldset>
+                <legend>{% trans 'Edit Project' %}: {{ project }}</legend>
+
+                <label for="id_name">{% trans 'Name' %}</label>
+                {{ form.errors.name }}
+                {{ form.name }}
+
+                <label for="id_description">{% trans 'Description' %}</label>
+                {{ form.errors.description }}
+                {{ form.description }}
+            </fieldset>
+
+            {% comment %}
+                <fieldset>
+                    <legend>Workflows</legend>
+                    <p class="notation">{% trans "Moderate this project's subtitles. Will override the team's workflow if exists." %}</p>
+    
+                    <label for="id_workflow_enabled">{{ form.workflow_enabled }} {% trans 'Enable workflows' %}</label>
+                </fieldset>
+    
+                <div class="workflow">
+                    <fieldset id="workflow">
+                        <label for="id_autocreate_subtitle">
+                            {{ workflow_form.autocreate_subtitle }}
+                            {% trans 'Automatically create subtitle tasks' %}
+                        </label>
+    
+                        <label for="id_autocreate_translate">
+                            {{ workflow_form.autocreate_translate }}
+                            {% trans 'Automatically create translation tasks for preferred languages' %} (<a href="{% url "teams:settings_languages" slug=team.slug %}">{% trans 'manage languages' %}</a>)
+                        </label>
+    
+                        <label for="id_review_allowed">{% trans 'Review' %}</label>
+                        {{ workflow_form.review_allowed }}
+    
+                        <label for="id_approve_allowed">{% trans 'Approval' %}</label>
+                        {{ workflow_form.approve_allowed }}
+                    </fieldset>
+                </div> 
+            {% endcomment %}
+
+            <div class="submit">
+                <input type="submit" onclick="return confirm('{% trans 'Are you sure you want to delete this project?' %}');" name="delete" class="button delete project-delete" value="Delete" />
+                <input type="submit" class="submit save" value="Save Changes" name="save" />
+            </div>
+        </form>
+
+    </div>
+
+    <script type="text/javascript">
+        $(window).load(function(){
+            $workflow = $('#id_workflow_enabled');
+
+            if ($workflow.attr('checked')) {
+                $('.v1 .workflow').show();
+            }
+
+            $workflow.change(function() {
+                if ($workflow.attr('checked')) {
+                    $('.v1 .workflow').show();
+                } else {
+                    $('.v1 .workflow').hide();
+                }
+            });
+        });
+    </script>
+
+    <script id="IMAGE_PRELOADER" type="text/html">
+        <img class="placeholder" width="256" height="30" src="{{ STATIC_URL }}images/ajax-loader.gif"/>
+    </script>
+{% endblock %}

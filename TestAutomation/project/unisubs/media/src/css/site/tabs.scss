@@ -1,0 +1,17 @@
+ul.tabs {
+    @extend %clearfix;
+    width: 100%;
+    margin-bottom: 10px;
+
+    border-bottom: 1px solid $lighter-gray;
+    li {
+        float: left;
+        padding: 2px 15px;
+
+        &.current {
+            border: 1px solid $lighter-gray;
+            border-bottom: 0;
+            border-radius: 3px 3px 0 0;
+        }
+    }
+}

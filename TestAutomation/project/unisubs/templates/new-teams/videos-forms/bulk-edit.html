@@ -1,0 +1,21 @@
+{% load i18n %}
+<aside class="modal" id="bulk-edit-form">
+  <h3>
+    {% blocktrans count count=video_count %}
+    Edit Video
+    {% plural %}
+    Edit {{ count }} Videos
+    {% endblocktrans %}
+  </h3>
+  <button class="close"></button>
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% include "_non-field-errors.html" %}
+    {% include "_field.html" with field=form.primary_audio_language %}
+    {% include "_field.html" with field=form.project %}
+    {% include "_field.html" with field=form.thumbnail %}
+    <footer class="buttons">
+      <button>{% trans "Update" %}</button>
+    </footer>
+  </form>
+</aside>

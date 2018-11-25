@@ -1,0 +1,70 @@
+{% load i18n %}
+<div class="tab" id="sync-history-tab">
+    {% if current_version %}
+    <h2>External subtitle syncing and history</h2>
+        <p class="view-notice">{% blocktrans with version=current_version.version_number %}The latest version available for syncing is version #{{ version }}{% endblocktrans %}</p>
+    {% else %}
+        <p class="view-notice">{% trans "No versions currently available for syncing" %}</h2>
+    {% endif %}
+    <h3>{% trans "Synced Versions" %}</h2>
+    <table class="new-style">
+        <tr>
+            <td><h4>{% trans "Video URL" %}</h4></td>
+            <td><h4>{% trans "Version" %}</h4></td>
+            <td class="last"><h4>{% trans "Actions" %}</h4></td>
+        </tr>
+        {% for sync_info in synced_versions %}
+        <tr>
+            <td><a href="{{ sync_info.video_url.url }}">{{ sync_info.video_url.get_type_display }}</a></td>
+	    {% if sync_info.syncable %}
+              {% if sync_info.version %}
+                <td> <a href="{{ sync_info.version.get_absolute_url }}">{{ sync_info.version.version_number }}</a></td>
+              {% else %}
+                <td>{% trans "None" %}</td>
+              {% endif %}
+	    {% else %}
+	      <td>{% trans "Syncing not configured" %}</td>
+            {% endif %}
+            <td class="last">
+	        {% if sync_info.syncable %}
+                <form action="{% url "externalsites:resync" video_url_id=sync_info.video_url.id language_code=language.language_code %}" method="POST">
+                    {% csrf_token %}
+                    {% if current_version %}
+                    <input type="submit" value="{% blocktrans with version=current_version.version_number%}resync version #{{ version }}{% endblocktrans %}">
+                    {% else %}
+                    <input type="submit" value="{% trans "delete subtitles" %}">
+                    {% endif %}
+                </form>
+		{% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    {% if sync_history %}
+    <h3>{% trans "Sync History" %}</h3>
+    <table class="new-style">
+        <tr>
+            <td><h4>{% trans "Date" %}</h4></td>
+            <td><h4>{% trans "Account" %}</h4></td>
+            <td><h4>{% trans "Action" %}</h4></td>
+            <td><h4>{% trans "Version" %}</h4></td>
+            <td><h4>{% trans "Result" %}</h4></td>
+            <td class="last"><h4>{% trans "Details" %}</h4></td>
+        </tr>
+        {% for item in sync_history %}
+        <tr>
+            <td> {{ item.datetime }}</td>
+            <td> {{ item.get_account }}</td>
+            <td> {{ item.get_action_display }}</td>
+            <td> {{ item.version.version_number }}</td>
+            <td class="last"> {{ item.get_result_display }}</td>
+            <td class="last"> {{ item.details }}</td>
+        </tr>
+         {% endfor %}
+    </table>
+    {% else %}
+    <h3>{% trans "No Sync History" %}</h3>
+    {% endif %}
+</div>
+

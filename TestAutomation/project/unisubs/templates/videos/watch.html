@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% load i18n media_bundle %}
+
+{% block body_attrs %}id="watch"{% endblock %}
+
+{% block main_content %}
+
+{% include "videos/watch-search-form.html" %}
+
+<h1>{% block heading %}{% trans "Watch Subtitled Videos" %}{% endblock %}</h1>
+
+<div class="pod" id="featured_videos">
+    <div class="hd">
+      <h2>{{ subheader }}</h2>
+    </div><!-- // hd -->
+    <div class="bd">
+          {% include 'videos/_watch_page.html' with video_list=page %}
+    </div><!-- // bd -->
+
+    <div class="pages clearfix">
+      {% if page.has_previous %}
+      <a class="pag_prev" href="{{ page.previous_page_link }}"><span class="icon"></span></a>
+      {% endif %}
+      <span class="page_count page-info">
+        {% blocktrans with start_index=page.start_index end_index=page.end_index %}{{ start_index }} - {{ end_index }} videos{% endblocktrans %}
+      </span>
+      {% if page.has_next %}
+      <a class="pag_next" href="{{ page.next_page_link }}"><span class="icon"></span></a>
+      {% endif %}
+    </div>
+</div><!-- // pod -->
+<br/>
+
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% load i18n teams_tags %}
+
+{% block body_attrs %}id="teams" class="v1"{% endblock %}
+
+{% block main_content %}
+    <div class="header">
+        {% if team.logo %}
+            <a class="logo-image" href="{{ team.get_absolute_url }}">
+                <img class="logo" alt="{{ team }} logo" src="{{ MEDIA_URL }}{{ team.logo }}"/>
+            </a>
+        {% endif %}
+    </div>
+
+    {% if team.is_old_style %}
+    <div class="grid_4 context alpha">
+        {% include 'teams/_context_team.html' %}
+    </div>
+    {% else %}
+    <h2 class="main-title">{{ team }}</h2>
+    {% endif %}
+
+    {% block view_content %}{% endblock %}
+
+{% endblock %}
+
+{% block page_controls %}
+<ul id="page_controls">
+  <li>
+    <a href="{% url "admin:teams_team_change" team.pk %}" target="blank">{% trans 'Edit team' %}</a>
+  </li>
+  <li>
+    <a href="{% url "teams:video-durations" team.slug %}">Video Durations</a>
+  <li>
+</ul>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "videos/email_base.html" %}
+{% load i18n localeurl_tags %}
+
+{% block content %}
+
+{% load i18n %}
+<p>{% blocktrans count video_count=imported_videos %}Your video was successfully imported!{% plural %}Your {{ video_count }} videos were successfully imported!{% endblocktrans %}</p>
+
+<p>{% blocktrans %}To see them, you can go to <a href="{{ my_videos_url }}">your user page</a>{% endblocktrans %}</p>
+
+<p>{% blocktrans %}If you believe you've received this message in error, we apologize—feel free to ignore it. If you have any concerns, please contact us at feedback@amara.org.{% endblocktrans %}</p>
+
+<p>{% filter linebreaksbr %}{% blocktrans %}Thanks,
+The Amara team{% endblocktrans %}{% endfilter %}</p>
+{% endblock %}
+
+{% block dont_send %} {% endblock %}

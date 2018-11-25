@@ -1,0 +1,13 @@
+.tooltip {
+    @extend %floating;
+    padding: 4px 8px;
+    white-space: normal;
+    max-height: 70vh;
+    overflow: auto;
+
+    table.key-value {
+            margin: 0;
+            padding: 0;
+    }
+}
+

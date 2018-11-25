@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block body_attrs %}id="video" class="v1 video_view"{% endblock %}
+{% block html_attrs %}id="subtitle_view"{% endblock %}
+
+{% load widget comments i18n videos_tags %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script src="{% url "videos:rpc_api" %}" type="text/javascript"></script>
+    <script type="text/javascript">
+        window.DIFFING_URL = '{% block diffing_link %}{% url "videos:diffing" 11111 22222 %}{% endblock %}';
+        window.SELECT_REVISIONS_TRANS = '{% trans "Select two revisions to compare, please" %}';
+    </script>
+{% endblock %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block opengraph-head %}
+    {{block.super}}
+    <meta property="og:title" content="{{ page_title }}" />
+    <meta property="og:type" content="video"/>
+    <meta property="og:url" content="{{ BASE_URL}}{{ video.get_absolute_url }}"/>
+    {% if video.thumbnail %}
+        <meta property="og:image" content="{{ video.get_thumbnail }}" />
+    {% else %}
+        <meta property="og:image" content="{{ STATIC_URL }}images/small_logo.png" />
+    {% endif %}
+
+    <meta property="og:site_name" content="Amara"/>
+    <meta property="og:description" content="{{ page_title }}" />
+{% endblock  %}
+
+{% block main_content %}
+    <div class="grid_4 context alpha">
+        <h3 class="sub-title">
+            <a href="{{ language.language_url }}" title="Language permalink">
+                {% if language.is_original %}
+                    {% trans 'Original' %}
+                {% endif %}
+                {{ language.get_language_code_display }}
+                {% trans "subtitles" %}
+            </a>
+        </h3>
+        <h2 class="main-title">
+            <a href="{{ video.get_absolute_url }}" {% if language.is_rtl %}class="is-rtl"{% endif %} title="View video">
+                {% if not language.is_rtl %}
+                ←
+                {% endif %}
+                {{ language.title_display }}
+            </a>
+        </h2>
+        <ul class="metrics">
+            <li>
+                <div>
+                    <span class="count">{{ language.followers.count }}</span>
+                    {% trans "Follower" %}{{ language.followers.count|pluralize }}
+                </div>
+            </li>
+            <li>
+                <div>
+                    <span class="count">{{ version.subtitle_count }}</span>
+                    {% trans "Line" %}{{ version.subtitle_count|pluralize }}
+                </div>
+            </li>
+        </ul> 
+        {% include "future/videos/embed.html" with url=video.get_video_url team=video.get_team subtitle_language=language %}
+        {% if language.get_description %}
+            <div id="description"{% if language.get_description|length > 300 %} class="abbr collapsed{% endif %}">
+                <div {% if language.is_rtl %}class="is-rtl"{% endif %}>
+                    {{ language.get_description|urlize|linebreaks }}
+                </div>
+                {% if language.get_description|length > 300 %}
+                    <a class="expand" href="#">Show all ↓</a>
+                {% endif %}
+            </div>
+        {% endif %}
+        {% language-list video %}
+        <div class="sharing-tools">
+            {% include '_sharing_widget.html' %}
+        </div>
+    </div>
+    <div class="grid_8 view omega">
+        {% if user.is_authenticated %}
+            {% include 'videos/_follow_video_button.html' %}
+        {% endif %}
+        <ul class="tabs">
+            <li class="{% if tab == 'subtitles' %}current{% endif %}" id="subtitles-tab-header"><a href="?tab=subtitles">{% trans "Subtitles" %}</a></li>
+            <li class="hascount{% if tab == 'comments' %} current{% endif %}" id="comments-tab-header"><a href="?tab=comments">{% trans "Comments" %}<span>{{ language|get_comment_count }}</span></a></li>
+            <li class="hascount{% if tab == 'revisions' %} current{% endif %}" id="revisions-tab-header"><a href="?tab=revisions">{% trans "Revisions" %}<span>{{ revision_count }}</span></a></li>
+	    {% if video|can_user_resync:user %}
+            <li class="{% if tab == 'sync-history' %}current{% endif %}" id="sync-history-tab-header"><a href="?tab=sync-history">{% trans "Sync History" %}</a></li>
+            {% endif %}
+        </ul>
+        <div id="tab-container">{% block tab %}{% endblock %}</div>
+    </div>
+    {% include 'videos/_create-subtitles-modal.html' %}
+{% endblock %}
+
+{% block page_controls %}
+    {% if user.is_staff and perms.videos.edit_video %}
+        <ul id="page_controls">
+            <li>
+                <a href="{% url "admin:subtitles_subtitlelanguage_change" language.pk %}" target="blank">{% trans 'Edit SubtitleLanguage in Django Admin' %}</a>
+            </li>
+        </ul>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,32 @@
+{% load i18n %}
+<div class="video" ng-controller="VideoController" video-view>
+    <div class="video-container" id="video"></div>
+    <div class="subtitle-overlay top" ng-show="displayedSubtitle" dir="{{ language.dir }}"></div>
+    <div class="subtitle-overlay bottom" ng-show="displayedSubtitle" dir="{{ language.dir }}"><div class="subtitle-overlay-text" ng-bind-html="displayedSubtitleMarkup"></div></div>
+    <ul class="video-controls group">
+        <li class="play-pause" ng-class="{'playing': videoState.playing}">
+        <a href="#" ng-click="playPauseClicked($event);" class="play-button"></a>
+        </li>
+        <li class="time">
+        <span ng-show="videoState.loaded">
+            [[ videoState.currentTime|displayTimeSeconds]] / [[ videoState.duration|displayTimeSeconds]]
+        </span>
+        </li>
+        <li class="volume" ng-show="videoState.loaded">
+        <a href="#" ng-click="volumeToggleClicked($event)"></a>
+        </li>
+        <li class="progress" progress-bar
+        ng-mousedown="onProgressMouseDown($event)">
+        <div class="slice-left"><div></div></div>
+        <div class="slice-right"><div></div></div>
+        <div class="slice-mid"><div></div></div>
+        </li>
+    </ul>
+    <div volume-bar class="volume-bar"
+        ng-mousedown="onVolumeMouseDown($event)"
+        ng-show="volumeBarVisible">
+        <div class="slice1"></div>
+        <div class="slice2"></div>
+        <div class="slice3"></div>
+    </div>
+</div>

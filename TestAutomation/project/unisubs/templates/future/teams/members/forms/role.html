@@ -1,0 +1,23 @@
+{% load i18n forms modal captureas %}
+{% captureas title %}{% blocktrans count count=selection_count %}Edit Member{% plural %}Edit Members{% endblocktrans %}{% endcaptureas %}
+{% startmodal "edit-member-dialog" title %}
+<form class="ajaxForm" method="POST" action="{{ request.get_full_path }}" enctype="multipart/form-data">
+  <h4 class="modal-header">{% if single_selection %}{% blocktrans with user=form.get_first_object %}Changing role for {{ user }}{% endblocktrans %}{% else %}{% blocktrans count count=selection_count %}Changing role for {{ count }}user{% plural %}Changing role for {{ count }} users{% endblocktrans %}{% endif %}</h4>
+  <div class="modal-content">
+    {% csrf_token %}
+    {% include "future/forms/non-field-errors.html" %}
+    {% if form.include_all %}
+    {% render_field form.include_all %}
+    {% endif %}
+    {% render_field form.role %}
+    <div class="projectsAndLanguagesSelectors" {% if not show_proj_lang_selectors %}hidden{% endif %}>
+      {% render_field form.projects reverse_required=True %}
+      {% render_field form.languages reverse_required=True %}
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="button cta-reverse modal-close">{% trans "Cancel" %}</button>
+    <button class="button cta" type="submit">{% trans "Change" %}</button>
+  </div>
+</form>
+{% endmodal %}

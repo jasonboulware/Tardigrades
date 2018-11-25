@@ -1,0 +1,20 @@
+{% load i18n %}
+<p class="error" ng-show="emptySubtitleWarningShown()">
+  <a class="invalid-subtitle-link" data-target="[[ workflow.subtitleList.needsAnyTranscribed() && workflow.subtitleList.needsAnyTranscribed().id ]]"
+     href="#"
+     ng-click="onSubtitleLinkClicked($event)">
+    {% trans "Subtitles can not be blank" %}
+  </a>
+</p>
+<p class="error" ng-show="!emptySubtitleWarningShown() && invalidTimingWarningShown()">
+  <a class="invalid-subtitle-link" data-target="[[ workflow.subtitleList.firstInvalidTiming() && workflow.subtitleList.firstInvalidTiming().id ]]"
+     href="#"
+     ng-click="onSubtitleLinkClicked($event)">
+    {% trans "Timing error in subtitle" %}
+  </a>
+</p>
+<p class="error" ng-show="missingTranslationShown()">
+  <a class="invalid-subtitle-link" href="#" ng-click="onTitleClicked($event)">
+    {% trans "Title and description must be translated" %}
+  </a>
+</p>

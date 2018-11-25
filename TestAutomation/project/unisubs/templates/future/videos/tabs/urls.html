@@ -1,0 +1,36 @@
+{% load i18n ui dropdown %}
+<div class="listView videoUrls">
+
+  {% for video_url, sync_account in video_urls %}
+  <div>
+    <a href="{{ video_url.url }}" target="_blank">{{ video_url.url }}</a>
+    <div class="listView-secondary visible">
+      {% blocktrans with user=video_url.added_by date=video_url.created|date %}Added {{ date }} by {{ user }}{% endblocktrans %}
+    </div>
+  </div>
+  <div>
+    <span class="badge plum">{% blocktrans with format=video_url.get_type_display %}Format: {{ format }}{% endblocktrans %}</span>
+    {% if video_url.primary %}<span class="badge lime">{% trans "Primary" %}</span>{% endif %}
+    {% if video_url.original %}<span class="badge amaranth">{% trans "Original" %}</span>{% endif %}
+    {% if sync_account %}<span class="badge teal">{% trans "Synced" %}</span>{% endif %}
+  </div>
+  <div class="listView-actions">
+    {% if allow_make_primary or allow_delete %}
+    {% dropdown-button-icon "videourl-dropdown" "listView-action" data_videourl=video_url.id data_original=video_url.original data_primary=video_url.primary data_url=video_url.url %}
+    {% endif %}
+  </div>
+  {% endfor %}
+
+</div>
+{% if allow_make_primary or allow_delete %}
+{% dropdown "videourl-dropdown" %}
+{% if allow_make_primary %}{% dropdown-js-item _("Make Primary") "make-primary" class="videourl-make-primary" %}{% endif %}
+{% if allow_delete %}{% dropdown-js-item _("Delete") "delete" class="videourl-delete" %}{% endif %}
+{% enddropdown %}
+{% endif %}
+
+{% if create_url_form %}
+<section>
+<button class="button cta modal-show" data-target="#add-url-dialog">{% trans "Add URL" %}</button>
+</section>
+{% endif %}

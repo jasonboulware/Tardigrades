@@ -1,0 +1,53 @@
+{% extends "new-base.html" %}
+{% load i18n %}
+
+{% block content %}
+<h2>{% trans "Apply to" %} {{ team }}</h2>
+
+<div class="application-form-message">
+  {% if team.application_message %}
+  {{ team.application_message|urlize|linebreaksbr }}
+  {% else %}
+  <h4>{% trans "Language skill" %}</h4>
+  <p>
+  {% blocktrans %}
+  No formal language training is required to translate for {{ team }}. But we do ask that all translators are confident in their translation abilities.
+  {% endblocktrans %}
+  </p>
+
+  <h4>Time commitment</h4>
+  <p>
+  {% blocktrans %}
+  We request that each new applicant does at least one full set of subtitles within the first week of joining. Aside from that, it’s up to you!
+  {% endblocktrans %}
+  </p>
+  {% endif %}
+</div>
+
+<form action="" method="POST" class="team-application">
+  {% csrf_token %}
+  <fieldset>
+    <legend>{% trans "About You" %}</legend>
+    {% include "_field.html" with field=form.about_you %}
+  </fieldset>
+  <fieldset>
+    <legend>{% trans "Languages" %}</legend>
+    <label>
+      <ul class="language-selects">
+        <li>1) {{ form.language1 }}</li>
+        <li>2) {{ form.language2 }}</li>
+        <li>3) {{ form.language3 }}</li>
+        <li>4) {{ form.language4 }}</li>
+        <li>5) {{ form.language5 }}</li>
+        <li>6) {{ form.language6 }}</li>
+      </ul>
+    </label>
+    <p class="help">{% trans "Select the languages you can caption or translate" %}</p>
+  </fieldset>
+
+  <div class="actions">
+    <a href="{{ team.get_absolute_url }}" class="button cancel">{% trans "Cancel" %}</a>
+    <button class="submit">{% trans "Submit application" %}</button>
+  </div>
+</form>
+{% endblock %}

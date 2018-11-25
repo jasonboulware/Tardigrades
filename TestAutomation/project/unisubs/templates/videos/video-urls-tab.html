@@ -1,0 +1,176 @@
+{% load i18n videos_tags %}
+<div class="tab" id="urls-tab">
+  {% if video|can_user_edit_video_urls:user %}
+      <div class="tools">
+          <a href="#add-url-modal" class="button open-modal">
+              {% trans 'Add new URL' %}
+          </a>
+      </div>
+  {% endif %}
+  <ul class="listing urls">
+      {% for item, sync_account in video_urls %}
+          <li>
+              <h3>
+                  <a href="{{ item.get_absolute_url }}">{{ item }}</a> 
+                  {% if item.primary %}
+                      <span class="descriptor primary">{% trans 'Primary' %}</span>
+                  {% endif %}
+                  {% if item.original %}
+                      <span class="descriptor original">{% trans 'Original' %}</span>
+                  {% endif %}
+                  {% if sync_account %}
+                      <span class="descriptor synced">{% trans 'Synced' %}</span>
+                  {% endif %}
+              </h3>
+              <p>
+                  <a href="{{ item.url }}">{{ item.get_type_display }}</a>
+                  URL
+                  {% if item.added_by %}
+                      added by {{ item.added_by }}
+                  {% endif %}
+              </p>
+              <span class="timestamp" time="{{ item.created_as_time }}">{{ item.created|timesince }} {% trans 'ago' %}</span>
+              {% if video|can_user_edit_video_urls:user %}
+                  <ul class="admin-controls">
+                      <li><a {% if item.primary %}style="display:none"{% endif %} href="#" video_url_id="{{ item.pk }}" class="make-primary-url-link">{% trans 'Make primary' %}</a></li>
+                      {% if not item.primary %}
+                      <li><a href="#" class="delete-url-link" video_url_id="{{ item.pk }}">{% trans 'Remove' %}</a></li>
+                      {% endif %}
+                  </ul>
+              {% endif %}
+          </li>
+      {% endfor %}
+  </ul>
+
+  <div id="learn-more-urls" style="display:none;" class="msg_modal_wrap">
+    <a href="#close" class="close">{% trans "Close" %}</a>
+    <h3>{% trans 'Learn more' %}</h3>
+    <div class="msg_modal">
+      <p>{% trans "Multiple video URLs let you link multiple videos to a single set of subtitles. Some example uses:" %}</p>
+      <ul>
+        <li>{% trans "Two versions of the same video exist on Youtube.  You do not want subtitle volunteers to duplicate their work, so you add both versions to the multiple URLs pane." %}</li>
+        <li>{% trans "You put your video on Youtube, Vimeo and Dailymotion and you want the subtitles you make to work on all of those versions." %}</li>
+        <li>{% trans "You want to provide different versions of a video to different browsers (HTML5/Ogg for free software users, or HTML5/h264 to iPad users).  If you add these URLs, our embed code will automatically fall back to whatever format is necessary for the browser." %}</li>
+      </ul>
+      <p>{% trans "Tip: double check that there are no timing problems." %}</p>
+    </div>
+  </div>
+  <div class="bootstrap">
+      <div id="add-url-modal" class="modal">
+          <div class="modal-header">
+              <a href="#" class="close action-close">x</a>
+              <h3>{% trans 'Add another URL for this video' %}</h3>
+              <p class="notation">
+                  {% trans "Add a URL for another version of the exact same video. Useful when many versions of the same video exist, or when there are different formats (like HTML5)" %}
+              </p>
+          </div>
+          
+          {% if user.is_authenticated %}
+              <form method="post" action="{% url "videos:video_url_create" %}">
+                  <div class="modal-body">
+                      <div class="global-errors"></div>
+                      {% include "_form_field.html" with field=create_videourl_form.url %}
+                      {{ create_videourl_form.video }}
+                  </div>
+                  <div class="modal-footer">
+                      <p class="button-container">
+                          <button>{% trans 'Add' %}</button>
+                      </p>
+                      <p class="saving-container" style="display:none;">
+                          {% trans 'Saving...' %}
+                      </p>
+                  </div>
+                  {% csrf_token %}
+              </form>
+              {% else %}
+              <div class="modal-body">
+                  <p>{% trans "You must be logged in to add a URL" %}</p>
+              </div>
+              <div class="modal-footer">
+                  <a href="{% url "auth:login" %}?next={{ request.path_info }}">
+                      {% trans 'Login' %}
+                  </a>        
+              </div>
+              {% endif %}
+          </div>
+      </div>
+  </div>
+</div>
+<script type="text/javascript">
+jQuery(function($){
+    var IS_AUTHENTICATED = {% if user.is_authenticated %}true{% else %}false{% endif %};
+    var make_primary_url = '{% url "videos:video_url_make_primary" %}';
+    $('.make-primary-url-link').click(function(){
+        if (IS_AUTHENTICATED){
+            var $this = $(this);
+            $.post(make_primary_url, {id: $this.attr('video_url_id')},
+                function(response){
+                    if (response.error){
+                        $.jGrowl.error(response.error);
+                    }else{
+                        var $primary_span = $('#urls-tab .primary');
+                        if ( ! $primary_span.length){
+                            $primary_span = $("<span class='descriptor primary'>{% trans 'Primary'|escapejs %}</span>");
+                        };
+                        var $span = $primary_span.clone();
+                        
+                        $primary_span.remove();
+                        $('#urls-tab .make-primary-url-link').show();
+                        var $li = $this.parents('li');
+                        $li.find('h3').append($span);
+                        $li.find('.make-primary-url-link').hide();
+                    }
+                }, 'json');
+         }else{
+             alert('{% trans "You are not authenticated"|escapejs %}');
+         }
+         return false;
+    });
+    
+    var remove_url = '{% url "videos:video_url_remove" %}';
+    $('.delete-url-link').click(function(){
+        var $url = $(this);
+        if (IS_AUTHENTICATED){
+            if (confirm('{% trans "Delete this URL?  Warning: this cannot be undone. Only delete URLs for non-matching videos or videos where subtitles fail to display correctly."|escapejs %}')){
+                $.post(remove_url, {id: $url.attr('video_url_id')},
+                    function(response){
+                        if (response.error){
+                            $.jGrowl.error(response.error);
+                        }else{
+                            $url.parents('li').remove();
+                        }
+                    }, 'json')                
+            }
+        }else{
+            alert('{% trans "You are not authenticated"|escapejs %}');
+        }
+        return false;
+    });
+    
+    $('#add-url-modal form').ajaxForm({
+        dataType: 'json',
+        success: function(data, status, xhr, $form){
+            $('.button-container', $form).show();
+            $('.saving-container', $form).hide();            
+            if (data.errors){
+                for (key in data.errors){
+                    var $field = $('input[name="'+key+'"]', $form);
+                    var error = '<p class="error_list">'+data.errors[key]+'</p>';
+                    if ($field.length){
+                        $field.prev().before(error);
+                    }else{
+                        $('.global-errors', $form).prepend(error);
+                    }
+                };
+            }else{
+                location.reload();
+            }
+        },
+        beforeSubmit: function(formData, $form, options){
+            $('p.error_list', $form).remove();
+            $('.button-container', $form).hide();
+            $('.saving-container', $form).show();
+        }
+    });
+});
+</script>

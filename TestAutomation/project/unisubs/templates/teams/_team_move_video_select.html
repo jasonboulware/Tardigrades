@@ -1,0 +1,56 @@
+{% load i18n %}
+
+{% if user.is_authenticated and teams %}
+
+    <form class="move-video settings" action="{% url "teams:move_video" %}" method="POST">
+        <h3>{% trans "Move video to one of your other teams?" %}</h3>
+        <fieldset>
+            <select name="team" id="id_team">
+                {% for team in teams %}
+                    <option value="{{ team_video.pk }}" data-team-pk="{{ team.pk }}">{{ team }}</option>
+                {% endfor %}
+            </select>
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ request.path }}" />
+            <input type="hidden" name="team_video" value="" />
+            <input type="hidden" name="team" value="" />
+            <input type="hidden" name="project" value="" />
+        </fieldset>
+        <div class="submit">
+            <a href="#move-modal" class="button open-modal button-clean" id="move-video">Move video</a>
+        </div>
+    </form>
+    <div class="bootstrap">
+        <div class="modal" id="move-modal">
+            <div class="modal-header">
+                <a href="#" class="close">x</a>
+                <h3>{% trans 'Move video' %}</h3>
+            </div>
+            <form method="POST" action="">
+                <div class="modal-body">
+                    <fieldset>
+                        <p>{% blocktrans %}You are about to move this video to a new team.<br /><strong>If you proceed, all open tasks will be deleted.</strong>{% endblocktrans %}</p>
+                    </fieldset>
+                    <div class="team-projects-container fix-chosen">
+                        {% for team in teams %}
+                            <div id="team-projects-{{ team.pk }}" class="hidden team-projects">
+                                <p>Please select a project to move the video into:</p>
+                                <select>
+                                    {% for project in team.project_set.all %}
+                                        {% if project.name != '_root' %}
+                                            <option value="{{ project.pk }}">{{ project.name }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    {% csrf_token %}
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn danger" value="{% trans "Move video" %}" />
+                </div>
+            </form>
+        </div>
+    </div>
+{% endif %}

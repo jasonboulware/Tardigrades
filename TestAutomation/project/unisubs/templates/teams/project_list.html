@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block main_content %}
+<h1>{{team}}</h1>
+<ul>
+  {% for project in projects %}
+      <li>
+          <a href="{% url "teams:project_video_list" slug=team.slug project_slug=project.slug %}">{{project.name}}</a>
+          <p>{{project.description}}</p>
+          {{project.teamvideo_set.count}} {% trans 'videos' %}
+      </li>
+  {% endfor %}
+</ul>
+{% endblock %}

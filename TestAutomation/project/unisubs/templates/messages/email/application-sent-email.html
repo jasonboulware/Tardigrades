@@ -1,0 +1,6 @@
+{% extends "videos/email_base.html" %}
+{% load i18n localeurl_tags %}
+{% block content %}
+{% include "messages/application-sent.html" %}
+{% endblock %}
+{% block dont_send %}{% endblock %}

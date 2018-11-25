@@ -1,0 +1,61 @@
+{% extends "styleguide/base.html" %}
+{% load dropdown i18n %}
+{% block content %}
+
+<section>
+  <p>Dropdown menus are used to present a list of actions to the user.</p>
+  <p>We try to honor the keyboard bindings and properties from the <a href="https://www.w3.org/TR/wai-aria-practices/examples/menu-button/menu-button-links.html">ARIA practices document</a>.  Try <a href="#" onclick="document.getElementById('dropdown-menu-button').focus(); event.preventDefault();">focusing the toggle button</a> to start testing keyboard bindings.  </p>
+
+  {# First step is creating a button that you want to trigger the dropdown. Pick a unique ID for the menu. #}
+  {% dropdown-button "dropdown-menu" "button plum" id="dropdown-menu-button" %}{% trans "Toggle dropdown" %}{% end-dropdown-button %}
+  {# Next use the dropdown tag, passing it the same ID.  #}
+  {# Use labelled_by to indicate the element whos text should serve as a label for assistive software #}
+  {% dropdown "dropdown-menu" labelled_by="dropdown-menu-button" %}
+  {# Next, include any number of dropdown-items.  Passing them the label and view name #}
+  {% dropdown-item _('Dashboard') "profiles:dashboard" %}
+  {# use disabled to indicate an item that can't be selected #}
+  {% dropdown-item _('Profile (disabled)') "profiles:edit" disabled=True %}
+  {# for views that take arguments, you can pass them as extra args #}
+  {% dropdown-item _('Videos') "profiles:videos" user.id %}
+  {# Use class to add extra classes to the <li> tag #}
+  {% dropdown-item _('Account') "profiles:account" class="testClass" %}
+  {# Use icon to add a visual indicator #}
+  {% dropdown-item _('Logout') "logout" icon="trash" %}
+  {# Use section_id to create a separator above the item #}
+  {% dropdown-item _('Subtitle video') "videos:create" separator=True %}
+  {# you can also pass kwargs to the view  #}
+  {% dropdown-item _('This page') "styleguide:section" section_id="dropdown-menus" %}
+  {# Use dropdown-js-item to create an item that, when activated, triggers the "activate-item" event on the dropdown instead of opening a link.  Extra arguments are passed as event data #}
+  {% dropdown-js-item _('Trigger Event 1') "event-1" %}
+  {% dropdown-js-item _('Trigger Event 2') "event-2" %}
+  {# End it all with the enddropdown tag #}
+  {% enddropdown %}
+</section>
+
+<section>
+  <p>Sometimes we want to connect dropdowns to various objects, like videos,
+  requests, users, etc.  For these, use the dropdown-button-icon template tag
+  to create a dropdown connected to our standard icon.
+  </p>
+  <div class="bg-gray" style="display: inline-block; padding: 8px;">
+     Some object {% dropdown-button-icon "dropdown-menu2" %}
+    {% dropdown "dropdown-menu2" %}
+    {% dropdown-item _('Dashboard') "profiles:dashboard" %}
+    {% dropdown-item _('Profile (disabled)') "profiles:edit" disabled=True %}
+    {% enddropdown %}
+  </div>
+</section>
+
+<p id="event-console"></p>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+$('.dropdownMenu').on('link-activate', function(evt, data) {
+  console.log(data);
+  $('#event-console').text('activate-item triggered: ' + data);
+});
+</script>
+
+{% endblock %}

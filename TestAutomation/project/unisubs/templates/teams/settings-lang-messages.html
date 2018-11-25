@@ -1,0 +1,54 @@
+{% extends "teams/base.html" %}
+{% load i18n teams_tags paginator %}
+
+{% block title %}
+    {{ team }} {% trans 'Guidelines' %} | {% trans 'Settings' %} | Amara
+{% endblock %}
+
+{% block view_content %}
+
+    <div class="view grid_8 omega">
+        {% with 'settings' as current %}
+            {% include 'teams/_tabs.html' %}
+        {% endwith %}
+
+        <div class="tools subnav">
+            {% with 'messages' as current_sub %}
+                {% include 'teams/_subnav_settings.html' %}
+            {% endwith %}
+        </div>
+        <form id="guidelines_messages_form" method="POST" action="" class="settings">
+            {% csrf_token %}
+            <input type="hidden" name="team" value="" />
+
+                <fieldset>
+                    <legend>{% trans 'Custom messages' %}</legend>
+                    <p class="notation">
+                        {% trans 'Customize the messages sent to your users in their language. The text you enter will accompany the default system message.' %}
+                    </p>
+		    <legend>
+		      {% trans 'Add message in a new language' %}
+		    </legend>
+		    {% for item in form %}
+                    <label for="id_messages_invite">{{ item.label }}</label>
+                    {{ item.errors }}
+                    {{ item }}
+		    {% if item.id_for_label == 'id_messages_joins_localized' %}
+		    <hr class="form-separator">
+		    <legend>
+		      {% trans 'Edit messages' %}
+		    </legend>
+		    {% endif %}
+		    {% endfor %}
+                </fieldset>
+
+            <div class="submit">
+                <input type="submit" class="submit save" value="Save Changes" name="save" />
+            </div>
+        </form>
+    </div>
+
+    <script id="IMAGE_PRELOADER" type="text/html">
+        <img class="placeholder" width="256" height1="30" src="{{ STATIC_URL }}images/ajax-loader.gif"/>
+    </script>
+{% endblock %}

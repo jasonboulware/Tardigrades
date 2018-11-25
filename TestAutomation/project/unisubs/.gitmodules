@@ -1,0 +1,15 @@
+[submodule "amara-enterprise"]
+	path = amara-enterprise
+	url = git@github.com:pculture/amara-enterprise.git
+[submodule "babelsubs"]
+	path = babelsubs
+	url = git@github.com:pculture/babelsubs.git
+[submodule "unilangs"]
+	path = unilangs
+	url = git@github.com:pculture/unilangs.git
+[submodule "pykss"]
+	path = pykss
+	url = git@github.com:pculture/pykss.git
+[submodule "amara-assets"]
+	path = amara-assets
+	url = git@github.com:pculture/amara-assets.git

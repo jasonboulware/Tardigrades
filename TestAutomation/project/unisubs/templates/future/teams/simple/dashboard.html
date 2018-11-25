@@ -1,0 +1,67 @@
+{% extends "future/teams/base.html" %}
+{% load i18n %}
+{% block body-extra %} class="dashboard"{% endblock %}
+{% block content %}
+<main id="dashboard" class="pageContent">
+  <section class="pageSection">
+    <div class="container">
+      {% if dashboard_videos %}
+      <div class="row">
+        <div class="col-xs-12">
+          <div id="" class="content">
+            {% include "future/teams/simple/dashboard_videos.html" %}
+            <a href="{% url 'teams:videos' slug=team.slug %}">{% trans 'Find more videos that need subtitling' %}</a>
+          </div>
+        </div>
+      </div>
+      {% else %}
+      <div class="zero-state">{% trans "This team has no videos ready for subtitling yet" %}</div>
+      {% endif %}      
+    </div>
+  </section>
+
+  {% if dashboard_history %}
+  <section class="pageSection">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <div id="assignments_history" class="content">
+            {% include "future/teams/simple/subtitling_history.html" with histories=dashboard_history %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+  <section class="pageSection">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <div id="recently_added" class="content">
+            {% include "collab/newest-videos.html" %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pageSection">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-sm-8 col-lg-9">
+          <div id="newest_members" class="content">
+            {% include "collab/newest-members.html" %}
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-4 col-lg-3">
+          <div id="top_languages" class="content">
+            {% include "collab/top-languages.html" %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+{% endblock %}

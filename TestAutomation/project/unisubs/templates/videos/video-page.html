@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% load amara_cache comments i18n subtitles_tags teams_tags videos_tags %}
+
+{% block body_attrs %}{% cache-by-video page-body-attrs %}id="video_profile" class="v1 video_view" data-video-id="{{ video.video_id}}" data-video-url="{{ video.get_video_url|safe }}"{% endcache %}{% endblock %}
+
+{% block title %}{{ video.page_title }}{% endblock %}
+
+{% block scripts %}
+{{ block.super }}
+<script src="{% url "videos:rpc_api" %}" type="text/javascript"></script>
+{% endblock %}
+
+{% block opengraph-head %}
+{{block.super}}
+<meta property="og:title" content="{{ video.page_title }}" />
+<meta property="og:type" content="video"/>
+<meta property="og:url" content="{{ BASE_URL }}{{ video.get_absolute_url }}"/>
+{% if video.thumbnail %}
+<meta property="og:image" content="{{ video.get_thumbnail }}" />
+{% else %}
+<meta property="og:image" content="{{ STATIC_URL }}images/small_logo.png" />
+    {% endif %}
+
+    <meta property="og:site_name" content="Amara"/>
+    <meta property="og:description" content="{{ video.page_title }}" />
+{% endblock  %}
+
+{% block main_content %}
+    {% if saved %}
+        <div id="messages">
+            <p>{% blocktrans %}Subtitles saved! You can share the video with friends, or get an embed code for your site. To add a translation, click the button below.{% endblocktrans %}</p>
+            <a href="#" id="closeBut">{% trans "Close" %}</a>
+        </div>
+    {% endif %}
+
+    <div class="grid_4 context alpha">
+        {% cache-by-video page-title-html %}
+        <h1 class="main-title">
+            <a href="{{share_panel_permalink}}" {% if video.is_rtl %}class="is-rtl"{% endif %} title="Video permalink">{{ video.title_display }}</a>
+        </h1>
+        {% endcache %}
+        {% cache-by-video metrics %}
+        <ul class="metrics">
+            <li>
+                <div>
+                    <span class="count">
+                      {% blocktrans count count=video.languages_count %}{{ count }} Language{% plural %}{{ count }} Languages{% endblocktrans %}
+                    </span>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <span class="count">
+                      {% blocktrans count count=video.followers.count %}{{ count }} Follower{% plural %}{{ count }} Followers{% endblocktrans %}
+                    </span>
+                </div>
+            </li>
+        </ul>
+        {% endcache %}
+        <div class="contribute">
+            <h3>{% trans "Contribute" %}</h3>
+            {% if team %}
+                <p class="group">
+                    {% if team.square_logo %}
+                    <a href="{{ team.get_absolute_url }}"><img class="logo" src="{{ team.square_logo_thumbnail_oldsmall }}"></a>
+                    {% else %}
+                    <a href="{{ team.get_absolute_url }}"><img class="logo" src="{{ STATIC_URL }}images/team.png"></a>
+                    {% endif %}
+                    {% blocktrans with team.get_absolute_url as url %}
+                    <span class="team-link">This video is part of the <a href="{{ url }}">{{ team }}</a> team.</span>
+                    {% endblocktrans %}
+                </p>
+            {% endif %}
+            {% if add_language_mode == '<standard>' %}
+                <a href="#create-subtitles-modal" class="icon open-modal"><img src="{{ STATIC_URL}}images/edit-subtitles.png"></a>
+                    <p><a href="#create-subtitles-modal" class="open-modal">{% trans 'Add a new language!' %}</a></p>
+                {% upload_subtitles video %}
+            {% elif add_language_mode %}
+                <p>{{ add_language_mode }}</p>
+            {% endif %}
+        </div>
+        {% language-list video %}
+        <div class="sharing-tools group">
+        {% sharing-widget-for-video video %}
+        </div>
+        {% if user.is_team_manager and not team %}
+        <a href="{% url "teams:add_video_to_team" video.video_id %}">{% trans "Add this video to one of your teams" %}</a>
+        {% endif %}
+    </div>
+    <div class="grid_8 view omega">
+        {% if user.is_authenticated %}
+            {% include 'videos/_follow_video_button.html' %}
+        {% endif %}
+        <ul class="tabs">
+            <li id="video-tab-header" class="{% if tab == 'video' %}current{% endif %}"><a href="?tab=video">{% trans "Video" %}</a></li>
+            <li id="comments-tab-header" class="hascount{% if tab == 'comments' %} current{% endif %}"><a href="?tab=comments">{% trans "Comments" %}<span>{{ video.comment_count }}</span></a></li>
+            <li id="activity-tab-header" class="{% if tab == 'activity' %}current{% endif %}"><a href="?tab=activity">{% trans "Activity" %}</a></li>
+            <li id="urls-tab-header" class="hascount{% if tab == 'urls' %} current{% endif %}"><a href="?tab=urls">{% trans "URLs" %}<span>{{ video.url_count }}</span></a></li>
+            {% for name, title in extra_tabs %}
+            <li class="{% if tab == name %} current{% endif %}"><a href="?tab={{ name }}">{{ title }}</a></li>
+            {% endfor %}
+        </ul>
+        <div{% if extra_tab %} class="extra-tab"{% endif %} id="tab-container">{% block tab %}{% endblock %}</div>
+    </div>
+    {% include 'videos/_create-subtitles-modal.html' %}
+{% endblock %}
+
+{% block page_controls %}
+    {% if user.is_staff and perms.videos.edit_video %}
+        <ul id="page_controls">
+            <li>
+                <a href="{% url "videos:video_debug" video.video_id %}" target="blank">Debug info</a>
+            </li>
+            <li>
+                <a href="{% url "admin:videos_video_change" video.pk %}" target="blank">{% trans 'Edit video' %}</a>
+            </li>
+            {% if task %}<li> <a href="">task id={{task.pk}}</a></li>{% endif %}
+        </ul>
+    {% endif %}
+{% endblock %}

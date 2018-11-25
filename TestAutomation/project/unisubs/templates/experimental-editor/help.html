@@ -1,0 +1,125 @@
+{% load i18n %}
+{% with mod=mac_shortcuts|yesno:"Cmd,Ctrl" alt=mac_shortcuts|yesno:"Option,Alt" %}
+<div class="help-panel" ng-controller="KeyboardControlsController">
+    <!-- not ready for release just yet
+       <a class="advanced" ng-click="showAdvancedModal()">Advanced &raquo;</a>
+   -->
+
+    <h1>{% trans "Keyboard controls" %}&nbsp;&nbsp;&nbsp;<a href="" ng-click="onMoreControlsClicked($event)">{% trans "more commands" %} &#187;</a></h1>
+    <div ng-switch="keyboardControlsMode()">
+      <div ng-switch-when="typing">
+          <div class="instruction-item reddish-pink-key clickable play-button" ng-click="triggerKey('tab')">
+              <div class="key-pattern">Tab</div>
+              <div class="shortcut-desc">{% trans "Play / Pause" %}</div>
+          </div>
+          <div class="instruction-item lighter-blue-key clickable" ng-click="triggerKey('shift tab')">
+              <div class="key-pattern">Shift</div>
+              <div class="key-pattern small">+</div>
+              <div class="key-pattern">Tab</div>
+              <div class="shortcut-desc">{% trans "Skip back" %}</div>
+          </div>
+          <div class="instruction-item blue-key">
+              <div class="key-pattern">Shift</div>
+              <div class="key-pattern small">+</div>
+              <div class="key-pattern">Enter</div>
+              <div class="shortcut-desc">{% trans "Insert a line break" %}</div>
+          </div>
+      </div>
+      <div ng-switch-when="syncing">
+          <div class="instruction-item reddish-pink-key clickable play-button" ng-click="triggerKey('tab')">
+              <div class="key-pattern">Tab</div>
+              <div class="shortcut-desc">{% trans "Play / Pause" %}</div>
+          </div>
+          <div class="instruction-item lighter-blue-key clickable" ng-click="triggerKey('shift tab')">
+              <div class="key-pattern">Shift</div>
+              <div class="key-pattern small">+</div>
+              <div class="key-pattern">Tab</div>
+              <div class="shortcut-desc">{% trans "Skip back" %}</div>
+          </div>
+          <div ng-switch="upDownMode()">
+            <div class="key-row" ng-switch-when="default">
+                <div class="instruction-item teal-key clickable" ng-click="triggerKey('down')">
+                    <div class="key-pattern small">
+                        <img src="{{ STATIC_URL }}images/subtitle-editor/down_arrow.png"></img></div>
+                    <div class="shortcut-desc">{% trans "Start subtitle" %}</div>
+                </div>
+                <div class="instruction-item blue-key clickable" ng-click="triggerKey('up')">
+                    <div class="key-pattern small"><img src="{{ STATIC_URL }}images/subtitle-editor/up_arrow.png"></img></div>
+                    <div class="shortcut-desc">{% trans "End subtitle" %}</div>
+                </div>
+            </div>
+            <div ng-switch-when="editing" class="instruction-item blue-key clickable" ng-click="triggerKey('esc')">
+                <div class="key-pattern">Esc</div>
+                <div class="shortcut-desc">{% trans "Stop edit to enable syncing keys" %}</div>
+            </div>
+            <div ng-switch-when="all-synced" class="instruction-item blue-key clickable" ng-click="triggerKey('alt s')">
+                <div class="key-pattern">{{ alt }}</div>
+                <div class="key-pattern small">+</div>
+                <div class="key-pattern small">S</div>
+                <div class="shortcut-desc">{% trans "Sync start/end time to current time" %}</div>
+            </div>
+          </div>
+      </div>
+      <div ng-switch-when="review">
+        <div class="instruction-item reddish-pink-key clickable play-button" ng-click="triggerKey('tab')">
+          <div class="key-pattern">Tab</div>
+          <div class="shortcut-desc">{% trans "Play / Pause" %}</div>
+        </div>
+        <div class="instruction-item lighter-blue-key clickable" ng-click="triggerKey('shift tab')">
+          <div class="key-pattern">Shift</div>
+          <div class="key-pattern small">+</div>
+          <div class="key-pattern">Tab</div>
+          <div class="shortcut-desc">{% trans "Skip back" %}</div>
+        </div>
+        <div class="instruction-item blue-key clickable" ng-click="triggerKey('alt s')">
+          <div class="key-pattern">{{ alt }}</div>
+          <div class="key-pattern small">+</div>
+          <div class="key-pattern small">S</div>
+          <div class="shortcut-desc">{% trans "Sync start/end time to current time" %}</div>
+        </div>
+      </div>
+      <div ng-switch-when="nudging">
+        <div class="instruction-item nopadding">
+          <div class="key-row">
+            <div class="instruction-item reddish-pink-key clickable" ng-click="triggerKey('left')">
+              <div class="key-pattern small"><img src="{{ STATIC_URL }}images/subtitle-editor/left_arrow.png"></img></div>
+              <div class="shortcut-desc">{% trans "Nudge back" %}</div>
+            </div>
+            <div class="instruction-item reddish-pink-key clickable" ng-click="triggerKey('shift left')">
+              <div class="key-pattern">Shift</div>
+              <div class="key-pattern small">+</div>
+              <div class="key-pattern small"><img src="{{ STATIC_URL }}images/subtitle-editor/left_arrow.png"></img></div>
+              <div class="shortcut-desc">{% trans "Nudge slightly back" %}</div>
+            </div>
+          </div>
+        </div>
+        <div class="instruction-item nopadding">
+          <div class="key-row">
+            <div class="instruction-item lighter-blue-key clickable" ng-click="triggerKey('right')">
+              <div class="key-pattern small"><img src="{{ STATIC_URL }}images/subtitle-editor/right_arrow.png"></img></div>
+              <div class="shortcut-desc">{% trans "Nudge forward" %}</div>
+            </div>
+            <div class="instruction-item lighter-blue-key clickable" ng-click="triggerKey('shift right')">
+              <div class="key-pattern">Shift</div>
+              <div class="key-pattern small">+</div>
+              <div class="key-pattern small"><img src="{{ STATIC_URL }}images/subtitle-editor/right_arrow.png"></img></div>
+              <div class="shortcut-desc">{% trans "Nudge slightly forward" %}</div>
+            </div>
+          </div>
+        </div>
+        <div class="instruction-item blue-key clickable" ng-click="triggerKey('escape')">
+          <div class="key-pattern">Esc</div>
+          <div class="shortcut-desc">{% trans "Stop nudging" %}</div>
+        </div>
+      </div>
+  </div>
+  <ng-switch on="showTeamGuidelines()">
+    <a class="guidelines-link" ng-switch-when="true" title="" href="" ng-click="onGuidelinesClicked($event)">[[ teamName ]] Guidelines &#187;</a>
+    <a class="guidelines-link" ng-switch-when="false" title="" href="" ng-click="onGuidelinesClicked($event)">{% trans "Subtitling Guidelines" %} &#187;</a>
+  </ng-switch>
+  <a class="playback-mode-link" title="" href="" ng-click="onPlaybackModeClicked($event)">
+    {% trans "Playback Mode:" %} [[ playbackMode.name ]]
+    &#187;
+  </a>
+</div>
+{% endwith %}

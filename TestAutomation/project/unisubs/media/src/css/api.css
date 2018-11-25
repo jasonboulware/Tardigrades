@@ -1,0 +1,27 @@
+input.enable-field[type=checkbox] {
+    width: auto;
+}
+
+.checkbox-field input[type=checkbox] {
+    margin-top: 8px;
+    width: 15px;
+    height: 15px;
+}
+
+.api-description .nav-tabs > li {
+    float: left;
+}
+
+
+ul {
+    padding-left: 30px;
+
+    p {
+        margin: 0;
+        padding: 0;
+    }
+}
+
+td, th {
+    padding: 0 15px;
+}

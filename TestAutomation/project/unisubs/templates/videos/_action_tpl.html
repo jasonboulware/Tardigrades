@@ -1,0 +1,10 @@
+{% load i18n %}
+
+<span class="timestamp">{{ item.created|timesince }} {% trans 'ago' %}</span>
+
+{% if item.user %}
+    <a href="{{ item.user.get_absolute_url }}">{{ item.user }}</a>
+{% endif %}
+
+{{ info|safe }}
+

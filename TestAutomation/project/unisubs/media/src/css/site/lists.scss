@@ -1,0 +1,150 @@
+ol, ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+ul.inline {
+    display: inline;
+    li {
+        display: inline;
+        margin-right: 10px;
+    }
+}
+
+ul.bullet {
+    list-style-type: disc;
+    list-style-position: inside;
+    margin-bottom: $line-height;
+}
+
+li.header {
+    font-weight: $font-weight-bold;
+}
+
+ul.activity {
+    li {
+        padding: 10px 0;
+        border-bottom: 1px solid $lighter-gray;
+    }
+
+    .timestamp {
+        float: right;
+        margin-left: 5px;
+    }
+}
+
+@mixin thumb-list-height($height) {
+    // Sizes the thumbnails for a thumb-list.  Height should be the height the
+    // content.  We'll set the thumbnail width so that it's a 16:9 ratio.
+    .thumb {
+        width: $height * 16 / 9;
+        height: $height;
+        line-height: $height;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
+ul.thumb-list {
+    // By default, size the thumb enough to fit 4 lines of text + 1 line of
+    // buttons.
+    @include thumb-list-height($line-height * 4 + 28px);
+    > li {
+        @extend %clearfix;
+        margin-bottom: 30px;
+    }
+
+    .thumb {
+        display: block;
+        float: left;
+        position: relative;
+        margin-right: 10px;
+        background: $black;
+        text-align: center;
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .badge {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 0 5px;
+            line-height: $line-height;
+            color: $lightest-gray;
+            font-size: $small-font-size;
+            font-weight: bold;
+        }
+    }
+
+    input[type=checkbox] {
+        position: absolute;
+        top: 2px;
+        right: 2px;
+        width: 17px;
+        height: 17px;
+    }
+
+    button, a.button {
+        @include medium-button;
+        margin: 0;
+    }
+
+    .secondary-actions {
+        float: right;
+        button {
+            @include button-color-light($white);
+            padding: 0 5px;
+        }
+    }
+}
+
+.select-all-thumbs {
+    text-align: right;
+
+    label {
+        display: inline;
+        margin-bottom: 0;
+    }
+}
+
+.current-filter-list {
+    @extend %clearfix;
+    font-size: $small-font-size;
+    margin-bottom: 10px;
+
+    h6, li {
+        float: left;
+    }
+
+    li {
+        margin-right: 10px;
+        padding: 0 10px;
+        border: 1px solid $light-gray;
+        line-height: $line-height - 2px;
+        border-radius: 2px;
+    }
+
+    li.reset {
+        margin-left: 10px;
+        background: $white;
+        border: none;
+        a {
+            @include button;
+            @include button-color($light-gray);
+            font-size: $small-font-size;
+            padding: 0px 12px;
+        }
+    }
+}
+
+.list-subheader {
+    // Subheader that splits up a list.  We normally use <h5> for this.
+    color: $darkish-gray;
+    padding: 10px 0;
+}

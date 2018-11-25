@@ -1,0 +1,13 @@
+{% load forms i18n query_string modal %}
+{% startmodal "resync-dialog" _("Syncing Subtitles") %}
+<form class="ajaxForm" action="{% query_string form=resync %}" method="POST">
+  {% csrf_token %}
+  <div class="modal-content">
+    <p>{% blocktrans with number=version.version_number %}Syncing subtitles revision {{ number }}{% endblocktrans %}</p>
+  </div>
+  <div class="modal-footer">
+    <button class="button borderless modal-close">{% trans "Cancel" %}</a>
+    <button class="button cta" type="submit">{% trans "Resync" %}</button>
+  </div>
+</form>
+{% endmodal %}

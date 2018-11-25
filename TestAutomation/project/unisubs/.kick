@@ -1,0 +1,13 @@
+process do |files|
+    files.take_and_map do |file|
+        case file
+        when %r{^media/src/js/embedder/embedder.js|media/src/js/embedder/popcorn.amaratranscript.js|media/src/js/embedder/popcorn.amarasubtitle.js|media/src/css/embedder/embedder.scss$}
+            execute "media/src/build-scripts/embedder/compile-embedder.sh"
+        when %r{^media/css/v1.scss$}
+            execute "scss -t compressed media/css/v1.scss media/css/v1.css"
+        when %r{^media/src/css/subtitle-editor/subtitle-editor.scss$}
+            execute "scss -t compressed media/src/css/subtitle-editor/subtitle-editor.scss media/src/css/subtitle-editor/subtitle-editor-dev.css"
+            execute "cp media/src/css/subtitle-editor/subtitle-editor.scss media/release/public/subtitle-editor.css"
+        end
+    end
+end

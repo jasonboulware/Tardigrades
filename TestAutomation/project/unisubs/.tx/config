@@ -1,0 +1,30 @@
+[main]
+host = https://www.transifex.com
+
+[universalsubtitles.django]
+source_file = locale/django.pot
+source_lang = en
+file_filter = locale/<lang>/LC_MESSAGES/django.po
+trans.bg_BG = locale/bg/LC_MESSAGES/django.po
+trans.el_GR = locale/el/LC_MESSAGES/django.po
+trans.es_ES = locale/es/LC_MESSAGES/django.po
+trans.id_ID = locale/id/LC_MESSAGES/django.po
+trans.lt_LT = locale/lt/LC_MESSAGES/django.po
+trans.lv_LV = locale/lv/LC_MESSAGES/django.po
+trans.sl_SI = locale/sl/LC_MESSAGES/django.po
+trans.th_TH = locale/th/LC_MESSAGES/django.po
+trans.km_KH = locale/km/LC_MESSAGES/django.po
+
+[universalsubtitles.djangojs]
+source_file = locale/djangojs.pot
+source_lang = en
+file_filter = locale/<lang>/LC_MESSAGES/djangojs.po
+trans.bg_BG = locale/bg/LC_MESSAGES/djangojs.po
+trans.el_GR = locale/el/LC_MESSAGES/djangojs.po
+trans.es_ES = locale/es/LC_MESSAGES/djangojs.po
+trans.id_ID = locale/id/LC_MESSAGES/djangojs.po
+trans.lt_LT = locale/lt/LC_MESSAGES/djangojs.po
+trans.lv_LV = locale/lv/LC_MESSAGES/djangojs.po
+trans.sl_SI = locale/sl/LC_MESSAGES/djangojs.po
+trans.th_TH = locale/th/LC_MESSAGES/djangojs.po
+trans.km_KH = locale/km/LC_MESSAGES/djangojs.po

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}
+    {% trans 'Delete Language' %}
+{% endblock %}
+
+{% block body_attrs %}id="teams" class="v1"{% endblock %}
+
+{% block main_content %}
+<h2>{% blocktrans with language.get_language_code_display as language  %}Deleting {{ language }} Language{% endblocktrans %}</h2>
+<h3>{% blocktrans with language.video.title_display as video %}Video: {{ video }}{% endblocktrans %}</h3>
+<div class="delete-language-warning">
+    <h3>{% trans 'WARNING!' %}</h3>
+    <ul>
+        <li>{% trans 'All subtitles for this language will be deleted' %}</li>
+        <li>{% trans 'Any tasks for this language will be deleted' %}</li>
+        <li>{% trans 'The language can no longer be used for translations' %}</li>
+        <li>{% trans 'Translation tasks will be deleted, unless there are other public subtitles that can be used' %}</li>
+    </ul>
+</div>
+<form method='post' action="." enctype="multipart/form-data">
+    {% csrf_token %}
+    {% if form.sublanguage_fields %}
+    <fieldset>
+        <legend>{% trans 'Delete Dependent Languages' %}</legend>
+        <p class="notation">Choose dependent languages to delete.  Unchecked languages will be forked.</p>
+        {% for field in form.sublanguage_fields %}
+        <label for="id_{{ field.html_name }}" class="grouped">
+            {{ field }} {{ field.label }}
+        </label>
+        {% endfor %}
+    </fieldset>
+    {% endif %}
+    {% include "_form_field.html" with field=form.verify_text %}
+    <div class="submit">
+        <button class="button">{% trans 'Delete Language' %}</button>
+    </div>
+</form>
+{% endblock %}

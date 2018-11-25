@@ -1,0 +1,61 @@
+{% load i18n amara_cache %}
+{% if user.is_authenticated %}
+{% cache-by-user top-panel %}
+<li id="me_menu">
+    <div id="user_menu">
+        <div id="menu_name">
+            <a href="{% url "profiles:edit" %}">{{ user.username }} &#9662;</a>
+        </div>
+        <div id="menu">
+            <ul id="dropdown">
+                <li>
+                    <a href="{% url "profiles:dashboard" %}">
+                        {% trans "Dashboard" %}
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url "profiles:edit" %}">{% trans "Profile" %}</a>
+                </li>
+                <li>
+                    <a href="{% url "profiles:videos" user.username %}">
+                    {% trans "Videos" %}
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url "messages:inbox" %}">
+                    {% trans "Messages" %}
+                    {% if user.unread_messages_count %}
+                        <span class="message_count">{{ user.unread_messages_count }}</span>
+                    {% endif %}
+                    </a>
+                </li>
+		<li>
+                  <a href="{% url "profiles:account" %}">
+                        {% trans "Account" %}
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url "logout" %}?next=/">{% trans 'Logout' %}</a>
+                </li>
+                {% with user.teams.all as user_teams %}
+                    {% if user_teams %}
+                        <li>
+                            <div id="teams_menu">
+                                <h4><a href="{% url "teams:user_teams" %}">{% trans "Your Teams" %}</a></h4>
+                                {% for t in user_teams %}
+                                <li id="team-{{ t.slug }}" {% if team == t %} class="active"{% endif %}>
+                                    <a href="{% url "teams:dashboard" slug=t.slug %}">{{ t }}</a>
+                                </li>
+                                {% endfor %}
+                            </div>
+                        </li>
+                    {% endif %}
+                {% endwith %}
+            </ul>
+        </div>
+    </div>
+</li>
+{% endcache %}
+{% else %}
+<li><a href="{% url "auth:login" %}?next={{ request.path_info|urlencode }}">{% trans 'Sign in / Sign up' %}</a></li>
+{% endif %}

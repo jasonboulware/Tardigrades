@@ -1,0 +1,24 @@
+{% extends 'videos/email_base.html' %}
+
+{% load i18n localeurl_tags %}
+
+{% block content %}
+<p style="font-size: 12px;">
+    {% trans "The title of the video" %} <a href="http://{{ domain }}{{ video.get_absolute_url|rmlocale }}">{{ old_title }}</a>
+    
+    {% if editor %} 
+        {% trans "has been changed by" %}
+        <a href="http://{{ domain }}{{ editor.get_absolute_url|rmlocale }}">{{ editor }}</a>.
+    {% else %}
+        {% trans "has been changed" %}.
+    {% endif %}
+    
+    {% trans "The new title is" %} <a href="http://{{ domain }}{{ video.get_absolute_url|rmlocale }}">{{ new_title }}</a>. 
+    <br/><br/>
+    {% trans "If this is incorrect, go to " %} 
+    <a href="http://{{ domain }}{{ video.get_absolute_url|rmlocale }}">{% trans "the video page" %}</a> 
+    {% blocktrans %}
+    and click 'edit title' to update it. If you're unable to edit the title, click 'Help' in the main menu to submit a support request.
+    {% endblocktrans %}
+</p>
+{% endblock %}

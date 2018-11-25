@@ -1,0 +1,21 @@
+{% extends "teams/base.html" %}
+{% load i18n sync_items_tags teams_tags paginator %}
+
+{% block html_attrs %}id="review_sync_errors"{% endblock %}
+
+{% block title %}{{ team }} {% trans 'Settings' %} | Amara{% endblock %}
+
+{% block view_content %}
+    <div class="view grid_8 omega">
+        {% with 'settings' as current %}
+            {% include 'teams/_tabs.html' %}
+        {% endwith %}
+        <div class="tools subnav">
+            {% with 'external-sites' as current_sub %}
+                {% include 'teams/_subnav_settings.html' %}
+            {% endwith %}
+        </div>
+	{% include 'externalsites/_sync-errors-form.html' %}
+    </div>
+
+{% endblock %}

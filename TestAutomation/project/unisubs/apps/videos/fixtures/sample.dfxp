@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<tt xmlns="http://www.w3.org/2006/10/ttaf1" ttp:tickRate="10000000" xmlns:tts="http://www.w3.org/2006/10/ttaf1#styling" xmlns:ttp="http://www.w3.org/2006/10/ttaf1#parameter" xmlns:ttm="http://www.w3.org/2006/10/ttaf1#metadata" xmlns:tt="http://www.w3.org/2006/10/ttaf1"> -
+<head use="dfxp-simplesdh">
+  <ttp:profile xmlns:ttp="http://www.w3.org/2006/10/ttaf1"/> -
+  <styling>
+    <style xml:id="style0" tts:fontWeight="bold"/>
+    <style xml:id="style1" tts:fontStyle="italic"/>
+  </styling>
+</head>
+<body>
+  <div xml:space="preserve">
+    <p xml:id="subtitle0" end="83410000t" begin="52380000t">
+      Don't worry <br/> be      happy
+      <br/>
+      Don't     worry
+      <br/>
+      be               happy
+
+    </p>
+    <p xml:id="subtitle1" end="83520000t" begin="83420000t">
+      This should be in <span style="style1">italic</span>
+      <br/>
+    </p>
+    <p xml:id="subtitle2" end="83520000t" begin="83420000t">
+      This should be in <span style="style0">bold</span>
+    </p>
+
+  </div>
+</body>
+</tt>

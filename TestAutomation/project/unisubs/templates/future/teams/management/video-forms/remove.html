@@ -1,0 +1,30 @@
+{% load i18n forms modal captureas %}
+{% captureas title %}{% blocktrans count count=selection_count %}Removing Video{% plural %}Removing Videos{% endblocktrans %}{% endcaptureas %}
+{% startmodal "remove-dialog" title %}
+<form class="ajaxForm" action="{{ request.get_full_path }}" method="POST" enctype="multipart/form-data">
+  <h4 class="modal-header">
+    {% if single_selection %}
+    {{ first_video.title_display }}
+    {% else %}
+    {% blocktrans count count=selection_count %}{{ count }} video selected{% plural %}{{ count }} videos selected{% endblocktrans %}
+    {% endif %}
+  </h4>
+  <div class="modal-content">
+    {% csrf_token %}
+    {% include "future/forms/non-field-errors.html" %}
+    {% if form.include_all %}
+    {{ form.include_all|render_field }}
+    {% endif  %}
+    {% if form.delete %}
+    {{ form.delete|render_field }}
+    {% endif %}
+    {% if form.verify %}
+    <div class="hideUnlessChecked" data-controller="#delete-field-delete">{{ form.verify|render_field }}</div>
+    {% endif %}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="button borderless modal-close">{% trans "Cancel" %}</button>
+    <button type="submit" class="button cta">{% trans "Remove" %}</button>
+  </div>
+</form>
+{% endmodal %}

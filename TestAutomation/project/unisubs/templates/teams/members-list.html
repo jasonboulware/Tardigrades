@@ -1,0 +1,195 @@
+{% extends "teams/base.html" %}
+
+{% load i18n old_query_string utils_tags teams_tags paginator widget media_bundle %}
+
+{% block title %}
+    {% trans 'Members' %} - {{ team }} | Amara
+{% endblock %}
+
+{% block body_attrs %}id="teams" class="v1"{% endblock %}
+{% block html_attrs %}id="team_members_list"{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    {% if assignable_roles %}
+        {% media_bundle "teams.js" %}
+    {% endif %}
+    <script src="{% url "teams:rpc_api" %}" type="text/javascript"></script>
+    <script type="text/javascript">
+        window.roleSavedURL = '{% url "teams:role_saved" team.slug %}';
+        window.REQUEST_GET_LANG = '{{ request.GET.lang }}';
+    </script>
+{% endblock %}
+
+{% block view_content %}
+
+    {% if team.is_old_style %}<div class="grid_8 view omega">{% else %}<div class="view">{% endif %}
+
+        {% with "members" as current %}
+            {% if not project %}
+                {% include 'teams/_tabs.html' %}
+            {% else %}
+                {% include 'teams/_tabs_projects.html' %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="tools group">
+            {% include 'teams/_search.html' %}
+            {% if team|can_add_members_to_team:user %}
+                <a href="{% url "teams:add-members" slug=team.slug %}" class="button reduced">{% trans 'Add Members' %}</a>
+            {% endif %}
+            {% if team|can_invite_to_team:user %}
+                <a href="{% url "teams:invite" slug=team.slug %}" class="button reduced">{% trans 'Invite Members' %}</a>
+            {% endif %}
+            <a href="#filter" id="sort-filter">{% trans 'Filter and Sort' %}<span></span></a>
+        </div>
+
+        <div class="filters group{% if filtered %} active{% endif %}">
+            <p>
+                <div class="filter-chunk">
+                    <span class="inner">{% trans 'Showing' %}</span>
+                    <select name="role-filter" id="role-filter">
+                        <option value="{% url "teams:members" team.slug %}{% query_string request.GET %}">{% trans 'all members' %}</option>
+                        <option value="{% url "teams:detail_members_role" slug=team.slug role='admin' %}{% query_string request.GET %}"{% if role == 'admin' %} selected="selected"{% endif %}>{% trans 'admins' %}</option>
+                        <option value="{% url "teams:detail_members_role" slug=team.slug role='manager' %}{% query_string request.GET %}"{% if role == 'manager' %} selected="selected"{% endif %}>{% trans 'managers' %}</option>
+                        <option value="{% url "teams:detail_members_role" slug=team.slug role='contributor' %}{% query_string request.GET %}"{% if role == 'contributors' %} selected="selected"{% endif %}>{% trans 'contributor' %}</option>
+                    </select>
+                </div>
+                <div class="filter-chunk">
+                    <span class="inner">{% trans 'speaking' %}</span>
+                    <select name="lang-filter" id="lang-filter">
+                        <option id="lang-opt-any" value="">{% trans 'all languages' %}</option>
+                        {% for code, name in languages %}
+                            <option id="lang-opt-{{ code }}" {% if request.GET.lang == code %}selected="selected"{% endif %} value="{% query_string request.GET lang=code %}">{{ name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="filter-chunk">
+                    <span class="inner">{% trans 'sorted by' %}</span>
+                    <select name="sort">
+                        <option {% if request.GET.sort == 'joined' %}selected="selected"{% endif %} value="{% query_string request.GET sort='joined' page='' %}">
+                            {% trans "date joined, oldest" %}
+                        </option>
+                        <option {% if request.GET.sort == '-joined' %}selected="selected"{% endif %} value="{% query_string request.GET sort='-joined' page='' %}">
+                            {% trans "date joined, most recent" %}
+                        </option>
+                    </select>
+                </div>
+            </p>
+            {% if filtered %}
+                <a href="{% url "teams:members" team.slug %}" class="clear-filters">{% trans 'Clear' %}</a>
+            {% endif %}
+        </div>
+
+        {% if team|can_approve_application:user and team.applications.open.count > 0 %}
+            <p class="view-notice">{% trans 'This team has' %} <a href="{% url "teams:applications" slug=team.slug %}{% query_string request.GET %}">{{ team.applications.open.count }} {% trans 'open applications' %}</a></p>
+        {% endif %}
+
+
+        {% if team_member_list|length == 0 %}
+            <p class="empty">{% trans "Sorry, no members found." %}</p>
+        {% endif %}
+
+        <ul class="members listing">
+            {% for member in team_member_list %}
+                {% with member.pk as mpk%}
+                    <li>
+                        <h3>
+                            <a href="{{ member.user.get_absolute_url }}">
+                                {{ member.user }}
+                                {% if member.user == user %}({% trans 'Me' %}){% endif %}
+                            </a>
+                            {% for lang in member.user.get_language_names %}
+                                <span class="descriptor">{{ lang }}</span>
+                            {% endfor %}
+                        </h3>
+                        <p>{{ member.role|capfirst }}
+                        {% if member.role == 'admin' or member.role == 'manager' %}
+                            {% if member.language_narrowings_fast or member.project_narrowings_fast %}
+                                {% if member.project_narrowings_fast %}{% trans 'for' %} {% for narrowing in member.project_narrowings_fast %}{% if forloop.last and not forloop.first %}{% trans 'and' %} {% endif %}<em>{{ narrowing.project.name }}</em>{% if not forloop.last %}, {% endif %}{% endfor %} {% trans "project" %}{{ member.project_narrowings_fast|length|pluralize }}{% if member.language_narrowings_fast %} {% trans 'and' %} {% endif %}{% endif %}
+                                {% if member.language_narrowings_fast %}{% trans 'for' %} {% for narrowing in member.language_narrowings_fast %}{% if forloop.last and not forloop.first %}{% trans 'and' %} {% endif %}<em>{{ narrowing.get_language_display }}</em>{% if not forloop.last %}, {% endif %}{% endfor %} {% trans "language" %}{{ member.language_narrowings_fast|length|pluralize }}{% endif %}
+                            {% endif %}
+                        {% endif %}
+                        <a href="{{ member.user.get_absolute_url }}" class="thumb"><img src="{{ member.user.avatar }}" alt="{{ member.user }} avatar"></a>
+                        <ul class="actions">
+                            {% if member.user != user %}
+                                <li>
+                                    <a href="{% url "messages:new" %}?user={{ member.user.username|urlencode }}">Send a message</a>
+                                </li>
+                            {% endif %}
+                            <li>
+                                <a href="{% url "teams:team_tasks" team.slug %}?assignee={{ member.user.username|urlencode }}&project=any&lang=all">{% trans 'Assignments' %}</a>
+                            </li>
+                        </ul>
+                        {% if member in assignable_roles %}
+                            <ul class="admin-controls">
+                                <li>
+                                    <a class="edit-role" data-team-slug="{{team.slug}}" data-member-pk="{{member.pk}}" data-member-username="{{member.user.username}}" data-member-fullname="{{ member.user }}">{% trans 'Edit' %}</a>
+                                </li>
+                                <li>
+                                    <a onclick="return confirm('{% trans 'Are you sure you want to remove this member from the team?' %}');" href="{% url "teams:remove_member" slug=team.slug user_pk=member.user.pk %}" class="delete">{% trans 'Remove' %}</a>
+                                </li>
+                            </ul>
+                        {% endif %}
+                    </li>
+                {% endwith %}
+            {% endfor %}
+        </ul>
+        {% if is_paginated %}{% paginator %}{% endif %}
+    </div>
+
+    {% if assignable_roles %}
+        <script id="editRoleDialog" type="text/html">
+            {% verbatim %}
+            <div class="bootstrap">
+                <div class="modal">
+                    <div class="modal-header">
+                        <a href="#" class="close action-close">x</a>
+                        <h3>Edit member's role</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="field clearfix plain-text">
+                            <label>Member:</label>
+                            <p>{{fullname}} ({{username}})</p>
+                        </div>
+                        <div class="field clearfix">
+                            <label for="roles">Role:</label>
+                            <select class="roles" id="roles">
+                                {{#roles}}
+                                    <option value="{{val}}">{{name}}</option>
+                                {{/roles}}
+                            </select>
+                        </div>
+                        <div id="project-restriction" class="{{^projects}}hidden{{/projects}}">
+                            <label>Project Restriction:</label>
+                            <select id="proj" data-placeholder="None" style="width:350px;" multiple class="chzn-select projects">
+                                {{#projects}}
+                                    <option {{#selected}}selected="selected"{{/selected}} value="{{pk}}">{{name}}</option>
+                                {{/projects}}
+                            </select>
+                        </div>
+                        <div id="language-restriction" class="{{^languages}}hidden{{/languages}}">
+                            <label>Language Restriction:</label>
+                            <select id="lang" data-placeholder="None" style="width:350px;"
+                                multiple class="chzn-select langs">
+                                {{#languages}}
+                                    <option {{#selected}}selected="selected"{{/selected}} value="{{code}}">{{name}}</option>
+                                {{/languages}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a class="btn primary action-save" >Save</a>
+                        <a class="btn secondary action-close" >Cancel</a>
+                    </div>
+                </div>
+            </div>
+            {% endverbatim %}
+        </script>
+        <script type="text/javascript" >
+            {% include "teams/panel-base.js" %}
+            {% include "teams/members-panel.js" %}
+        </script>
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,15 @@
+{% load %}
+<div class="multiField columns-{{ widget.subwidgets_and_labels|length }} checkboxes dependent" %}>
+  {% for label, subwidget in widget.subwidgets_and_labels %}
+  <div class="multiField-input checkbox noborder{% if forloop.last %} last{% endif %}">
+    <div class="checkbox">
+      {% include subwidget.template_name with widget=subwidget %}
+      <label for="{{ subwidget.attrs.id }}"><span class="checkbox-icon"></span>{{ label }}</label></div>
+    {% if not forloop.last %}
+    <svg class="multiField-separator checked" viewbox="0 0 100 100" preserveAspectRatio="none"><polygon points="0 -15, 85 50, 0 115" fill="currentColor" /></svg>
+    <svg class="multiField-separator unchecked" viewbox="0 0 100 100" preserveAspectRatio="none"><polyline points="0 -15, 85 50, 0 115" stroke="currentColor" fill="none" stroke-width="15" /></svg>
+    {% endif %}
+  </div>
+  {% endfor %}
+  <div class="multiField-inputExtender"></div>
+</div>

@@ -1,0 +1,15 @@
+{% extends "videos/email_base.html" %}
+
+{% load i18n localeurl_tags messages_tags %}
+
+{% block content %}
+
+{% blocktrans %}
+You have received a message on Amara:
+{% endblocktrans %}<br><br>
+
+{{ message.content|encode_html_email|safe }}<br><br>
+
+{% endblock %}
+
+{% block dont_send %}{% endblock %}

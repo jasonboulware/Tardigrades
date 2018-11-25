@@ -1,0 +1,201 @@
+{% extends "styleguide/base.html" %}
+{% load forms %}
+{% block content %}
+<p>
+Workflow diagram used in the futureui workflow settings page
+</p>
+
+<form>
+    <div class="workflowDiagramContainer">    
+        <div class="workflowDiagramSegment first workflowStep" id="transcribe1" data-duration="1">
+            <i class="icon icon-transcribe icon-sm-to-md"></i>
+            <span class="segmentLabel">Transcribe</span>
+            <span></span>
+        </div>
+        <div class="workflowDiagramSeparator">
+            <svg class="workflowDiagramSeparatorSVG">
+                <polygon class="triangle" points="0,0 30,65 0,130"/>
+            </svg>
+            <svg class="workflowDiagramSeparatorSVG">
+                <polygon class="gap" points="0,0 5,0 35,65 5,130 0,130 30,65"/>
+            </svg>
+        </div>
+
+        <div class="workflowDiagramSegment workflowStep" id="review1" data-duration="1">
+            <i class="icon icon-review icon-sm-to-md"></i>
+            <span class="segmentLabel">Review</span>
+            <span></span>
+        </div>
+        <div class="workflowDiagramSeparator">
+            <svg class="workflowDiagramSeparatorSVG">
+                <polygon class="triangle" points="0,0 30,65 0,130"/>
+            </svg>
+            <svg class="workflowDiagramSeparatorSVG">
+                <polygon class="gap" points="0,0 5,0 35,65 5,130 0,130 30,65"/>
+            </svg>
+        </div>
+
+        <div class="workflowDiagramSegment workflowStep" id="approve1" data-duration="1">
+            <i class="icon icon-approve icon-sm-to-md"></i>
+            <span class="segmentLabel">Approve</span>
+            <span></span>       
+        </div>
+        <div class="workflowDiagramSeparator">
+            <svg class="workflowDiagramSeparatorSVG">
+                <polygon class="triangle" points="0,0 30,65 0,130"  />
+            </svg>
+            <svg class="workflowDiagramSeparatorSVG">
+                <polygon class="gap" points="0,0 5,0 35,65 5,130 0,130 30,65"/>
+            </svg>
+        </div>
+
+        <div class="workflowDiagramSegment last">        
+            <i class="icon icon-complete icon-sm-to-md"></i>
+            <span class="segmentLabel">COMPLETE</span>
+            <span></span>        
+        </div>
+    </div>
+    <p> Try adjusting the durations below to see how the segmentation will look like </p>
+    Transcribe: <input type="text" class="duration" data-target-id="transcribe1" style="width:100px" value="1"/>
+    Review: <input type="text" class="duration" data-target-id="review1" style="width:100px" value="1"/>
+    Approve: <input type="text" class="duration" data-target-id="approve1" style="width:100px" value="1"/>
+</form>
+
+<form style="margin-top:25px">
+    <div class="workflowDiagramContainer">    
+        <div class="workflowDiagramSegment first workflowStep" id="transcribe2" data-duration="1">
+            <i class="icon icon-transcribe icon-sm-to-md"></i>
+            <span class="segmentLabel">Transcribe</span>
+            <span></span>
+        </div>
+        <div class="workflowDiagramSeparator">
+            <svg class="workflowDiagramSeparatorSVG">
+                <polygon class="triangle" points="0,0 30,65 0,130"/>
+            </svg>
+            <svg class="workflowDiagramSeparatorSVG">
+                <polygon class="gap" points="0,0 5,0 35,65 5,130 0,130 30,65"/>
+            </svg>
+        </div>
+
+        <div class="workflowDiagramSegment workflowStep" id="review2" data-duration="1">
+            <i class="icon icon-review icon-sm-to-md"></i>
+            <span class="segmentLabel">Review</span>
+            <span></span>
+        </div>
+        <div class="workflowDiagramSeparator">
+            <svg class="workflowDiagramSeparatorSVG">
+                <polygon class="triangle" points="0,0 30,65 0,130"/>
+            </svg>
+            <svg class="workflowDiagramSeparatorSVG">
+                <polygon class="gap" points="0,0 5,0 35,65 5,130 0,130 30,65"/>
+            </svg>
+        </div>
+
+        <div class="workflowDiagramSegment last">        
+            <i class="icon icon-complete icon-sm-to-md"></i>
+            <span class="segmentLabel">COMPLETE</span>
+            <span></span>        
+        </div>
+    </div>
+    <p> Try adjusting the durations below to see how the segmentation will look like </p>
+    Transcribe: <input type="text" class="duration" data-target-id="transcribe2" style="width:100px" value="1"/>
+    Review: <input type="text" class="duration" data-target-id="review2" style="width:100px" value="1"/>
+</form>
+
+<form style="margin-top:25px">
+    <div class="workflowDiagramContainer">    
+        <div class="workflowDiagramSegment first workflowStep" id="transcribe3" data-duration="1">
+            <i class="icon icon-transcribe icon-sm-to-md"></i>
+            <span class="segmentLabel">Transcribe</span>
+            <span></span>
+        </div>
+        <div class="workflowDiagramSeparator">
+            <svg class="workflowDiagramSeparatorSVG">
+                <polygon class="triangle" points="0,0 30,65 0,130"/>
+            </svg>
+            <svg class="workflowDiagramSeparatorSVG">
+                <polygon class="gap" points="0,0 5,0 35,65 5,130 0,130 30,65"/>
+            </svg>
+        </div>
+
+        <div class="workflowDiagramSegment last">        
+            <i class="icon icon-complete icon-sm-to-md"></i>
+            <span class="segmentLabel">COMPLETE</span>
+            <span></span>        
+        </div>
+    </div>
+    <p> Try adjusting the durations below to see how the segmentation will look like </p>
+    Transcribe: <input type="text" class="duration" data-target-id="transcribe3" style="width:100px" value="1"/>
+</form>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+    function recalc_spacing(container) {
+        var container = $(container);
+    
+        /*
+         * function call to calculate the spacing
+         */
+        calc_spacing(container)
+
+        /*
+         * function definitions
+         */
+
+        function calc_total_duration(workflow_segments) {
+            var total_duration = 0
+            $.each(workflow_segments, function(i, segment) {
+                total_duration += $(segment).data('duration')
+            })
+            return total_duration
+        }
+
+        function calc_spacing(container) {
+            var container_width = container.width()
+            var workflow_segments = container.find('.workflowStep')
+            var workflow_segment_last = container.find('.last')
+
+            /* the last segment will always be 150px */
+            var last_width = 150    
+            // total available space for the segments to occupy
+            var segments_space = Math.floor(container_width - last_width)
+
+            var spaces = []
+            var total_duration = calc_total_duration(workflow_segments)
+
+            $.each(workflow_segments, function(i, segment) {
+                var duration = $(segment).data('duration')
+                spaces.push(Math.floor(segments_space * (duration / total_duration)))
+            })
+
+            $.each(workflow_segments, function(i, segment) {
+                var s = $(segment)
+                s.outerWidth(spaces[i])
+
+                var duration = s.data('duration')
+                var duration_text_unit = duration > 1 ? ' days' : ' day'
+                var duration_text = duration + duration_text_unit
+                $(s.children('span')[1]).html(duration_text);
+            })
+
+            total_duration_units = total_duration > 1 ? ' days' : ' day'
+            $(workflow_segment_last.children('span')[1]).html(total_duration + total_duration_units)
+        }
+    }
+
+    $('.workflowDiagramContainer').each(function() {
+        recalc_spacing($(this))
+    });
+
+    $('.duration').change(function(e) {
+        target = '#' + $(this).data('target-id')
+        $(target).data('duration', parseInt(this.value))
+        recalc_spacing($(this).siblings('.workflowDiagramContainer'))
+    })
+</script>
+
+{% endblock %}
+

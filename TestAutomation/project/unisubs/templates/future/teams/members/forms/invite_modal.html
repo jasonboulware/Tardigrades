@@ -1,0 +1,79 @@
+{% load i18n forms modal captureas %}
+{% captureas title %}{% blocktrans with team=team.name %}Invite members to {{ team }}{% endblocktrans %}{% endcaptureas %}
+{% startmodal "invite-members-dialog" title %}
+<div class="modal-tabs">
+  <ul class="nav nav-tabs">
+    {% if show_username_invite_link %}
+    <li {% if modal_tab == 'username' %}class="active"{%endif%}>
+      <a href="#username" data-toggle="tab">Invite by username</a>
+    </li>
+    {% endif %}
+    {% if show_email_invite_link %}
+    <li {% if modal_tab == 'email' %}class="active"{%endif%}>
+      <a href="#email" data-toggle="tab">Invite by email</a>
+    </li>
+    {% endif %}
+    {% if show_add_link %}
+    <li {% if modal_tab == 'add' %}class="active"{%endif%}>
+      <a href="#add" data-toggle="tab">Add members</a>
+    </li>
+    {% endif %}
+  </ul>
+<div class="modal-content">
+    <div class="tab-content">
+      {% if show_username_invite_link %}
+      <div id="username" class="tab-pane
+        {% if modal_tab == 'username' %}active{%endif%}">
+        <form class="ajaxForm" method="post" action="{% url 'teams:invite' team.slug %}" class="team-invite">
+          {% csrf_token %}
+          {% include "future/forms/non-field-errors-context-errors.html" with errors=username_tab_non_field_errors %}
+          {% render_field form.usernames reverse_required=True %}
+          {{ form.role|render_field }}
+          {{ form.message|render_field }}
+          <input type="hidden" value="username" name="modalTab"/>
+          <div class="text-right">
+            <button class="button borderless modal-close">{% trans "Cancel" %}</button>
+            <button type="submit" class="button cta"> {% trans 'Invite' %}</button>
+          </div>
+        </form>
+      </div>
+      {% endif %}
+
+      {% if show_email_invite_link %}
+      <div id="email" class="tab-pane
+        {% if modal_tab == 'email' %}active{%endif%}">
+        <form class="ajaxForm" method="post" action="{% url 'teams:invite' team.slug %}" class="team-invite">
+          {% csrf_token %}
+          {% include "future/forms/non-field-errors-context-errors.html" with errors=email_tab_non_field_errors %}
+          {% render_field form.email reverse_required=True %}
+          {{ form.role|render_field }}
+          {{ form.message|render_field }}
+          <input type="hidden" value="email" name="modalTab"/>
+          <div class="text-right">
+            <button class="button borderless modal-close">{% trans "Cancel" %}</button>
+            <button type="submit" class="button cta"> {% trans 'Invite' %}</button>
+          </div>
+        </form>
+      </div>
+      {% endif %}
+
+      {% if show_add_link %}
+      <div id="add" class="tab-pane
+        {% if modal_tab == 'add' %}active{%endif%}">
+        <form class="ajaxForm" method="post" action="{% url 'teams:add-members' team.slug %}" enctype="multipart/form-data">
+          {% csrf_token %}
+          {% include "future/forms/non-field-success-context-successes.html" with successes=add_tab_non_field_successes %}
+          {% include "future/forms/non-field-errors-context-errors.html" with errors=add_tab_non_field_errors %}
+          {{ form_add_member.members|render_field }}
+          {{ form_add_member.role|render_field }}                    
+          <input type="hidden" value="add" name="modalTab"/>
+          <div class="text-right">
+            <button class="button borderless modal-close">{% trans "Cancel" %}</button>
+            <button type="submit" class="button cta"> {% trans 'Add members' %}</button>
+          </div>
+        </form>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>

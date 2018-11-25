@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% load i18n profiles_tags %}
+
+{% block body_attrs %}class="{% block body-class %}profile v1{% endblock %}"{% endblock %}
+
+{% block main_content %}
+    <h2>{{ user_info }}</h2>
+    <div class="grid_4 context alpha">
+        <img src="{{ user_info|custom_avatar:240 }}" alt="{{ user_info|title }}'s avatar" class="avatar"/>
+        {% if user != user_info %}
+            <a class="button reduced" href="{% url "messages:new" %}?user={{ user_info.username }}">{% trans "Send " %}{{ user_info }}{% trans " a Message" %}</a>
+        {% endif %}
+        <h3>
+            {% trans "About" %}
+        </h3>
+        {% if user_info.biography %}
+            <p class="user_bio">
+                {{ user_info.biography|urlize|linebreaksbr }}
+            </p>
+        {% endif %}
+        {% if user_info.homepage %}
+            <p class="homepage"><a href="{{ user_info.homepage }}">{{ user_info.homepage }}</a></p>
+        {% endif %}
+        <p class="join">
+            {{ user_info }} 
+            {% if user_info|lower != user_info.username|lower %}
+                ({{ user_info.display_username }})
+            {% endif %}
+            joined Amara on {{ user_info.date_joined|date:"DATE_FORMAT" }}
+        </p>
+        {% with user_info.get_language_names as langs %}
+            <h3>{% trans "Languages" %}</h3>
+            {% if langs %}
+                <ul class="user-languages">
+                    {% for l in langs %}
+                        <li>
+                            <span class="language">{{ l }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <em>
+                    {{ user_info }} {% trans "hasn't selected languages yet." %}
+                </em>
+            {% endif %}
+        {% endwith %}
+        {% profile_teams_list %}
+        {% block left_column_extra %}{% endblock %}
+    </div>
+
+    <div class="view grid_8 omega">
+        {% block view_content %}{% endblock %}
+    </div>
+{% endblock %}

@@ -1,0 +1,104 @@
+#services {
+    padding: 0;
+    color: #2F3C45;
+    font-size: 13px;
+}
+
+#services h1 {
+    text-align: center;
+    padding: 2em 0;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 2em;
+}
+
+#services .menu, #services .view {
+    margin-bottom: 3em;
+}
+
+#services .menu h3 {
+    font-size: 14px;
+    font-weight: normal;
+    text-transform: uppercase;
+    color: #999;
+}
+
+#services .menu ul {
+    padding: 0;
+    margin-bottom: 3em;
+}
+
+    #services .menu ul li {
+        padding: 0;
+    }
+
+        #services .menu ul li a {
+            display: block;
+            padding: 1em 0;
+            text-decoration: none;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        #services .menu ul li a.current {
+            font-weight: bold;
+        }
+
+        #services .menu ul li a:hover {
+            color: #999;
+        }
+
+
+#services .view h3 {
+    padding: 1em 0 1em;
+}
+
+    #services .view p, #services .view ul {
+        line-height: 175%;
+        margin-bottom: 2em;
+    }
+
+    #services .view ul li {
+        list-style-type: disc;
+    }
+
+    #services .view .screen {
+        float: right;
+        margin: 1em 0 2em 2em;
+        padding: 5px;
+        -moz-box-shadow: 0px 0px 10px -2px #888;
+        -webkit-box-shadow: 0px 0px 10px -2px #888;
+        box-shadow: 0px 0px 10px -2px #888;
+    }
+
+    #services .view .screen img {
+        display: block;
+        margin: 20px 10px;
+    }
+
+    #services .view img.screen.left {
+        float: left;
+        margin: 0 2em 2em 0;
+    }
+
+#recognition {
+    margin-bottom: 4em;
+}
+
+#recognition * {
+    vertical-align: middle;
+}
+
+#recognition a {
+    text-decoration: none;
+}
+
+#support-rec #recognition img {
+    margin: 15px 0;
+}
+
+.page-footer {
+    clear: both;
+    margin-top: 2em;
+    padding: 2em 0;
+    text-align: center;
+    border-top: 1px solid #eee;
+}

@@ -1,0 +1,11 @@
+{% extends "future/base.html" %}
+{% load i18n %}
+{% block header %}{% include "future/header.html" with brand="future/teams/brand.html" brand_url=team.get_absolute_url primarynav="future/teams/primarynav.html" %}{% endblock %}
+{% block page-controls %}
+  {% if perms.teams.edit_team %}
+  <li><a href="{% url "admin:teams_team_change" team.pk %}">{% trans 'Edit team' %}</a></li>
+  {% endif %}
+  <li><a href="{% url "teams:video-durations" team.slug %}">Video Durations</a></li>
+  <li><a href="{% url "teams:debug-stats" team.slug %}">{% trans 'Stats' %}</a></li>
+</ul>
+{% endblock %}

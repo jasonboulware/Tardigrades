@@ -1,0 +1,46 @@
+{% extends "teams/base.html" %}
+
+{% load i18n teams_tags widget %}
+
+{% block title %}
+    {% trans 'Edit team video' %} | Amara
+{% endblock %}
+
+{% block html_attrs %}id="team_video_edit"{% endblock %}
+
+{% block css %}
+    {{ block.super }}
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+{% endblock %}
+
+{% block view_content %}
+    <div class="view grid_8 omega edit-team-video">
+        {% with 'videos' as current %}
+            {% include 'teams/_tabs.html' %}
+        {% endwith %}
+
+        <form method='post' action="." enctype="multipart/form-data" class="settings edit-video">
+
+            <h3>{% trans 'Edit video' %}: <em>{{ team_video.video }}</em></h3>
+            <fieldset>
+                {% include "_form_field.html" with field=form.video_url %}
+
+                {% if team.has_projects %}
+                    {% include "_form_field.html" with field=form.project %}
+                {% else %}
+                    <input type="hidden" name="project" value="{{ team.default_project.id }}" />
+                {% endif %}
+                {% include "_form_field.html" with field=form.thumbnail %}
+            </fieldset>
+
+            <div class="submit">
+                <button>{% trans 'Save' %}</button>
+            </div>
+            {% csrf_token %}
+        </form>
+        {% team_move_video_select %}
+    </div>
+{% endblock %}

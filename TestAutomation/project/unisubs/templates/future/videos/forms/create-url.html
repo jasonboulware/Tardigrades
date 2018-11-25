@@ -1,0 +1,16 @@
+{% load i18n forms %}
+<form method="post" class="ajaxForm" action="">
+  {% csrf_token %}
+  <input type="hidden" name="form" value="add-url" />
+  <div class="modal-content">
+    <p>{% trans "Add a URL for another version of the exact same video. Useful when many versions of the same video exist, or when there are different formats (like HTML5)" %}</p>
+    {% include "future/forms/non-field-errors.html" with form=create_url_form %}
+    <div class="form-group">
+      {{ create_url_form.url|render_field }}
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="button borderless modal-close">{% trans "Cancel" %}</a>
+    <button type="submit" class="button cta">{% trans "Add URL" %}</button>
+  </div>
+</form>

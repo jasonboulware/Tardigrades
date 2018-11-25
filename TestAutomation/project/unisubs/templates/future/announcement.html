@@ -1,0 +1,9 @@
+{% load i18n %}
+{% if announcement %}
+<script type="text/javascript">
+// Only show announcement if the lastHiddenAnnouncement cookie is not set
+if(!('; ' + document.cookie + '; ').match(/; *lastHiddenAnnouncement={{announcement.id}};/)) {
+  document.write('<div class="announcement" data-id="{{ announcement.id }}"><a href="#" class="announcement-hide pull-right">{% trans "hide" %}</a>{{ announcement.content|safe }}</div>');
+}
+</script>
+{% endif %}

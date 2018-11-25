@@ -1,0 +1,27 @@
+{% load i18n %}
+<a id="embed-link" href="#embed-modal" class="open-modal">{% trans 'Get Embed Code' %}</a>
+{% if language.get_language_display and not language.is_original %}
+    (with {{ language.get_language_display }} subtitles)
+{% endif %}
+<div class="bootstrap">
+    <div id="embed-modal" class="modal">
+        <div class="modal-header">
+            <a href="#" class="close action-close">x</a>
+            <h3>Embed video</h3>
+            <p class="notation">Use the following code to embed this video. See our <a href="https://github.com/pculture/unisubs/wiki/Embed-Code-Usage-Guide" title="Embed usage guide">usage guide</a> for more details on embedding.</p>
+        </div>
+        <div class="modal-body">
+	  <p>Paste this in your document somewhere (closest to the closing body tag is preferable):
+	      <pre>
+&lt;script type="text/javascript" src='https://amara.org/embedder-iframe'&gt;&lt;/script&gt;
+	      </pre>
+	  </p>
+	  <p>Paste this inside your HTML body, where you want to include the widget:
+	    <pre>
+&lt;div class="amara-embed" data-url="{{ video_url }}" {% if team %}data-team="{{ team.slug }}"{% else %}data-team="null"{% endif %}&gt;&lt;/div&gt;
+	    </pre>
+	  </p>
+        </div>
+    </div>
+</div>
+

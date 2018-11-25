@@ -1,0 +1,7 @@
+{% load i18n %}
+{% if all_languages_placeholder %}
+{% trans "All languages" as placeholder %}
+{% else %}
+{% trans "Select language" as placeholder %}
+{% endif %}
+<select {% if name %}name="{{ name }}" {% endif %}class="select selectFilter" data-language-options="{% if options %}{{ options }}{% else %}null my popular all{% endif %}" data-placeholder="{{ placeholder }}"></select>

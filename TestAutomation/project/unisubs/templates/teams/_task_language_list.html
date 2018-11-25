@@ -1,0 +1,6 @@
+{% load i18n teams_tags %}
+<select name="translate_from">
+    {% for lang, display in allowed_languages %}
+    <option value="{{ lang }}">{{ display }}</option>
+    {% endfor %}
+</select>

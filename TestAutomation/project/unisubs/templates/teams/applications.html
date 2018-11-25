@@ -1,0 +1,83 @@
+{% extends "teams/base.html" %}
+
+{% load i18n teams_tags paginator %}
+
+{% block title %}
+    {{ team }} {% trans 'Team Applications' %} | Amara
+{% endblock %}
+
+{% block html_attrs %}id="team_applications"{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        $(function() {
+            $select = $("select#lang-filter, select#role-filter", ".tools");
+            $select.change(function(e) {
+                window.location = $(this).children('option:selected').attr('value');
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block view_content %}
+
+    <div class="view grid_8 omega">
+        {% with 'members' as current %}
+            {% include 'teams/_tabs.html' %}
+        {% endwith %}
+
+        {% if applications_list %}
+	<form method="post" action="">{% csrf_token %}
+	  <span class="bulk-actions">
+	    <input type="checkbox" class="bulk-select" name="bulk"><a href="" class="bulk-select">{% trans "Select/Deselect all" %}</a>
+	    <button type="submit" name="deny">{% trans "Deny selected" %}</button>
+	    <button type="submit" name="approve">{% trans "Approve selected" %}</button>
+	  </span>
+          {% if is_paginated %}{% paginator %}{% endif %}
+          <ul class="members listing">
+                {% for item in applications_list %}
+                <li>
+                  <h3>
+                    <a href="{{ item.user.get_absolute_url }}">{{ item.user }}</a>
+		    <a class="action" href="{% url "messages:new" %}?user={{ item.user.username }}">{% trans 'Send a message' %}</a>
+                    {% for language in item.user.get_language_names %}
+                    <span class="descriptor">{{ language }}</span>
+                    {% endfor %}
+                  </h3>
+                        {% if item.note %}
+                            <div class="application-note">
+                                {{ item.note|urlize|linebreaksbr }}
+                            </div>
+                        {% endif %}
+			    <span  class="thumb">
+				<input class="bulkable" type="checkbox" value="{{item.id}}" name="applications[]">
+				<a href="{{ item.user.get_absolute_url }}">
+				  <img src="{{ item.user.avatar }}" class="small" alt="{{ item.user }} avatar">
+				</a>
+			    </span>
+                        {% if team|can_approve_application:user %}
+                            <ul class="actions">
+                                <li>
+                                    <a href="{% url "teams:approve_application" team.slug item.pk %}">{% trans 'Approve' %}</a>
+                                </li>
+                                <li>
+                                    <a href="{% url "teams:deny_application" team.slug item.pk %}">{% trans 'Deny' %}</a>
+                                </li>
+                            </ul>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+            {% if is_paginated %}{% paginator %}{% endif %}
+	    <span class="bulk-actions">
+	      <input type="checkbox" class="bulk-select" name="bulk"><a href="" class="bulk-select">{% trans "Select/Deselect all" %}</a>
+	      <button type="submit" name="deny">{% trans "Deny selected" %}</button>
+	      <button type="submit" name="approve">{% trans "Approve selected" %}</button>
+	    </span>
+	</form>
+        {% else %}
+            <p class="empty">{% trans "There are no applications right now" %}...</p>
+        {% endif %}
+    </div>
+    
+{% endblock %}

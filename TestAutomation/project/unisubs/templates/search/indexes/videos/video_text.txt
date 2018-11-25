@@ -1,0 +1,19 @@
+{{ object }}
+{{ object.description }}
+{% for item in object.videourl_set.all %}
+    {{ item.url }}
+{% endfor %}
+{% for lang in object.all_subtitle_languages %}
+    {% if lang.get_title %}{{ lang.get_title }}{% endif %}
+    {{ lang.get_language_code_display }}
+    {% for metadata in lang.get_metadata_for_display %}
+        {{ metadata.content }}
+    {% endfor %}
+    {% with lang.get_public_tip as tip %}
+        {% if tip %}
+            {% for line in tip.get_subtitles %}
+                {{ line.text }}
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+{% endfor %}

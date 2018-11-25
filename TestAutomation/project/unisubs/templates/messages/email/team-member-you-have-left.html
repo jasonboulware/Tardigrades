@@ -1,0 +1,4 @@
+{% extends "videos/email_base.html" %}{% load i18n localeurl_tags %}{% block content %}Hi {{ user }},<br />
+
+You have officially left the {{ team.name }} team. Any team tasks that were assigned to you have been unassigned.<br />{% endblock %}
+{% block dont_send %}{% endblock %}

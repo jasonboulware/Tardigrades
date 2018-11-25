@@ -1,0 +1,15 @@
+/* Should only contain css for the actual widget */
+div.unisubs-widget {
+    position: relative !important;
+}
+.unisubs-videoDiv {
+    text-align: center !important;
+}
+
+{% if null_widget %}
+
+.unisubs-widget {
+    margin: 0 auto !important;
+}
+
+{% endif %}

@@ -1,0 +1,19 @@
+{% load media_bundle %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+
+  {% media_bundle "unisubs-api.js" %}
+  <script type="text/javascript">
+    window.STATIC_URL = '{{STATIC_URL}}';
+  </script>
+  {% media_bundle "widget.css"%}
+</head>
+
+<body>
+  <script language="JavaScript" type="text/javascript">
+    unisubs.api.openUnisubsDialogWithSettings(false, {{widget_params|safe}}, {{general_settings|safe}});
+  </script>
+</body>
+</html>

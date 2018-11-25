@@ -1,0 +1,67 @@
+{% load i18n teams_tags %}
+
+{% if not team|is_team_member:user %}
+    <div class="join">
+        {% if user.is_authenticated %}
+            {% if team.is_open %}
+                {% if team.auth_provider and user.partner.slug != team.auth_provider.code %}
+                    <p><a href="{% url "logout" %}?next={{ team.auth_provider.url }}">
+                        {% trans 'Join via' %}
+                        {% if team.auth_provider.image_url %}
+                            <img src="{{ team.auth_provider.image_url }}" alt="{{ team.auth_provider.verbose_name }}"/>
+                        {% else %}
+                            {{ team.auth_provider.verbose_name }}
+                        {% endif %}
+                    </a></p>
+                    <p class="notation">
+                        {% trans 'You will be logged out and new account will be created via' %}
+                        {{ team.auth_provider.verbose_name }}
+                    </p>
+                {% else %}
+                    <p><a href="#" data-modal="language_modal" id="lang_select_btn" >{% trans "Join our team now!" %}</a></p>
+                {% endif %}
+            {% endif %}
+
+            {% if team.is_by_application %}
+                {% if team.auth_provider and user.partner.slug != team.auth_provider.code %}
+                    <p><a href="{% url "logout" %}?next={{ team.auth_provider.url }}">
+                        {% trans 'Login via' %}
+                        {% if team.auth_provider.image_url %}
+                            <img src="{{ team.auth_provider.image_url }}" alt="{{ team.auth_provider.verbose_name }}"/>
+                        {% else %}
+                            {{ team.auth_provider.verbose_name }}
+                        {% endif %}
+                        {% trans 'to apply' %}
+                    </a></p>
+                    <p class="notation">
+                        {% trans 'You will be logged out and new account will be created via' %}
+                        {{ team.auth_provider.verbose_name }}
+                    </p>
+                {% else %}
+                    {% if team|can_apply:user %}
+                      <a href="{% url "teams:join" slug=team.slug %}">{% trans "Apply to Join" %}</a>
+                    {% else %}
+                        <p class="action-replacement">{% trans "Your application is pending" %}</p>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+        {% else %}
+            {% if team.auth_provider %}
+                <p><a href="{{ team.auth_provider.url }}">
+                    {% trans 'Join via' %}
+                    {% if team.auth_provider.image_url %}
+                        <img src="{{ team.auth_provider.image_url }}" alt="{{ team.auth_provider.verbose_name }}"/>
+                    {% else %}
+                        {{ team.auth_provider.verbose_name }}
+                    {% endif %}
+                </a></p>
+            {% else %}
+                {% if team.is_open %}
+                    <p><a id="signin-join" href="{% url "auth:login" %}?next={% url "teams:join" team.slug %}">{% trans "Join our team" %}</a></p>
+                {% else %}
+                    <p><a id="signin-join" href="{% url "auth:login" %}?next={% url "teams:dashboard" team.slug %}">{% trans "Sign in" %}</a> {% trans "to join our team" %}</p>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+    </div>
+{% endif %}

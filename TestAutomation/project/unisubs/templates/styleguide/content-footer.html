@@ -1,0 +1,13 @@
+{% extends "styleguide/base.html" %}
+{% block content %}
+
+Use the content footer to display things underneath a section of content.
+
+It just displays a paginator, with room for an extra link or two.
+
+<div class="contentFooter">
+  <div class="contentFooter-extra"><a href="http://amara.org/en/">Check out this page</a></div>
+  {% include "content-footer-paginator.html" %}
+</div>
+
+{% endblock %}

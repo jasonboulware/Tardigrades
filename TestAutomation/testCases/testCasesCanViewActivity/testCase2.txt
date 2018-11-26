@@ -1,0 +1,10 @@
+loucksra
+
+# Test Case 2
+# Requirement
+# home/williamsjd2/unisubs/apps/auth/
+# permissions.py
+# Dependencies
+# can_view_activity(user, viewing_user)
+# Input
+# Expected Output

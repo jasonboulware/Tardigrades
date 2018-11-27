@@ -16,9 +16,14 @@
 # along with this program.  If not, see
 # http://www.gnu.org/licenses/agpl-3.0.html.
 
+import sys
+sys.path.insert(0, '/home/williamsjd2')
+from unisubs import settings
+
 from django.contrib import admin
 
-from activity.models import ActivityRecord
+
+from models import ActivityRecord
 from django.contrib.auth.models import AnonymousUser
 
 class ActivityRecordAdmin(admin.ModelAdmin):

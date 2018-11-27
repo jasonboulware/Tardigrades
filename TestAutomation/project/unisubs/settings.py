@@ -20,10 +20,12 @@
 # Django settings for unisubs project.
 import os, sys
 from datetime import datetime
+sys.path.insert(0, '/home/williamsjd2/')
+import unisubs.apps.auth
+from unisubs.unilangs.unilangs.unilangs import get_language_name_mapping
+from unisubs import guitests
 
-from unilangs import get_language_name_mapping
-
-import optionalapps
+from unisubs import optionalapps
 
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 DEFAULT_PROTOCOL  = 'http'
@@ -190,7 +192,7 @@ ROOT_URLCONF = 'urls'
 
 INSTALLED_APPS = (
     # this needs to be first, yay for app model loading mess
-    'auth',
+    'unisubs.apps.auth',
     # django stock apps
     'django.contrib.admin',
     'django.contrib.auth',
@@ -212,7 +214,7 @@ INSTALLED_APPS = (
     'codefield',
     'comments',
     'externalsites',
-    'guitests',
+    #'guitests',
     'messages',
     'mysqltweaks',
     'notifications',

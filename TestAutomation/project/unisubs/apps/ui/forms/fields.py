@@ -15,7 +15,8 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see
 # http://www.gnu.org/licenses/agpl-3.0.html.
-
+import sys
+sys.path.insert(0, '~/unisubs')
 import json
 
 from django.utils.encoding import force_unicode
@@ -26,8 +27,8 @@ from django import forms
 from django.forms import fields as django_fields
 from django.forms import widgets as django_widgets
 
-from utils import translation
-from ui.forms import widgets
+from unisubs.utils import translation
+from . import forms
 
 class HelpTextList(SafeUnicode):
     """
@@ -214,10 +215,10 @@ class LanguageFieldMixin(AmaraChoiceFieldMixin):
             value = ''
         return value
 
-class LanguageField(LanguageFieldMixin, forms.ChoiceField):
+class LanguageField(LanguageFieldMixin, django.forms.ChoiceField):
     widget = widgets.AmaraLanguageSelect
 
-class MultipleLanguageField(LanguageFieldMixin, forms.MultipleChoiceField):
+class MultipleLanguageField(LanguageFieldMixin, django.forms.MultipleChoiceField):
     widget = widgets.AmaraLanguageSelectMultiple
 
 class SearchField(forms.CharField):

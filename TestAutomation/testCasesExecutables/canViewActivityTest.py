@@ -2,12 +2,12 @@ import sys
 import os
 import file_search
 
-sys.path.insert(0,'/home/williamsjd2')
+sys.path.insert(0, '../project')
 
 import unisubs
 os.environ['DJANGO_SETTINGS_MODULE'] = dev_settings
 
-os.chdir('/home/williamsjd2/Tardigrades/TestAutomation/testCases/testCasesCanViewActivity')
+os.chdir('~/Tardigrades/TestAutomation/testCases/testCasesCanViewActivity')
 
 for file in file_search.files(os.getcwd()):
     testCase = open(file, 'r')

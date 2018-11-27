@@ -22,6 +22,8 @@ This module contains a few utility classes that's used by the view code.
 """
 
 from __future__ import absolute_import
+import sys
+sys.path.insert (0, '~/unisubs')
 
 from datetime import timedelta
 
@@ -29,8 +31,8 @@ from django.utils.html import format_html
 from django.utils.translation import ugettext as _
 from django.utils.translation import ungettext
 
-from utils.dates import now
-from utils.text import fmt
+from unisubs.utils.dates import now
+from unisubs.utils.text import fmt
 
 SECONDS_IN_A_DAY = 60.0 * 60.0 * 24.0
 

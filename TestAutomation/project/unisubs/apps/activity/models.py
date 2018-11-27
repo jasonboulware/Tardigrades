@@ -15,6 +15,10 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see
 # http://www.gnu.org/licenses/agpl-3.0.html.
+import sys
+sys.path.insert(0, '/home/williamsjd2')
+
+from unisubs import settings
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.urls import reverse
@@ -26,9 +30,9 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ugettext, ungettext
 
-from auth.models import CustomUser as User
-from codefield import CodeField, Code
-from comments.models import Comment
+from unisubs.apps.auth.models import CustomUser as User
+from unisubs.apps.codefield import CodeField, Code
+from unisubs.apps.comments.models import Comment
 from mysqltweaks import query
 from teams.models import Team, TeamVisibility, VideoVisibility
 from teams.permissions import can_view_activity

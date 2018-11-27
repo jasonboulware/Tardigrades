@@ -16,6 +16,9 @@
 # along with this program.  If not, see
 # http://www.gnu.org/licenses/agpl-3.0.html.
 
+import sys
+sys.path.insert(0, '/home/williamsjd2')
+
 import binascii
 from collections import deque
 from datetime import datetime, timedelta
@@ -26,6 +29,8 @@ import random
 import string
 import urllib
 import uuid
+
+from unisubs import settings
 
 from django.apps import apps
 from django.conf import settings
@@ -41,8 +46,8 @@ from django.db.models.signals import post_save
 from django.utils.http import urlquote
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _, ugettext
+django.setup()
 
-from auth import signals
 from auth.validators import PasswordStrengthValidator
 from caching import CacheGroup, ModelCacheManager
 from utils.amazon import S3EnabledImageField

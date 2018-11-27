@@ -33,7 +33,6 @@ Amara uses [Docker](http://docker.io).  For ease of development, we use the dock
 
 5. Configure Database:
 
-        bin/dev dbreset
 
 6. Start Amara Containers:
 

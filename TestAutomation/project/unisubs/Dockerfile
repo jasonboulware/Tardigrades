@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 ARG DEV_INSTALL
 MAINTAINER Amara "http://amara.org"
 ENV DEBIAN_FRONTEND noninteractive

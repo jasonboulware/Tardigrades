@@ -15,6 +15,8 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see
 # http://www.gnu.org/licenses/agpl-3.0.html.
+import sys
+sys.path.insert(0, '/home/williamsjd2/unisubs/unilangs/unilangs')
 
 from datetime import timedelta
 from settings import *

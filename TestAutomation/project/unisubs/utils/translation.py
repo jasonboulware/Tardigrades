@@ -3,7 +3,7 @@ import copy
 import json
 import os, sys
 import time
-sys.path.insert(0, '~/unisubs')
+sys.path.insert(0, '..')
 from django.conf import settings
 from django.core.cache import cache
 from django.utils.http import cookie_date
@@ -11,9 +11,9 @@ from django.utils.translation import (
     get_language, get_language_info, ugettext as _
 )
 from django.utils.translation.trans_real import parse_accept_lang_header
-import unisubs.babelsubs
+import babelsubs
 
-from unisubs.unilangs.unilangs.unilangs import get_language_name_mapping, LanguageCode
+from unilangs.unilangs.unilangs import get_language_name_mapping, LanguageCode
 
 # A set of all language codes we support.
 _supported_languages_map = get_language_name_mapping('unisubs')

@@ -16,8 +16,9 @@
 # along with this program.  If not, see
 # http://www.gnu.org/licenses/agpl-3.0.html.
 import sys
-sys.path.insert(0, '/home/williamsjd2/unisubs/unilangs/unilangs')
-
+sys.path.insert(0, '.')
+import unilangs.unilangs
+import apps
 from datetime import timedelta
 from settings import *
 import logging

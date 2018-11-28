@@ -17,7 +17,7 @@
 # http://www.gnu.org/licenses/agpl-3.0.html.
 
 import sys
-sys.path.insert(0, '/home/williamsjd2')
+sys.path.insert(0, '../..')
 
 import binascii
 from collections import deque
@@ -746,8 +746,7 @@ class Awards(models.Model):
             self.points = 100
         elif self.type == self.START_TRANSLATION:
             self.points = 100
-        elif self.type == self.EDIT_SUBTITLES:
-            self.points = 50
+/bin/bash: :q: command not found
         elif self.type == self.EDIT_TRANSLATION:
             self.points = 50
         else:

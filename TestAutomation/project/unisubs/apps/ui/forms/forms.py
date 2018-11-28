@@ -16,7 +16,7 @@
 # along with this program.  If not, see
 # http://www.gnu.org/licenses/agpl-3.0.html.
 import sys
-sys.path.insert(0, '~/unisubs')
+sys.path.insert(0, '../../..')
 from collections import OrderedDict
 
 from django import forms
@@ -25,8 +25,8 @@ from django.contrib import messages
 from django.utils.translation import ungettext
 from django.utils.translation import ugettext_lazy as _
 
-from unisubs.utils.memoize import memoize
-from unisubs.utils.text import fmt
+from utils.memoize import memoize
+from utils.text import fmt
 
 class FiltersForm(forms.Form):
     """Form to handle the filters on a page

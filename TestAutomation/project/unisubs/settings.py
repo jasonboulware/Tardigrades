@@ -20,12 +20,12 @@
 # Django settings for unisubs project.
 import os, sys
 from datetime import datetime
-sys.path.insert(0, '/home/williamsjd2/')
-import unisubs.apps.auth
-from unisubs.unilangs.unilangs.unilangs import get_language_name_mapping
-from unisubs import guitests
+sys.path.insert(0, '.')
+import apps
+from unilangs.unilangs.unilangs import get_language_name_mapping
+import guitests
 
-from unisubs import optionalapps
+import optionalapps
 
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 DEFAULT_PROTOCOL  = 'http'

@@ -161,14 +161,12 @@ attribute to your class definition.
 """
 from __future__ import absolute_import
 
-import sys
-sys.path.insert(0, '~/unisubs')
 import collections
 
 from django.conf import settings
 from django.core.cache import cache
 
-from unisubs.apps.caching import utils
+from . import utils
 
 
 def get_commit_id():

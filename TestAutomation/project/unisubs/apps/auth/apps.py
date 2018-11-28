@@ -1,5 +1,5 @@
 import sys
-sys.path.insert(0, '/home/williamsjd2/unisubs/apps')
+sys.path.insert(0, '..')
 from django.apps import AppConfig
 
 class AuthConfig(AppConfig):

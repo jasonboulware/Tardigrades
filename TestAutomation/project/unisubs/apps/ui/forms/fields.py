@@ -16,7 +16,7 @@
 # along with this program.  If not, see
 # http://www.gnu.org/licenses/agpl-3.0.html.
 import sys
-sys.path.insert(0, '~/unisubs')
+sys.path.insert(0, '../../..')
 import json
 
 from django.utils.encoding import force_unicode
@@ -27,7 +27,7 @@ from django import forms
 from django.forms import fields as django_fields
 from django.forms import widgets as django_widgets
 
-from unisubs.utils import translation
+from .utils import translation
 from . import forms
 
 class HelpTextList(SafeUnicode):

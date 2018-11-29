@@ -20,4 +20,4 @@ This app monkeypatches django to support adding FORCE INDEX to the FROM
 clause for MySQL.
 """
 
-default_app_config = 'mysqltweaks.apps.MySQLTweaksConfig'
+#default_app_config = 'mysqltweaks.apps.MySQLTweaksConfig'

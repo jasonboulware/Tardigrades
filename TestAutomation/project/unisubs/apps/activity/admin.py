@@ -17,8 +17,8 @@
 # http://www.gnu.org/licenses/agpl-3.0.html.
 
 import sys
-sys.path.insert(0, '/home/williamsjd2')
-from unisubs import settings
+sys.path.insert(0, '../..')
+from unisubs import settings, dev_settings
 
 from django.contrib import admin
 

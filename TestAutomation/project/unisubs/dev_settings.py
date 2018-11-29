@@ -47,6 +47,8 @@ if should_enable_debug_toolbar():
 BROKER_URL = 'amqp://guest:guest@queue:5672'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+DEFAULT_TABLESPACE = ''
+
 FEEDWORKER_PASS_DURATION=300
 
 JS_USE_COMPILED = True

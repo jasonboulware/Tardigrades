@@ -21,7 +21,7 @@
 import os, sys
 from datetime import datetime
 sys.path.insert(0, '.')
-import apps
+from . import apps
 from unilangs.unilangs.unilangs import get_language_name_mapping
 import guitests
 
@@ -30,6 +30,7 @@ import optionalapps
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 DEFAULT_PROTOCOL  = 'http'
 HOSTNAME = 'localhost'
+FORCE_SCRIPT_NAME = None
 
 LOCALE_PATHS = [
     os.path.join(PROJECT_ROOT, 'locale')
@@ -192,7 +193,7 @@ ROOT_URLCONF = 'urls'
 
 INSTALLED_APPS = (
     # this needs to be first, yay for app model loading mess
-    'unisubs.apps.auth',
+    'unisubs.apps',
     # django stock apps
     'django.contrib.admin',
     'django.contrib.auth',
@@ -202,37 +203,37 @@ INSTALLED_APPS = (
     'rest_framework',
     'django_rq',
     # third party apps forked on our repo
-    'localeurl',
-    'openid_consumer',
+    'unisubs.apps.localeurl',
+    'unisubs.apps.openid_consumer',
     # our apps
-    'accountlinker',
-    'activity',
-    'amara',
-    'amaradotorg',
-    'api',
-    'caching',
-    'codefield',
-    'comments',
-    'externalsites',
-    #'guitests',
-    'messages',
-    'mysqltweaks',
-    'notifications',
-    'profiles',
-    'search',
-    'staff',
-    'staticmedia',
-    'styleguide',
-    'teams',
-    'testhelpers',
-    'thirdpartyaccounts',
-    'ui',
-    'unisubs_compressor',
-    'utils',
-    'videos',
-    'widget',
-    'subtitles',
-    'captcha',
+    'unisubs.apps.accountlinker',
+    'unisubs.apps.activity',
+    'unisubs.apps.amara',
+    'unisubs.apps.amaradotorg',
+    'unisubs.apps.api',
+    'unisubs.apps.caching',
+    'unisubs.apps.codefield',
+    'unisubs.apps.comments',
+    'unisubs.apps.externalsites',
+    'unisubs.guitests',
+    'unisubs.apps.messages',
+    'unisubs.apps.mysqltweaks',
+    'unisubs.apps.notifications',
+    'unisubs.apps.profiles',
+    'unisubs.apps.search',
+    'unisubs.apps.staff',
+    'unisubs.apps.staticmedia',
+    'unisubs.apps.styleguide',
+    'unisubs.apps.teams',
+    'unisubs.apps.testhelpers',
+    'unisubs.apps.thirdpartyaccounts',
+    'unisubs.apps.ui',
+    'unisubs.apps.unisubs_compressor',
+    'unisubs.utils',
+    'unisubs.apps.videos',
+    'unisubs.apps.widget',
+    'unisubs.apps.subtitles',
+    #'unisubs.apps.captcha',
     'raven.contrib.django.raven_compat',
 )
 
@@ -798,11 +799,14 @@ LOGGING = {
 if env_flag_set('DB_LOGGING'):
     LOGGING['loggers']['django.db'] = { 'level': 'DEBUG' }
 
+LOGGING_CONFIG = 'logging.config.dictConfig'
+
 TMP_FOLDER = "/tmp/"
 
 SOUTH_MIGRATION_MODULES = {
     'captcha': 'captcha.south_migrations',
 }
+DEFAULT_INDEX_TABLESPACE = ''
 
 from task_settings import *
 

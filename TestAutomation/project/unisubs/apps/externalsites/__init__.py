@@ -18,4 +18,4 @@
 
 """externalsites -- Manage data on external sites like youtube and kaltura """
 
-default_app_config = 'externalsites.apps.ExternalsitesConfig'
+#default_app_config = 'externalsites.apps.ExternalsitesConfig'

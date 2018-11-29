@@ -18,7 +18,7 @@
 import sys
 sys.path.insert(0, '../../..')
 
-from unisubs import settings
+from unisubs import settings, dev_settings
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.urls import reverse

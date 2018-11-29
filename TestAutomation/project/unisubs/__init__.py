@@ -3,10 +3,13 @@ import os
 import pkgutil
 sys.path.insert(0, '.')
 
-__path__ = pkgutil.extend_path(__path__, __name__)
+import django
+from django.conf import settings
+import dev_settings
+import apps
+
+django.conf.settings.configure(default_settings=dev_settings, DEBUG=True)
+django.setup()
+
 for importer, modname, ispkg in pkgutil.walk_packages(path=__path__, prefix=__name__+'.'):
     __import__(modname)
-
-os.environ['DJANGO_SETTINGS_MODULE'] = 'unisubs.dev_settings'
-import django
-django.setup()

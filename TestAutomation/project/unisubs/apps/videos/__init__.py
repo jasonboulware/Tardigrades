@@ -16,7 +16,7 @@
 # along with this program.  If not, see
 # http://www.gnu.org/licenses/agpl-3.0.html.
 
-default_app_config = 'videos.apps.VideosConfig'
+#default_app_config = 'videos.apps.VideosConfig'
 
 video_size = {"large": {"width": "620", "height": "370"},
               "small": {"width": "480", "height": "360"},

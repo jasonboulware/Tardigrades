@@ -5,7 +5,6 @@ import file_search
 sys.path.insert(0, '../project')
 
 import unisubs
-os.environ['DJANGO_SETTINGS_MODULE'] = dev_settings
 
 os.chdir('~/Tardigrades/TestAutomation/testCases/testCasesCanViewActivity')
 

@@ -30,7 +30,12 @@ import string
 import urllib
 import uuid
 
-from unisubs import settings
+from unisubs import settings, dev_settings
+
+os.environ['DJANGO_SETTINGS_MODULE'] = 'dev_settings'
+
+import django
+#django.setup()
 
 from django.apps import apps
 from django.conf import settings
@@ -46,7 +51,6 @@ from django.db.models.signals import post_save
 from django.utils.http import urlquote
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _, ugettext
-django.setup()
 
 from auth.validators import PasswordStrengthValidator
 from caching import CacheGroup, ModelCacheManager
@@ -746,7 +750,6 @@ class Awards(models.Model):
             self.points = 100
         elif self.type == self.START_TRANSLATION:
             self.points = 100
-/bin/bash: :q: command not found
         elif self.type == self.EDIT_TRANSLATION:
             self.points = 50
         else:

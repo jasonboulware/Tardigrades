@@ -1,1 +1,1 @@
-default_app_config = 'staticmedia.apps.StaticMediaConfig'
+#default_app_config = 'staticmedia.apps.StaticMediaConfig'

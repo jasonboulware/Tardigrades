@@ -1,0 +1,7 @@
+03
+Displays date properly
+/project/unisubs/apps/auth
+permissions
+can_view_activity
+"user", "user2"
+08/18/2006

@@ -4,21 +4,67 @@
 # CSCI 362
 # FALL 2018
 
+# Team Members:
+# Jason Boulware
+# Austin Hollis
+# Jeffery Williams
+# Rowen Loucks
 
-displayContents(){
+echo
+echo AMARA TEST AUTOMATION FRAMEWORK
+echo
 
-  for dir in "TestAutomation/"*/;
-  do
-    echo "$dir"
-    for file in $dir/*;
-    do
-      echo "<ol>"
-      echo "  $(basename "$file")"
-      echo "</ol>"
+# spacing for easier readability
+TAB='  '
+
+for filename in ../testCases/*; do
+
+    # the next few lines reads lines from a text file and assigns variable names
+    mapfile -t array < "$filename"
+    test_number=${array[0]}
+    test_description=${array[1]}
+    path=${array[2]}
+    py_module=${array[3]}
+    func_name=${array[4]}
+    params=${array[5]}
+    expected_result=${array[6]}
+
+    # this line runs the the python module given the path, the function name, and the parameters
+    actual_results=$(python -c "import sys; sys.path.insert(0, '..$path'); import $py_module as m; m.$func_name($params)")
+
+    echo Test number: "$test_number"
+    echo Test Description: "$test_description"
+    echo Test Function: "$func_name"
+    echo Given Parameters: "$params"
+    echo Expected Result: "$expected_result"
+    echo Actual Result: "$TAB$actual_results"
+
+#     if [ "$actual_results" == "$expected_result" ]
+#         then
+#             echo TEST RESULT: PASS
+#     else
+#             echo TEST RESULT: FAIL
+#     fi
+
+    echo
+    
+done
+
+
+# displayContents(){
+
+#   for dir in "TestAutomation/"*/;
+#   do
+#     echo "$dir"
+#     for file in $dir/*;
+#     do
+#       echo "<ol>"
+#       echo "  $(basename "$file")"
+#       echo "</ol>"
       
-    done
-  done
-}
+#     done
+#   done
+# }
 
 # runTests() {
 #   FILECOUNTER=0;
@@ -75,39 +121,39 @@ displayContents(){
 #   done
 # }
 
-write_page()
-{
-# The ${PWD##*/} displays the current directory name
-#header = "Directory Contents of $0"
-#title="${PWD##*/}"
-cat <<- _EOF_
-<html>
+# write_page()
+# {
+# # The ${PWD##*/} displays the current directory name
+# #header = "Directory Contents of $0"
+# #title="${PWD##*/}"
+# cat <<- _EOF_
+# <html>
 
-  <head>
-    <title>$title</title>
-  </head>
+#   <head>
+#     <title>$title</title>
+#   </head>
 
-  <body>
-    <h1>$header</h1>
-    <ul>
-      $(displayContents)
-    </ul>
-  </body>
+#   <body>
+#     <h1>$header</h1>
+#     <ul>
+#       $(displayContents)
+#     </ul>
+#   </body>
   
-</html>
-_EOF_
-}
+# </html>
+# _EOF_
+# }
 
-launch()
-{
-	firefox testOutput.html
-}
+# launch()
+# {
+# 	firefox testOutput.html
+# }
 
 
 
-####Main
+# ####Main
 
-filename=testOutput.html
-write_page > $filename
-chmod 755 $filename
-launch
+# filename=testOutput.html
+# write_page > $filename
+# chmod 755 $filename
+# launch

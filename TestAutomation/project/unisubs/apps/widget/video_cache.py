@@ -15,6 +15,9 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see
 # http://www.gnu.org/licenses/agpl-3.0.html.
+import sys
+sys.path.insert(0, '../../../')
+
 import datetime
 import hashlib
 
@@ -24,9 +27,9 @@ from django.utils.translation import (
     ugettext_lazy as _
 )
 
-from videos.types import video_type_registrar
-from videos.types.base import VideoTypeError
-import unilangs
+from unisubs.apps.videos.types import video_type_registrar
+from unisubs.apps.videos.types.base import VideoTypeError
+import unisubs.unilangs
 
 TIMEOUT = 60 * 60 * 24 * 5 # 5 days
 

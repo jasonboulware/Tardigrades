@@ -2,7 +2,9 @@ from StringIO import StringIO
 from hashlib import sha1
 from time import time
 from uuid import uuid4
-import os
+import sys, os
+
+sys.path.insert(0, '..')
 
 from django.conf import settings
 from django.core.files.base import ContentFile

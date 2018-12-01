@@ -28,6 +28,7 @@ set containing all hashes stored.
 
 Periodically, we call cleanup_counters() to cleanup counts older than 45 days.
 """
+import sys
 
 from collections import namedtuple, defaultdict
 from datetime import datetime, timedelta
@@ -35,7 +36,7 @@ from datetime import datetime, timedelta
 from django.core.cache import cache
 from django_redis import get_redis_connection
 
-from utils import dates
+from unisubs.utils import dates
 
 DAYS_TO_STORE = 45
 

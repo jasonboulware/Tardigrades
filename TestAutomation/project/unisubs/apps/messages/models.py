@@ -15,6 +15,8 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see
 # http://www.gnu.org/licenses/agpl-3.0.html.
+import sys
+sys.path.insert(0, '../../../')
 
 import json, datetime
 
@@ -31,7 +33,7 @@ from django.utils.html import escape
 from django.db.models import Q
 import bleach
 
-from auth.models import CustomUser as User
+from unisubs.apps.auth.models import CustomUser as User
 MESSAGE_MAX_LENGTH = getattr(settings,'MESSAGE_MAX_LENGTH', 1000)
 
 SYSTEM_NOTIFICATION = 'S'

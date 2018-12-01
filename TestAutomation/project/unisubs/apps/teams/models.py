@@ -15,6 +15,9 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see
 # http://www.gnu.org/licenses/agpl-3.0.html.
+import sys
+sys.path.insert(0, '../../../')
+
 from collections import defaultdict
 from itertools import groupby
 from math import ceil
@@ -38,44 +41,44 @@ from django.http import Http404
 from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _, ugettext 
 
-import teams.moderation_const as MODERATION
-from caching import ModelCacheManager
-from comments.models import Comment
-from auth.models import UserLanguage, CustomUser as User
-from auth.providers import get_authentication_provider
-from messages import tasks as notifier
-from subtitles import shims
-from subtitles.signals import subtitles_deleted
-from teams.moderation_const import WAITING_MODERATION, UNMODERATED, APPROVED
-from teams.permissions_const import (
+import unisubs.apps.teams.moderation_const as MODERATION
+from unisubs.apps.caching import ModelCacheManager
+from unisubs.apps.comments.models import Comment
+from unisubs.apps.auth.models import UserLanguage, CustomUser as User
+from unisubs.apps.auth.providers import get_authentication_provider
+from unisubs.apps.messages import tasks as notifier
+from unisubs.apps.subtitles import shims
+from unisubs.apps.subtitles.signals import subtitles_deleted
+from unisubs.apps.teams.moderation_const import WAITING_MODERATION, UNMODERATED, APPROVED
+from unisubs.apps.teams.permissions_const import (
     TEAM_PERMISSIONS, PROJECT_PERMISSIONS, ROLE_OWNER, ROLE_ADMIN, ROLE_MANAGER,
     ROLE_CONTRIBUTOR, ROLE_PROJ_LANG_MANAGER
 )
-from teams import behaviors
-from teams import notifymembers
-from teams import stats
-from teams import tasks
-from teams.exceptions import ApplicationInvalidException
-from teams.notifications import BaseNotification
-from teams.signals import (member_leave, api_subtitles_approved,
+from unisubs.apps.teams import behaviors
+from unisubs.apps.teams import notifymembers
+from unisubs.apps.teams import stats
+from unisubs.apps.teams import tasks
+from unisubs.apps.teams.exceptions import ApplicationInvalidException
+from unisubs.apps.teams.notifications import BaseNotification
+from unisubs.apps.teams.signals import (member_leave, api_subtitles_approved,
                            api_subtitles_rejected, video_removed_from_team,
                            team_settings_changed)
-from utils import DEFAULT_PROTOCOL
-from utils import enum
-from utils import translation, send_templated_email
-from utils.amazon import S3EnabledImageField, S3EnabledFileField
-from utils.bunch import Bunch
-from utils.panslugify import pan_slugify
-from utils.text import fmt
-from utils.translation import get_language_label
-from videos.models import Video, VideoUrl, SubtitleVersion, SubtitleLanguage
-from videos.tasks import video_changed_tasks
-from subtitles.models import (
+from unisubs.utils import DEFAULT_PROTOCOL
+from unisubs.utils import enum
+from unisubs.utils import translation, send_templated_email
+from unisubs.utils.amazon import S3EnabledImageField, S3EnabledFileField
+from unisubs.utils.bunch import Bunch
+from unisubs.utils.panslugify import pan_slugify
+from unisubs.utils.text import fmt
+from unisubs.utils.translation import get_language_label
+from unisubs.apps.videos.models import Video, VideoUrl, SubtitleVersion, SubtitleLanguage
+from unisubs.apps.videos.tasks import video_changed_tasks
+from unisubs.apps.subtitles.models import (
     SubtitleVersion as NewSubtitleVersion,
     SubtitleLanguage as NewSubtitleLanguage,
     SubtitleNoteBase,
 )
-from subtitles import pipeline
+from unisubs.apps.subtitles import pipeline
 
 from functools import partial
 

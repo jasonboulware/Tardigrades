@@ -1,6 +1,9 @@
 # Copyright (c) 2008 Joost Cassee
 # Licensed under the terms of the MIT License (see LICENSE.txt)
+import sys
+sys.path.insert(0, '../../..')
 
+from unisubs import settings, dev_settings
 from django.conf import settings
 
 URL_TYPES = ('path_prefix', 'domain_component', 'domain')

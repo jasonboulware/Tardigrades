@@ -1,16 +1,21 @@
 # Copyright (c) 2008 Joost Cassee
 # Licensed under the terms of the MIT License (see LICENSE.txt)
+import sys
+sys.path.insert(0, '../../../')
 
+import unisubs.settings
 import re
 from django import urls
 from django.conf import settings
-import localeurl.settings
+from  . import settings
 
-SUPPORTED_LOCALES = dict(settings.LANGUAGES)
+
+
+SUPPORTED_LOCALES = dict(unisubs.settings.LANGUAGES)
 LOCALES_RE = '|'.join(SUPPORTED_LOCALES)
 PATH_RE = re.compile(r'^/(?P<locale>%s)(?=/)(?P<path>.*)$' % LOCALES_RE)
 DOMAIN_RE = re.compile(r'^(?P<locale>%s)(?=/)\.(?P<domain>.*)$' % LOCALES_RE)
-DOMAIN_MAP = dict(localeurl.settings.DOMAINS)
+DOMAIN_MAP = dict(settings.DOMAINS)
 
 import logging
 logger = logging.getLogger("localeurl")

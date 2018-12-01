@@ -11,9 +11,9 @@ from django.utils.translation import (
     get_language, get_language_info, ugettext as _
 )
 from django.utils.translation.trans_real import parse_accept_lang_header
-import babelsubs
+from unisubs import babelsubs
 
-from unilangs.unilangs.unilangs import get_language_name_mapping, LanguageCode
+from unisubs.unilangs.unilangs.unilangs import get_language_name_mapping, LanguageCode
 
 # A set of all language codes we support.
 _supported_languages_map = get_language_name_mapping('unisubs')

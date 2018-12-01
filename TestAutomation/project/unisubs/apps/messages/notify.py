@@ -15,6 +15,8 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see
 # http://www.gnu.org/licenses/agpl-3.0.html.
+import sys
+sys.path.insert(0, '../../../')
 
 import re
 import textwrap
@@ -26,10 +28,10 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 from lxml import html
 
-from auth.models import CustomUser as User
-from messages.models import Message, SYSTEM_NOTIFICATION
-from utils.enum import Enum
-from utils.taskqueue import job
+from unisubs.apps.auth.models import CustomUser as User
+from unisubs.apps.messages.models import Message, SYSTEM_NOTIFICATION
+from unisubs.utils.enum import Enum
+from unisubs.utils.taskqueue import job
 
 Notifications = Enum('Notifications', [
     ('ROLE_CHANGED', _('Role changed')),

@@ -18,8 +18,8 @@
 
 import logging
 
-from utils import send_templated_email
-from utils.taskqueue import job
+from . import send_templated_email
+from .taskqueue import job
 
 logger = logging.getLogger(__name__)
 

@@ -32,11 +32,6 @@ import uuid
 
 from unisubs import settings, dev_settings
 
-os.environ['DJANGO_SETTINGS_MODULE'] = 'dev_settings'
-
-import django
-#django.setup()
-
 from django.apps import apps
 from django.conf import settings
 from django.contrib.auth.models import UserManager, User as BaseUser
@@ -52,14 +47,14 @@ from django.utils.http import urlquote
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _, ugettext
 
-from auth.validators import PasswordStrengthValidator
-from caching import CacheGroup, ModelCacheManager
-from utils.amazon import S3EnabledImageField
-from utils import dates
-from utils import secureid
-from utils import translation
-from utils.memoize import memoize
-from utils.tasks import send_templated_email_async
+from unisubs.apps.auth.validators import PasswordStrengthValidator
+from unisubs.apps.caching import CacheGroup, ModelCacheManager
+from unisubs.utils.amazon import S3EnabledImageField
+from unisubs.utils import dates
+from unisubs.utils import secureid
+from unisubs.utils import translation
+from unisubs.utils.memoize import memoize
+from unisubs.utils.tasks import send_templated_email_async
 
 import logging
 logger = logging.getLogger(__name__)

@@ -1,3 +1,6 @@
+import sys
+sys.path.insert(0, '../../../')
+
 from datetime import datetime
 import logging
 
@@ -8,18 +11,18 @@ from django.db.models import F
 from django.utils.translation import ugettext_lazy as _
 import requests
 
-from utils import send_templated_email
-from utils.panslugify import pan_slugify
-from utils.translation import SUPPORTED_LANGUAGE_CODES
-from widget.video_cache import (
+from unisubs.utils import send_templated_email
+from unisubs.utils.panslugify import pan_slugify
+from unisubs.utils.translation import SUPPORTED_LANGUAGE_CODES
+from unisubs.apps.widget.video_cache import (
     invalidate_cache as invalidate_video_cache,
     invalidate_video_moderation,
     invalidate_video_visibility
 )
 
-from utils.taskqueue import job
-from utils.text import fmt
-from videos.tasks import video_changed_tasks
+from unisubs.utils.taskqueue import job
+from unisubs.utils.text import fmt
+from unisubs.apps.videos.tasks import video_changed_tasks
 
 @job
 def invalidate_video_caches(team_id):

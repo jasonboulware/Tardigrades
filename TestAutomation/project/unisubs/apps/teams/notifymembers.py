@@ -15,12 +15,14 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see
 # http://www.gnu.org/licenses/agpl-3.0.html.
+import sys
+sys.path.insert(0, '../../../')
 
 from django.utils.translation import ugettext as _
 
-from messages.notify import notify_users, Notifications
-from teams.permissions_const import *
-from utils.text import fmt
+from unisubs.apps.messages.notify import notify_users, Notifications
+from unisubs.apps.teams.permissions_const import *
+from unisubs.utils.text import fmt
 
 def send_role_changed_message(member, old_member_info):
     team = member.team

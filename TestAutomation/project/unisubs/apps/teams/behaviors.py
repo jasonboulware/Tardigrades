@@ -15,9 +15,11 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see
 # http://www.gnu.org/licenses/agpl-3.0.html.
+import sys
+sys.path.insert(0, '../../..')
 
 from django.urls import reverse
-from utils.behaviors import behavior
+from unisubs.utils.behaviors import behavior
 
 @behavior
 def get_main_project(team):

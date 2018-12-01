@@ -33,15 +33,15 @@ from django.utils.translation import ugettext, ungettext
 from unisubs.apps.auth.models import CustomUser as User
 from unisubs.apps.codefield import CodeField, Code
 from unisubs.apps.comments.models import Comment
-from mysqltweaks import query
-from teams.models import Team, TeamVisibility, VideoVisibility
-from teams.permissions import can_view_activity
-from teams.permissions_const import (ROLE_OWNER, ROLE_ADMIN, ROLE_MANAGER,
+from unisubs.apps.mysqltweaks import query
+from unisubs.apps.teams.models import Team, TeamVisibility, VideoVisibility
+from unisubs.apps.teams.permissions import can_view_activity
+from unisubs.apps.teams.permissions_const import (ROLE_OWNER, ROLE_ADMIN, ROLE_MANAGER,
                                      ROLE_CONTRIBUTOR, ROLE_NAMES)
-from utils import dates
-from utils import translation
-from utils.text import fmt
-from videos.models import Video
+from unisubs.utils import dates
+from unisubs.utils import translation
+from unisubs.utils.text import fmt
+from unisubs.apps.videos.models import Video
 
 import json
 import logging

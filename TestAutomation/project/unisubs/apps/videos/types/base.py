@@ -15,6 +15,8 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see 
 # http://www.gnu.org/licenses/agpl-3.0.html.
+import sys
+sys.path.insert(0, '../../../')
 
 from urlparse import urlparse
 import subprocess, sys, uuid, os
@@ -24,7 +26,7 @@ import logging
 from django.core.exceptions import ValidationError
 from django.conf import settings
 
-from utils.url_escape import url_escape
+from unisubs.utils.url_escape import url_escape
 
 logger = logging.getLogger(__name__)
 

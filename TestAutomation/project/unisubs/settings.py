@@ -63,6 +63,10 @@ def calc_locale_choices():
         if lc in mapping
     ]
 
+
+ABSOLUTE_URL_OVERRIDES = {}
+AUTH_USER_MODEL = 'auth.CustomUser'
+
 # Rebuild the language dicts to support more languages.
 # ALL_LANGUAGES is a deprecated name for LANGUAGES.
 ALL_LANGUAGES = LANGUAGES = calc_locale_choices()

@@ -15,17 +15,18 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see
 # http://www.gnu.org/licenses/agpl-3.0.html.
-
+import sys
+sys.path.insert(0, '../../..')
 from django.db import models
 from django.template.loader import render_to_string
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
-from auth.models import CustomUser as User, Awards
+from unisubs.apps.auth.models import CustomUser as User, Awards
 from django.conf import settings
 from django.db.models.signals import post_save
 from django.utils.html import escape, urlize
 
-from localeurl.utils import universal_url
+from unisubs.apps.localeurl.utils import universal_url
 
 COMMENT_MAX_LENGTH = getattr(settings,'COMMENT_MAX_LENGTH', 3000)
 

@@ -1,0 +1,12 @@
+42
+0123456789
+01
+
+#Test Case 1 for the Convert method
+#This should convert 42 from decimal to binary. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: A number 42, the available digits in the base system you're converting from 0123456789, the available digits in the base system you're converting to 01
+#Expected Output: 101010

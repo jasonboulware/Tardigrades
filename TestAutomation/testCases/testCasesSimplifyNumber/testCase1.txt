@@ -1,0 +1,10 @@
+1234567890
+
+#Test Case 1 for the simplify numbers method.
+#This should simplify the number to x.y and then the appropriate abbreviation.
+#Tardigrades/TestAutomation/project/unisubs/utils/templatetags
+#util_tags.py
+#Dependencies
+#simplify_number(value)
+#Input: seen above
+#Expected Output: 1.2b

@@ -1,0 +1,10 @@
+naïveté
+
+#Test Case 1 for the pan slugify method.
+#This should remove all the accent marks from the word.
+#Tardigrades/TestAutomation/project/unisubs/utils
+#panslugify.py
+#Dependencies
+#pan_slugify(value)
+#Input: seen above
+#Expected Output: naivete

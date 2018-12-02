@@ -1,7 +1,0 @@
-04
-Prints hello function properly
-/project/unisubs/apps/auth/
-test
-can_view_activity
-user, viewing_user
-Hello: my dude!!!

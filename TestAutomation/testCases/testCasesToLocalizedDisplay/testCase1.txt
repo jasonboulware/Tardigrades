@@ -1,0 +1,9 @@
+en
+
+#Test Case 1 for to localized display method.
+#This should return the name of the language that the given language code is for. 
+#Tardigrades/TestAutomation/project/unisubs/utils/templatetags
+#Dependencies
+#to_localized_display(language_code)
+#input: seen above
+#Expected Output: English

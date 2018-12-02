@@ -1,0 +1,11 @@
+https://www.youtube.com/watch?v=8N5B0DQ2eDo
+https://www.youtube.com/watch?v=8N5B0DQ2eDo
+
+#Test Case 1
+#Requirement: This tests the preventDuplicates method to make sure that the same video can't be uploaded twice.
+#Tardigrades/TestAutomation/project/unisubs/apps/videos/
+#models.py
+#Dependencies
+#preventduplicate(video)
+#Input: the same video url twice
+#Expected Output: Failure on the second video

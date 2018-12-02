@@ -1,0 +1,12 @@
+williamsjd2
+https://www.youtube.com/watch?v=8N5B0DQ2eDo
+en
+
+#Test Case 1
+#This method should state whether the given user is allowed to view subtitles on the given video.
+#Tardigrades/TestAutomation/project/unisubs/apps/subtitles/
+#permissions.py
+#Dependencies
+#user_can_view_private_subtitles(user, video, language_code)
+#Input: seen above
+#Expected output: True

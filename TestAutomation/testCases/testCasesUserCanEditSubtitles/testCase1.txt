@@ -1,0 +1,12 @@
+williamsjd2
+https://www.youtube.com/watch?v=8N5B0DQ2eDo
+en
+
+#Test Case 1
+#This tests whether the given user can edit the subtitles of a given video.
+#Tardigrades/TestAutomation/project/unisubs/apps/subtitles/
+#permissions.py
+#Dependencies
+#user_case_edit_subtitles(user, video, language_code)
+#Input: above
+#Expected output: True

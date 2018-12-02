@@ -1,0 +1,9 @@
+fr
+
+#Test Case 3 for the to localized display method.
+#This should display French. 
+#Tardigrades/TestAutomation/project/unisubs/utils/templatetags
+#Dependencies
+#to_localized_display(language_code)
+#Input: seen above
+#Expected Output: French

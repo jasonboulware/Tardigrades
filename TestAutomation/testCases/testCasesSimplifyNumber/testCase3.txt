@@ -1,0 +1,10 @@
+19283
+
+#Test Case 3 for the simplify number method.
+#This should put the number in a xy.z form followed by the appropriate abbreviation.
+#Tardigrades/TestAutomation/project/unisubs/utils/templatetags
+#util_tags.py
+#Dependencies
+#simplify_numbers(value)
+#Input: seen above
+#Expected Output: 19.2k

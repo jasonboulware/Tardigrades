@@ -1,8 +1,0 @@
-# Test Case Number
-# Requirement
-# Component Path
-# Component being tested
-# Dependencies
-# Method being tested
-# Input
-# Expected Output

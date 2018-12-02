@@ -1,0 +1,12 @@
+2A
+0123456789abcdef
+01
+
+#Test Case 4 for the convert method
+#This should convert hexidecimal into binary.
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 101010

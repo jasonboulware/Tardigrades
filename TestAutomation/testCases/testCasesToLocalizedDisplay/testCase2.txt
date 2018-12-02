@@ -1,0 +1,10 @@
+franglais
+
+#Test case 2 for the to localized display method.
+#This should return the language that corresponds to the given language code. 
+#Tardigrades/TestAutomation/project/unisubs/utils/templatetags
+#Dependencies
+#to_localized_display(language_code)
+#Input: seen above
+#Expected Output: ?
+#That is not questionning what the output is, that is exactly what the method should return.

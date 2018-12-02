@@ -1,0 +1,8 @@
+#Test Case 1 for the now method
+#This should return the current datetime when the test is run.
+#Tardigrades/TestAutomation/project/unisubs/utils
+#dates.py
+#Dependencies
+#now()
+#Input: nothing
+#Expected Output: The datetime that this test is run.

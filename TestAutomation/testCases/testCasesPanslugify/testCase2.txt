@@ -1,0 +1,10 @@
+hey
+
+#Test Case 2 for the pan slugify method.
+#This should remove any accent marks in the word.
+#Tardigrades/TestAutomation/project/unisubs/utils
+#panslugify.py
+#Dependencies
+#pan_slugify(value)
+#Input: seen above
+#Expected Output: hey

@@ -1,0 +1,10 @@
+wowhihowareyou
+
+#Test Case 2 for the url exists method.
+#This should decide whether the url given exists or not.
+#Tardigrades/TestAutomation/project/unisubs/utils
+#http.py
+#Dependencies
+#url_exists(url)
+#Input: Seen above, a string that is not a url
+#Expected Output: False

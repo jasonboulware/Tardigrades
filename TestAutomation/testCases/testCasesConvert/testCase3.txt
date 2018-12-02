@@ -1,0 +1,1112 @@
+101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A101010
+01
+0123456789abcdef
+
+#Test Case 3 for the Convert method
+#This should convert binary to hexidecimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected Output: 2A

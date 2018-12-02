@@ -1,0 +1,12 @@
+2A
+0123456789abcdef
+0123456789
+
+#Test Case 6 for the convert method
+#This should convert hexidecimal into decimal. 
+#Tardigrades/TestAutomation/project/unisubs/utils
+#basexconverter.py
+#Dependencies
+#convert(number, fromdigits, todigits)
+#Input: seen above
+#Expected output: 42

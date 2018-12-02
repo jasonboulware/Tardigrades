@@ -1,0 +1,10 @@
+9182
+
+#Test case 4 for the simplify number method.
+#This should just return the number.
+#Tardigrades/TestAutomation/project/unisubs/utils/templatetags
+#utils.py
+#Dependencies
+#simplify_numbers(value)
+#Input: seen above
+#Expected Output: 9182

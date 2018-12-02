@@ -1,0 +1,10 @@
+williamsjd2
+https://www.youtube.com/watch?v=8N5B0DQ2eDo
+
+#Test Case 1
+#This method should state whether the given user is allowed to change the subtitle language of a given video.
+#Tardigrades/TestAutomation/project/unisubs/apps/subtitles
+#permissions.py
+#user_can_change_subtitle_language(user, video)
+#Input: above
+#Expected Outpit: True

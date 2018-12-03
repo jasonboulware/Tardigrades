@@ -1,8 +1,7 @@
-# Test Case Number
-# Requirement
-# Component Path
-# Component being tested
-# Dependencies
-# Method being tested
-# Input
-# Expected Output
+25
+Testing Get_Language_Name_Mapping(internal)
+/project/unisubs/unilangs/unilangs/
+unilangs
+get_language_name_mapping
+internal
+

@@ -1,7 +1,7 @@
-10
+08
 Convert centiseconds to milliseconds
 /project/unisubs/babelsubs/babelsubs/
 utils
 centiseconds_to_milliseconds
--10
--100
+7500
+75000

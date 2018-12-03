@@ -1,0 +1,7 @@
+06
+Replace '&' with &amp; for html use
+/project/unisubs/babelsubs/babelsubs/
+utils
+escape_ampersands
+'This & that & some of this too. What about Jack & Jill?'
+This &amp; that &amp; some of this too. What about Jack &amp; Jill?

@@ -19,6 +19,6 @@
 def can_view_activity(user, viewing_user):
     return (
         user == viewing_user or
-        user.created_by == viewing_user or
-        viewing_user.is_superuser
+        viewing_user.is_superuser or
+        user.created_by == viewing_user
     )

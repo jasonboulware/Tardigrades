@@ -1,8 +1,7 @@
-# Test Case Number
-# Requirement
-# Component Path
-# Component being tested
-# Dependencies
-# Method being tested
-# Input
-# Expected Output
+11
+Tests
+/project/unisubs/apps/auth/
+permissions
+can_view_activity
+"austin", "austin"
+True

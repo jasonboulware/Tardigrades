@@ -111,5 +111,5 @@ launch()
 
 filename=testOutput.html
 write_page > "../reports/$filename"
-chmod 755 $filename
+chmod 755 "../reports/$filename"
 launch

@@ -1,8 +1,7 @@
-# Test Case Number
-# Requirement
-# Component Path
-# Component being tested
-# Dependencies
-# Method being tested
-# Input
-# Expected Output
+13
+Get current branch on git
+/project/unisubs/deploy/
+git_helpers
+get_current_commit_hash
+
+41f0e864

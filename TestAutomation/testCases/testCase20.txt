@@ -1,8 +1,7 @@
-# Test Case Number
-# Requirement
-# Component Path
-# Component being tested
-# Dependencies
-# Method being tested
-# Input
-# Expected Output
+20
+Checks for appropriate file extension for torrent files
+/project/unisubs/libs/vidscraper/
+filetypes
+isTorrentFilename
+"Torrent.torrent"
+True

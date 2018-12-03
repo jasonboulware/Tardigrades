@@ -1,8 +1,7 @@
-# Test Case Number
-# Requirement
-# Component Path
-# Component being tested
-# Dependencies
-# Method being tested
-# Input
-# Expected Output
+24
+Guesses Mime Type
+/project/unisubs/libs/vidscraper/
+filetypes
+guessMimeType
+"test.mov"
+video/quicktime

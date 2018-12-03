@@ -1,8 +1,7 @@
-# Test Case Number
-# Requirement
-# Component Path
-# Component being tested
-# Dependencies
-# Method being tested
-# Input
-# Expected Output
+18
+Checks for appropriate file extension for audio files
+/project/unisubs/libs/vidscraper/
+filetypes
+isAudioFilename
+"wave.mp3"
+True

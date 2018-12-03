@@ -1,8 +1,7 @@
-# Test Case Number
-# Requirement
-# Component Path
-# Component being tested
-# Dependencies
-# Method being tested
-# Input
-# Expected Output
+17
+Checks if appropriate file
+/project/unisubs/libs/vidscraper/
+filetypes
+isAllowedFilename
+"idk.idk"
+False

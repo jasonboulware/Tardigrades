@@ -1,0 +1,7 @@
+11
+Tests if viewing user is the uploader
+/project/unisubs/apps/auth/
+permissions
+can_view_activity
+"austin", "austin"
+True

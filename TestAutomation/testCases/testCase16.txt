@@ -1,0 +1,7 @@
+16
+Checks if appropriate file
+/project/unisubs/libs/vidscraper/
+filetypes
+isAllowedFilename
+"wave.mp4"
+True

@@ -1,0 +1,7 @@
+01
+Converts milliseonds as an integer string to a 3 padded string
+/project/unisubs/babelsubs/babelsubs/
+utils
+fraction_to_milliseconds
+"100"
+100

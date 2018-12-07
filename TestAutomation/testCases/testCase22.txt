@@ -1,0 +1,7 @@
+22
+Guesses Extension Type
+/project/unisubs/libs/vidscraper/
+filetypes
+guessExtension
+"video/quicktime"
+.mov

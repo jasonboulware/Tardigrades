@@ -1,0 +1,7 @@
+12
+Get current branch on git
+/project/unisubs/deploy/
+git_helpers
+get_current_branch
+
+final

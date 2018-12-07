@@ -1,0 +1,7 @@
+25
+Guesses Mime Type
+/project/unisubs/libs/vidscraper/
+filetypes
+guessMimeType
+"test.avi"
+video/x-msvideo

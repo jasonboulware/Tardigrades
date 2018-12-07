@@ -1,0 +1,7 @@
+13
+Get current branch on git
+/project/unisubs/deploy/
+git_helpers
+get_current_commit_hash
+
+cdb02993

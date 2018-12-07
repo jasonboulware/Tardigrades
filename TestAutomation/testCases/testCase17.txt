@@ -1,0 +1,7 @@
+17
+Checks if appropriate file
+/project/unisubs/libs/vidscraper/
+filetypes
+isAllowedFilename
+"idk.idk"
+False

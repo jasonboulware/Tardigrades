@@ -1,0 +1,7 @@
+20
+Checks for appropriate file extension for torrent files
+/project/unisubs/libs/vidscraper/
+filetypes
+isTorrentFilename
+"Torrent.torrent"
+True

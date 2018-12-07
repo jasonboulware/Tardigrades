@@ -1,0 +1,7 @@
+14
+Checks for appropriate file extension for video files
+/project/unisubs/libs/vidscraper/
+filetypes
+isVideoFilename
+"wave.mp4"
+True

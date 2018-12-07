@@ -4,4 +4,4 @@ Get current branch on git
 git_helpers
 get_current_branch
 
-update-script
+final

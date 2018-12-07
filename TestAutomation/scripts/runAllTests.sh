@@ -15,7 +15,7 @@ pass="PASS"
 fail="FAIL"
 tab='    ' # spacing for easier readability
 
-insertTest() {
+runTests() {
 
     for filename in ../testCases/*; do
 
@@ -46,7 +46,6 @@ insertTest() {
         echo "$tab$tab$tab$tab$tab<td>$expected_result</td>"
         echo "$tab$tab$tab$tab$result"
 
-
     done
 }
 
@@ -65,7 +64,7 @@ write_page() {
                 border-radius: 8px;
             }
             
-            h1 {
+            h1, h3 {
                 text-align: center;
             }
 
@@ -93,8 +92,9 @@ write_page() {
                     <th>Result</th>
                     <th>Test Result</th>
                 </tr>
-$(insertTest)
+$(runTests)
             </table>
+            <h3>Team Tardigrades</h3>
         </body>
     </html>
 _EOF_

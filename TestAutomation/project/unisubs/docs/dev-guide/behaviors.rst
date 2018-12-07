@@ -1,5 +1,0 @@
-Behaviors
-=========
-
-.. automodule:: utils.behaviors
-

@@ -1,4 +1,0 @@
-# Testing
-django-debug-toolbar==1.9
-mockredispy==2.9.3
-lunatic-python-universal==2.1.1

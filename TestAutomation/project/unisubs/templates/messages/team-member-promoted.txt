@@ -1,7 +1,0 @@
-
-Hi {{ user }},
-
-You've been given a new role in the {{ team.name }} ( {{ url_base }}{% url "teams:dashboard" slug=team.slug %} ) team on Amara. You are now a(n) {{ role }}.
-{% if custom_message %}
-{{ custom_message|safe }}
-{% endif %}

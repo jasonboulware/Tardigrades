@@ -1,5 +1,0 @@
-{% load i18n %}
-<div id="mainnav" class="container" role="navigation">
-  <a class="mainnav-brand no-underline" href="{% if brand_url %}{{ brand_url }}{% else %}{% url "home" %}{% endif %}">{% include brand|default:"future/amara-brand.html" %}</a>
-  {% include primarynav|default:"future/navigation/primarynav.html" %}
-</div>

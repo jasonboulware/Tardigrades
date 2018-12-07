@@ -1,0 +1,913 @@
+/*
+ * these are the old DFXP tests, but they don't really work correctly.
+ *
+ * The main issue is that they all assume weird things about how the parser is
+ * initialized.  Some of them assume that it's initialized with
+ * sampleXmlString, some assume that it's initialized with empty subs.
+ */
+describe('DFXP', function() {
+
+    var parser = new AmaraDFXPParser();
+
+    describe('#init()', function() {
+        it('should initialize a set of mock subtitles', function() {
+
+            // Initialize the parser with a sample XML string.
+            parser.init(sampleXmlString);
+
+            // Our sample set of subtitles should contain 1,919 subtitles.
+            expect(parser.getSubtitles().length).toBe(1919);
+
+        });
+        it('should convert DFXP-style formatting to Markdown', function() {
+            // The very last subtitle has DFXP-style formatting that should've
+            // been converted to Markdown.
+
+            var lastSubtitle = parser.getLastSubtitle();
+            var content = parser.content(lastSubtitle);
+
+            expect(content).toBe('♪ [Touching **Evil** closing theme music] ♪');
+
+        });
+        it('should store two separate instances of XML', function() {
+            // The original XML and the working XML should not be the same
+            // object.
+
+            expect(parser.$originalXml === parser.$xml).toBe(false);
+
+        });
+        it('should convert time expressions to milliseconds', function() {
+            // If the parser is working correctly, it would have converted
+            // '00:00::01.15' to '1150'.
+
+            var firstSubtitle = parser.getFirstSubtitle();
+            var startTime = parser.startTime(firstSubtitle);
+
+            expect(startTime).toBe(1150);
+        });
+        it('should not have introduce differences between the original and working XML', function() {
+            expect(parser.changesMade()).toBe(false);
+        });
+    });
+    describe('#utils', function() {
+        describe('.leftPad()', function() {
+            it('should left-pad a number to the given width with the given char', function() {
+                expect(parser.utils.leftPad(1, 2, 0)).toBe('01');
+            });
+        });
+        describe('.millisecondsToTimeExpression()', function() {
+            it('should convert milliseconds to a time expression', function() {
+
+                // This utility function uses other utility functions, so it
+                // must be scoped properly.
+                expect(parser.utils.millisecondsToTimeExpression.call(parser, 1150))
+                    .toBe('00:00:01,150');
+
+            });
+        });
+        describe('.rightPad()', function() {
+            it('should right-pad a number to the given width with the given char', function() {
+                expect(parser.utils.rightPad(1, 2, 0)).toBe('10');
+            });
+        });
+        describe('.timeExpressionToMilliseconds()', function() {
+            it('should convert a time expression to milliseconds', function() {
+
+                // This utility function uses other utility functions, so it
+                // must be scoped properly.
+                expect(parser.utils.timeExpressionToMilliseconds.call(parser, '00:00:01,150'))
+                    .toBe(1150);
+
+            });
+        });
+        describe('.xmlToString()', function() {
+            it('should convert an XML document to a string', function() {
+
+                var xml = $.parseXML('<rss><channel></channel></rss>');
+                expect(parser.utils.xmlToString(xml)).toBe('<rss><channel/></rss>');
+
+            });
+        });
+    });
+
+    describe('#addSubtitle()', function() {
+        it('should add a subtitle to the end of the list', function() {
+
+            // Add a new subtitle.
+            parser.addSubtitle(null, null, 'A new subtitle at the end.');
+
+            // Get the last subtitle in the list.
+            var lastSubtitle = parser.getLastSubtitle();
+
+            expect(parser.content(lastSubtitle)).toBe('A new subtitle at the end.');
+
+            // Expect that changes have now been made to the working copy;
+            expect(parser.changesMade()).toBe(true);
+
+        });
+        it('should add a subtitle with a begin and end pre-set', function() {
+
+            // Add a new subtitle with a begin and end pre-set.
+            parser.addSubtitle(null, {'begin': 1150, 'end': 1160}, 'New subtitle with timing.');
+
+            // Get the last subtitle in the list.
+            var lastSubtitle = parser.getLastSubtitle();
+
+            expect(parser.startTime(lastSubtitle)).toBe(1150);
+            expect(parser.endTime(lastSubtitle)).toBe(1160);
+            expect(parser.content(lastSubtitle)).toBe('New subtitle with timing.');
+
+        });
+        it('should add a subtitle after a given subtitle', function() {
+
+            // Add a new subtitle after the first subtitle, with content and
+            // begin/end attrs pre-set.
+
+            var firstSubtitle = parser.getFirstSubtitle();
+
+            var newSubtitle = parser.addSubtitle(firstSubtitle,
+                {'begin': 1160, 'end': 1170},
+                'New subtitle with timing, after the first subtitle.');
+
+            // Get the second subtitle in the list.
+            var secondSubtitle = parser.getNextSubtitle(firstSubtitle);
+
+            expect(secondSubtitle).toBe(newSubtitle);
+            expect(parser.startTime(secondSubtitle)).toBe(1160);
+            expect(parser.endTime(secondSubtitle)).toBe(1170);
+            expect(parser.content(secondSubtitle)).toBe('New subtitle with timing, after the first subtitle.');
+
+        });
+        it('should add a subtitle with blank content if we pass null', function() {
+
+            // Add a new subtitle with 'null' content.
+            var newSubtitle = parser.addSubtitle(null, null, null);
+
+            // Get the last subtitle in the list.
+            var lastSubtitle = parser.getLastSubtitle();
+
+            expect(parser.content(lastSubtitle)).toBe('');
+
+        });
+    });
+    describe('#changesMade()', function() {
+        it('should indicate that changes have been made', function() {
+            // We've made changes previously, so changesMade() should reflect that,
+            // now.
+
+            expect(parser.changesMade()).toBe(true);
+
+        });
+    });
+    describe('#clearAllContent()', function() {
+        it('should clear text content from every subtitle', function() {
+
+            // Wipe 'em out.
+            parser.clearAllContent();
+
+            // Get all of the subtitles.
+            var $subtitles = parser.getSubtitles();
+
+            // Every subtitle's text() value should be an empty string.
+            for (var i = 0; i < $subtitles.length; i++) {
+                expect($subtitles.eq(i).text()).toBe('');
+            }
+
+        });
+        it('should not affect subtitle attributes', function() {
+
+            var firstSubtitle = parser.getFirstSubtitle();
+            expect(parser.startTime(firstSubtitle)).toNotBe(-1);
+
+        });
+    });
+    describe('#clearAllTimes()', function() {
+        it('should clear timing data from every subtitle', function() {
+
+            // Wipe 'em out.
+            parser.clearAllTimes();
+
+            // Get all of the subtitles.
+            var $subtitles = parser.getSubtitles();
+
+            // Every subtitle's timing data should be empty.
+            for (var i = 0; i < $subtitles.length; i++) {
+                var $subtitle = $subtitles.eq(i);
+                var startTime = $subtitle.attr('begin');
+                var endTime = $subtitle.attr('end');
+
+                // Verify that they've been emptied.
+                expect(startTime).toBe('');
+                expect(endTime).toBe('');
+            }
+
+        });
+    });
+    describe('#clone()', function() {
+        it('should clone this parser and preserve subtitle text', function() {
+
+            // Add a new subtitle with text, since we blew it all away
+            // in a previous test.
+            parser.addSubtitle(null, null, 'Some text.');
+
+            // Get the last subtitle of the old parser.
+            var lastSubtitleOfOldParser = parser.getLastSubtitle();
+
+            // Expect the content to be what we just set it as.
+            expect(parser.content(lastSubtitleOfOldParser)).toBe('Some text.');
+
+            // Clone the parser.
+            var newParser = parser.clone(true);
+
+            // Get the last subtitle of the cloned parser.
+            var lastSubtitleOfNewParser = newParser.getLastSubtitle();
+
+            // Expect the last subtitle of the cloned parser to have the same
+            // content as the last subtitle of the old parser.
+            expect(newParser.content(lastSubtitleOfNewParser)).toBe('Some text.');
+
+        });
+        it('should clone this parser and discard subtitle text', function() {
+
+            // Get the last subtitle of the old parser.
+            var lastSubtitleOfOldParser = parser.getLastSubtitle();
+
+            // Expect the content to be what we just set it as.
+            expect(parser.content(lastSubtitleOfOldParser)).toBe('Some text.');
+
+            // Clone the parser, this time discarding text.
+            var newParser = parser.clone();
+
+            // Get the last subtitle of the cloned parser.
+            var lastSubtitleOfNewParser = newParser.getLastSubtitle();
+
+            // Expect the last subtitle of the cloned parser to have the same
+            // content as the last subtitle of the old parser.
+            expect(newParser.content(lastSubtitleOfNewParser)).toBe('');
+
+        });
+    });
+    describe('#cloneSubtitle()', function() {
+        it('should clone a node and return a jquery selection of the new node', function() {
+
+            var newSub1 = parser.addSubtitle(null, {'begin': 100}, 'Some text.');
+            var $clonedNewSub1 = parser.cloneSubtitle(newSub1, false);
+
+            // The cloned sub should have wiped out the text, but preserved attrs.
+            expect($clonedNewSub1.attr('begin')).toBe('100');
+            expect($clonedNewSub1.text()).toBe('');
+
+            var newSub2 = parser.addSubtitle(null, {'begin': 100}, 'Some text.');
+            var $clonedNewSub2 = parser.cloneSubtitle(newSub2, true);
+
+            // The cloned sub should have preserved the text and attrs.
+            expect($clonedNewSub2.attr('begin')).toBe('100');
+            expect($clonedNewSub2.text()).toBe('Some text.');
+
+        });
+    });
+    describe('#content()', function() {
+        it('should set text content of a subtitle', function() {
+
+            // Get the last subtitle in the list.
+            var lastSubtitle = parser.getLastSubtitle();
+
+            parser.content(lastSubtitle, 'Some new text.');
+
+            expect(parser.content(lastSubtitle)).toBe('Some new text.');
+        });
+        it('should retrieve text content of a subtitle', function() {
+
+            // Get the last subtitle. In the previous test, we changed the
+            // content of the last subtitle.
+            var lastSubtitle = parser.getLastSubtitle();
+
+            expect(parser.content(lastSubtitle)).toBe('Some new text.');
+        });
+    });
+    describe('#contentRendered()', function() {
+        it('should return the rendered HTML content of the subtitle', function() {
+
+            // First, create a subtitle with Markdown formatting.
+            var newSubtitle = parser.addSubtitle(null, null, 'Hey **guys!**');
+
+            // The rendered content of this new subtitle should be converted to
+            // HTML.
+            expect(parser.contentRendered(newSubtitle)).toBe('Hey <b>guys!</b>');
+
+        });
+    });
+    describe('#convertTimes()', function() {
+        it('should convert times from milliseconds to time expressions', function() {
+
+            // Get the first subtitle.
+            var firstSubtitle = parser.getFirstSubtitle();
+
+            // Set the first subtitle's time to 1150.
+            parser.startTime(firstSubtitle, 1150);
+
+            // Verify that the new start time is correct.
+            expect(parser.startTime(firstSubtitle)).toBe(1150);
+
+            // Convert all subtitles to time expressions.
+            parser.convertTimes('timeExpression', parser.getSubtitles());
+
+            // New start time should be '00:00:01,150'.
+            expect($(parser.getFirstSubtitle()).attr('begin')).toBe('00:00:01,150');
+
+        });
+        it('should convert times from time expressions to milliseconds', function() {
+
+            // Get the first subtitle.
+            var firstSubtitle = parser.getFirstSubtitle();
+
+            // Convert times back to milliseconds.
+            parser.convertTimes('milliseconds', parser.getSubtitles());
+
+            // Verify that the new start time is correct.
+            expect(parser.startTime(firstSubtitle)).toBe(1150);
+
+        });
+    });
+    describe('#dfxpToMarkdown()', function() {
+        it('should convert DFXP-style formatting to Markdown syntax', function() {
+
+            // Create a new node with blank text (we have to set it later).
+            var newSubtitle = parser.addSubtitle(null, null, '');
+            var $newSubtitle = $(newSubtitle);
+
+            // Replace the node's text with a DFXP-style formatted node.
+            $newSubtitle.append($('<span tts:fontweight="bold">I be bold.</span>'));
+
+            // Verify that we have DFXP-style formatting to convert.
+            expect(parser.content(newSubtitle)).toBe('<span tts:fontweight="bold">I be bold.</span>');
+
+            // Replace the subtitle's content in-place with Markdown.
+            parser.dfxpToMarkdown(newSubtitle);
+
+            // Verify.
+            expect(parser.content(newSubtitle)).toBe('**I be bold.**');
+        });
+    });
+    describe('#endTime()', function() {
+        it('should get the current end time for a subtitle', function() {
+
+            // Create a new subtitle with a specific end time.
+            var newSubtitle = parser.addSubtitle(null, {'end': 1234}, '');
+
+            // Verify.
+            expect(parser.endTime(newSubtitle)).toBe(1234);
+        });
+        it('should set the end time for a subtitle', function() {
+
+            // Create a new subtitle with no end time.
+            var newSubtitle = parser.addSubtitle(null, null, '');
+
+            // The end time should be null.
+            expect(parser.endTime(newSubtitle)).toBe(-1);
+
+            // Set the end time.
+            parser.endTime(newSubtitle, 2345);
+
+            // Verify the new end time.
+            expect(parser.endTime(newSubtitle)).toBe(2345);
+        });
+    });
+    describe('#getFirstSubtitle()', function() {
+        it('should retrieve the first subtitle in the list', function() {
+
+            // Get the first subtitle by using zero-index on the subtitle list.
+            var firstSubtitle = parser.getSubtitles().get(0);
+
+            // Get the first subtitle by using getFirstSubtitle().
+            var firstSubtitleFromParser = parser.getFirstSubtitle();
+
+            // Verify.
+            expect(firstSubtitleFromParser).toBe(firstSubtitle);
+        });
+    });
+    describe('#getLastSubtitle()', function() {
+        it('should retrieve the last subtitle in the list', function() {
+
+            // Get the last subtitle by using zero-index on the subtitle list.
+            var lastSubtitle = parser.getSubtitles().get(parser.subtitlesCount() - 1);
+
+            // Get the last subtitle by using getLastSubtitle().
+            var lastSubtitleFromParser = parser.getLastSubtitle();
+
+            // Verify.
+            expect(lastSubtitleFromParser).toBe(lastSubtitle);
+        });
+    });
+    describe('#getNextSubtitle()', function() {
+        it('should retrieve the next subtitle in the list', function() {
+
+            // Get the second subtitle by using zero-index on the subtitle list.
+            var nextSubtitle = parser.getSubtitles().get(1);
+
+            // Get the next subtitle by using getNextSubtitle() and passing it
+            // the first subtitle.
+            var nextSubtitleFromParser = parser.getNextSubtitle(parser.getFirstSubtitle());
+
+            // Verify.
+            expect(nextSubtitleFromParser).toBe(nextSubtitle);
+        });
+    });
+    describe('#getNonBlankSubtitles()', function() {
+        it('should return all subtitles that have content', function() {
+
+            // Get all non-blank subtitles.
+            var $nonBlankSubtitles = parser.getNonBlankSubtitles();
+
+            for (var i = 0; i < $nonBlankSubtitles.length; i++) {
+
+                var $nonBlankSubtitle = $nonBlankSubtitles.eq(i);
+
+                // Verify that this subtitle is not blank.
+                expect($nonBlankSubtitle.text()).toNotBe('');
+            }
+        });
+    });
+    describe('#getPreviousSubtitle()', function() {
+        it('should retrieve the previous subtitle in the list', function() {
+
+            // Get the first subtitle.
+            var firstSubtitle = parser.getFirstSubtitle();
+
+            // Get the second subtitle.
+            var secondSubtitle = parser.getNextSubtitle(firstSubtitle);
+
+            // Get the previous subtitle for the first subtitle.
+            var previousSubtitle = parser.getPreviousSubtitle(secondSubtitle);
+
+            // Verify.
+            expect(previousSubtitle).toBe(firstSubtitle);
+        });
+    });
+    describe('#getSubtitleByIndex()', function() {
+        it('should get a subtitle node by its index instead of node', function() {
+
+            // Get the first subtitle.
+            var firstSubtitle = parser.getFirstSubtitle();
+
+            // Get the first subtitle by index.
+            var firstSubtitleByIndex = parser.getSubtitleByIndex(0);
+
+            // Verify.
+            expect(firstSubtitle).toBe(firstSubtitleByIndex);
+        });
+    });
+    describe('#getSubtitleIndex()', function() {
+        it('should retrieve the index of the given subtitle', function() {
+            
+            // The first subtitle's index should be '0'.
+            expect(parser.getSubtitleIndex(parser.getFirstSubtitle(), parser.getSubtitles())).toBe(0);
+            expect(parser.getSubtitleIndex(parser.getFirstSubtitle())).toBe(0);
+
+        });
+    });
+    describe('#getSubtitles()', function() {
+        it('should retrieve the current set of subtitles', function() {
+
+            // Just make sure that the subtitles count matches up.
+            expect(parser.getSubtitles().length).toBe(parser.subtitlesCount());
+
+        });
+    });
+    describe('#isShownAt()', function() {
+        it('should determine whether the given subtitle should be displayed at the given time', function() {
+
+            // Create a new subtitle with a given start and end time.
+            var newSubtitle = parser.addSubtitle(null, {'begin': 1499, 'end': 1501}, null);
+
+            expect(parser.isShownAt(newSubtitle, 1500)).toBe(true);
+
+        });
+    });
+    describe('#markdownToDFXP()', function() {
+        it('should convert Markdown syntax to DFXP-style formatting', function() {
+
+            // Create a new node with Markdown syntax.
+            var newSubtitle = parser.addSubtitle(null, null, '**I be bold.**');
+            var $newSubtitle = $(newSubtitle);
+
+            // Convert the Markdown to DFXP.
+            var dfxpText = parser.markdownToDFXP($newSubtitle.text());
+
+            // Empty out the subtitle's text.
+            $newSubtitle.text('');
+
+            // Replace the node's text with the DFXP node.
+            $newSubtitle.append($(dfxpText));
+
+            // Verify that the text was replaced properly.
+            expect(parser.content(newSubtitle)).toBe('<span tts:fontweight="bold">I be bold.</span>');
+        });
+    });
+    describe('#needsAnySynced()', function() {
+        it('should confirm all subtitles are synced', function() {
+
+            // Get all of the subtitles.
+            var $subtitles = parser.getSubtitles();
+
+            // Set the begin and end attrs for all subtitles.
+            $subtitles.attr({'begin': 100, 'end': 150});
+
+            // No subtitles should need syncing.
+            expect(parser.needsAnySynced()).toBe(false);
+
+        });
+        it('should tell us when subtitles need syncing', function() {
+
+            // Add a new subtitle without timing information.
+            parser.addSubtitle(null, null, null);
+
+            // We now need syncing.
+            expect(parser.needsAnySynced()).toBe(true);
+        });
+    });
+    describe('#needsAnyTranscribed()', function() {
+        it('should confirm no subtitles need transcription', function() {
+
+            // Get all of the subtitles.
+            var $subtitles = parser.getSubtitles();
+
+            // Set the begin and end attrs for all subtitles.
+            $subtitles.text('Mock content');
+
+            // No subtitles should need transcription.
+            expect(parser.needsAnyTranscribed()).toBe(false);
+
+        });
+        it('should tell us when subtitles need transcription', function() {
+
+            // Create a new subtitle with no content.
+            parser.addSubtitle(null, null, null);
+
+            // We need transcription, now.
+            expect(parser.needsAnyTranscribed()).toBe(true);
+        });
+    });
+    describe('#needsSyncing()', function() {
+        it('should tell us a subtitle needs syncing without a begin time', function() {
+
+            // Create a new subtitle with start time set.
+            var newSubtitle = parser.addSubtitle(null, {'end': 1500});
+
+            expect(parser.needsSyncing(newSubtitle)).toBe(true);
+
+        });
+        it('should tell us a subtitle needs syncing without an end time', function() {
+
+            // Create a new subtitle with start time set.
+            //
+            // We have to put this subtitle at the beginning, because subtitles at
+            // the end are allowed to not have an end time.
+            var newSubtitle = parser.addSubtitle(parser.getFirstSubtitle(), {'begin': 1500});
+
+            expect(parser.needsSyncing(newSubtitle)).toBe(true);
+
+        });
+        it('should tell us a subtitle does not need syncing with timing set', function() {
+
+            // Create a new subtitle with start and end times set.
+            var newSubtitle = parser.addSubtitle(parser.getFirstSubtitle(), {'begin': 1500, 'end': 1700});
+
+            expect(parser.needsSyncing(newSubtitle)).toBe(false);
+
+        });
+        it('should tell us an end subtitle does not need syncing without an end time', function() {
+
+            // Create a new subtitle with start time set.
+            var newSubtitle = parser.addSubtitle(null, {'begin': 1500});
+
+            // Subtitles at the end of the subtitle list are not required to have an end
+            // time.
+            expect(parser.needsSyncing(newSubtitle)).toBe(false);
+
+        });
+    });
+    describe('#originalContent()', function() {
+        it('should set and get the original HTML content for the subtitle', function() {
+
+            // Create a new subtitle.
+            var newSubtitle = parser.addSubtitle(null, null, 'New content.');
+            var $newSubtitle = $(newSubtitle);
+
+            // Set some mock original content.
+            $newSubtitle.attr('originalcontent', 'Mock original content.');
+
+            // The original content should be set.
+            expect(parser.originalContent(newSubtitle)).toBe('Mock original content.');
+
+            // The real content should not have been modified.
+            expect(parser.originalContent(newSubtitle)).toNotBe(parser.content(newSubtitle));
+
+        });
+    });
+    describe('#originalEndTime()', function() {
+        it('should set and get the original end time for the subtitle', function() {
+
+            // Create a new subtitle.
+            var newSubtitle = parser.addSubtitle(null, {'end': 333}, 'New content.');
+            var $newSubtitle = $(newSubtitle);
+
+            // Set a mock original end time.
+            $newSubtitle.attr('originalend', 100);
+
+            // The original end time should be set.
+            expect(parser.originalEndTime(newSubtitle)).toBe('100');
+
+            // The real end time should not have been modified.
+            expect(parser.originalEndTime(newSubtitle)).toNotBe(parser.endTime(newSubtitle));
+
+        });
+    });
+    describe('#originalStartTime()', function() {
+        it('should set and get the original start time for the subtitle', function() {
+
+            // Create a new subtitle.
+            var newSubtitle = parser.addSubtitle(null, {'begin': 333}, 'New content.');
+            var $newSubtitle = $(newSubtitle);
+
+            // Set a mock original start time.
+            $newSubtitle.attr('originalbegin', 100);
+
+            // The original start time should be set.
+            expect(parser.originalStartTime(newSubtitle)).toBe('100');
+
+            // The real start time should not have been modified.
+            expect(parser.originalStartTime(newSubtitle)).toNotBe(parser.startTime(newSubtitle));
+
+        });
+    });
+    describe('#originalXmlToString()', function() {
+        it('should return a string representation of the original XML tree', function() {
+
+            // It should be a string.
+            expect(typeof parser.originalXmlToString()).toBe('string');
+
+            // The original XML and working XML should be different by now.
+            expect(parser.originalXmlToString()).toNotBe(parser.xmlToString());
+
+        });
+    });
+    describe('#removeSubtitle()', function() {
+        it('should remove a subtitle from the list', function() {
+
+            // Create a new subtitle.
+            var newSubtitle = parser.addSubtitle(null, null, 'Life is so short.');
+
+            // Subtitle should exist in the subtitles list.
+            expect($.inArray(newSubtitle, parser.getSubtitles())).toNotBe(-1);
+
+            // Remove that subtitle.
+            parser.removeSubtitle(newSubtitle);
+
+            // Subtitle should no longer exist in the subtitles list.
+            expect($.inArray(newSubtitle, parser.getSubtitles())).toBe(-1);
+
+        });
+    });
+    describe('#removeSubtitles()', function() {
+        it('should remove all subtitles from the working XML', function() {
+            
+            // Get all of the subtitles.
+            var $subtitles = parser.getSubtitles();
+
+            // There should be more than zero subtitles.
+            expect(parser.subtitlesCount()).toNotBe(0);
+
+            // Destroy them all.
+            parser.removeSubtitles();
+
+            // There should be no subtitles.
+            expect(parser.subtitlesCount()).toBe(0);
+
+        });
+    });
+    describe('#resetSubtitles()', function() {
+        it('should reset the text, start times, and end times for subtitles that have content', function() {
+
+            // We have a blank slate to work with due to the last test,
+            // so let's create some test subtitles.
+            var sub1 = parser.addSubtitle(null, {'begin': 100, 'end': 150}, 'Hey');
+            var sub2 = parser.addSubtitle(null, {'begin': 150, 'end': 200}, 'Yep');
+
+            expect(parser.subtitlesCount()).toBe(2);
+
+            parser.resetSubtitles();
+
+            expect(parser.content(sub1)).toBe('');
+            expect(parser.startTime(sub1)).toBe(-1);
+            expect(parser.endTime(sub1)).toBe(-1);
+
+            expect(parser.content(sub2)).toBe('');
+            expect(parser.startTime(sub2)).toBe(-1);
+            expect(parser.endTime(sub2)).toBe(-1);
+
+        });
+        it('should delete subtitles that have no content', function() {
+
+            // Create a new subtitle with no content.
+            var newSubtitle = parser.addSubtitle(null, {'begin': 200, 'end': 250}, null);
+
+            // Subtitle should exist in the subtitles list.
+            expect($.inArray(newSubtitle, parser.getSubtitles())).toNotBe(-1);
+
+            parser.resetSubtitles();
+
+            // Subtitle should no longer exist in the subtitles list.
+            expect($.inArray(newSubtitle, parser.getSubtitles())).toBe(-1);
+
+            // The two subtitles added in the previous test had their contents removed
+            // when we used resetSubtitles(), so they'll be deleted when we call
+            // resetSubtitles() for the second time.
+            expect(parser.subtitlesCount()).toBe(0);
+
+        });
+    });
+    describe('#startOfParagraph()', function() {
+        it('should get the startofparagraph setting for a subtitle', function() {
+
+            var firstSubtitle = parser.addSubtitle(null, null, null);
+            var secondSubtitle = parser.addSubtitle(null, null, null);
+
+            // The first subtitle is always a startOfParagraph.
+            expect(parser.startOfParagraph(firstSubtitle)).toBe(true);
+
+            // The second subtitle shouldn't be.
+            expect(parser.startOfParagraph(secondSubtitle)).toBe(false);
+
+            // Make the second subtitle a startOfParagraph.
+            parser.startOfParagraph(secondSubtitle, true);
+
+            // Verify.
+            expect(parser.startOfParagraph(secondSubtitle)).toBe(true);
+        });
+    });
+    describe('#startTime()', function() {
+        it('should get the current start time for a subtitle', function() {
+
+            // Create a new subtitle with a specific start time.
+            var newSubtitle = parser.addSubtitle(null, {'begin': 1234}, '');
+
+            // Verify.
+            expect(parser.startTime(newSubtitle)).toBe(1234);
+
+        });
+        it('should set the start time for a subtitle', function() {
+
+            // Create a new subtitle with no start time.
+            var newSubtitle = parser.addSubtitle(null, null, '');
+
+            // The start time should be null.
+            expect(parser.startTime(newSubtitle)).toBe(-1);
+
+            // Set the start time.
+            parser.startTime(newSubtitle, 2345);
+
+            // Verify the new start time.
+            expect(parser.startTime(newSubtitle)).toBe(2345);
+
+        });
+    });
+    describe('#startTimeInSeconds()', function() {
+        it('should get the current start time for a subtitle in seconds', function() {
+
+            // Create a new subtitle with a specific start time.
+            var newSubtitle = parser.addSubtitle(null, {'begin': 1150.000}, '');
+
+            // Verify.
+            expect(parser.startTimeInSeconds(newSubtitle)).toBe('1.150');
+
+        });
+    });
+    describe('#startTimeInTimeExpression()', function() {
+        it('should get the current start time for a subtitle in time expression', function() {
+
+            // Create a new subtitle with a specific start time.
+            var newSubtitle = parser.addSubtitle(null, {'begin': 1150.000}, '');
+
+            // Verify.
+            expect(parser.startTimeInTimeExpression.call(parser, newSubtitle)).toBe('00:00:01,150');
+
+        });
+    });
+    describe('#startTimeDisplay()', function() {
+        it('should get the current start time for a subtitle formatted for display', function() {
+
+            // Verify milliseconds handling.
+            var subtitle = parser.addSubtitle(null, {'begin': '050'}, '');
+            expect(parser.startTimeDisplay(subtitle)).toBe('0.050');
+
+            // Verify milliseconds handling.
+            var subtitle = parser.addSubtitle(null, {'begin': 100}, '');
+            expect(parser.startTimeDisplay(subtitle)).toBe('0.100');
+
+            // Verify seconds handling.
+            subtitle = parser.addSubtitle(null, {'begin': 1000}, '');
+            expect(parser.startTimeDisplay(subtitle)).toBe('1.000');
+
+            // Verify seconds handling.
+            subtitle = parser.addSubtitle(null, {'begin': 10000}, '');
+            expect(parser.startTimeDisplay(subtitle)).toBe('10.000');
+
+            // Verify minutes handling.
+            subtitle = parser.addSubtitle(null, {'begin': 100000}, '');
+            expect(parser.startTimeDisplay(subtitle)).toBe('1:40.000');
+
+            // Verify minutes handling.
+            subtitle = parser.addSubtitle(null, {'begin': 1000000}, '');
+            expect(parser.startTimeDisplay(subtitle)).toBe('16:40.000');
+
+            // Verify hours handling.
+            subtitle = parser.addSubtitle(null, {'begin': 10000000}, '');
+            expect(parser.startTimeDisplay(subtitle)).toBe('2:46:40.000');
+
+            // Verify hours handling.
+            subtitle = parser.addSubtitle(null, {'begin': 7459599}, '');
+            expect(parser.startTimeDisplay(subtitle)).toBe('2:04:19.599');
+
+        });
+    });
+    describe('#subtitlesCount()', function() {
+        it('should return the current number of subtitles', function() {
+
+            // Remove all subtitles.
+            parser.removeSubtitles();
+
+            // Create three subtitles.
+            parser.addSubtitle(null, null, null);
+            parser.addSubtitle(null, null, null);
+            parser.addSubtitle(null, null, null);
+
+            // Verify.
+            expect(parser.subtitlesCount()).toBe(3);
+            expect(parser.subtitlesCount()).toBe(parser.getSubtitles().length);
+
+        });
+    });
+    describe('#xmlToString()', function() {
+        it('should return an XML string with timing converted to time expressions', function() {
+
+            // Remove all subtitles.
+            parser.removeSubtitles();
+
+            // Add a mock subtitle.
+            parser.addSubtitle(null, {'begin': 50, 'end': 100}, 'Test');
+
+            // Get the XML string.
+            var xmlString = parser.xmlToString(true);
+
+            // Parse the XML.
+            var newXML = $.parseXML(xmlString);
+
+            // Grab the first subtitle's start time.
+            var startTime = $('p', newXML).eq(0).attr('begin');
+
+            // Verify that the start time is a time expression.
+            expect(startTime).toBe('00:00:00,050');
+
+        });
+        it('should return an XML string with timing as milliseconds', function() {
+
+            // Remove all subtitles.
+            parser.removeSubtitles();
+            
+            // Add a mock subtitle.
+            parser.addSubtitle(null, {'begin': 50, 'end': 100}, 'Test');
+
+            // Get the XML string.
+            var xmlString = parser.xmlToString(false);
+
+            // Parse the XML.
+            var newXML = $.parseXML(xmlString);
+
+            // Grab the first subtitle's start time.
+            var startTime = $('p', newXML).eq(0).attr('begin');
+
+            // Verify that the start time is in milliseconds.
+            expect(startTime).toBe('50');
+
+        });
+        it('should return an XML string with Markdown converted to DFXP', function() {
+
+            // Remove all subtitles.
+            parser.removeSubtitles();
+            
+            // Add a mock subtitle with some Markdown styles.
+            parser.addSubtitle(null, null, '**Test**');
+            
+            // Add a mock subtitle with some Markdown styles.
+            parser.addSubtitle(null, null, 'This is a **test**, I say.');
+
+            // Get the XML string.
+            var xmlString = parser.xmlToString(true, true);
+
+            expect(xmlString).toBe('<tt xmlns="http://www.w3.org/ns/ttml" xmlns:ttp="http://www.w3.org/ns/ttml#parameter" xmlns:tts="http://www.w3.org/ns/ttml#styling" xml:lang="en" xmlns:xml="http://www.w3.org/XML/1998/namespace"> <head> <metadata/> <styling xmlns:tts="http://www.w3.org/2006/10/ttaf1#styling"><style tts:textStyle="italic" xml:id="emphasis"/><style tts:fontWeight="bold" xml:id="strong"/><style tts:textDecoration="underline" xml:id="underlined"/></styling> <layout/> </head> <body region="subtitleArea">  <div><p begin="" end=""><span tts:fontWeight="bold">Test</span></p><p begin="" end="">This is a <span tts:fontWeight="bold">test</span>, I say.</p></div></body> </tt>');
+
+        });
+    });
+
+});

@@ -1,0 +1,8 @@
+{% comment %}
+This is sent to the user who has left the team
+{% endcomment %}
+
+
+Hi {{ user }},
+
+You have officially left the {{ team.name }} team. Any team tasks that were assigned to you have been unassigned.

@@ -1,0 +1,33 @@
+{% load amara_cache i18n subtitles_tags videos_tags %}
+{% if language_list %}
+    <h3>
+        {% embedder-code video %}
+        {% blocktrans count count=language_list|length %}
+            {{ count }} Language
+        {% plural %}
+            {{ count }} Languages
+        {% endblocktrans %}
+    </h3>
+    <ul id="subtitles-menu" {% if language_list|length > 14 %} class="list-collapsible collapsed"{% endif %}>
+        {% for lang in language_list %}
+        <li{% if forloop.counter0 > 14 %} class="hidden"{% endif %}>
+        <img src="{{ STATIC_URL }}images/language-list/status-{{ lang.status }}.png" alt="{{ lang.status }}">
+            <a href="{{ lang.url }}"> {{ lang.name }} [{{ lang.code }}]</a>
+            {% if lang.tags %}
+            <span class="tags">
+                {% for tag in lang.tags %}
+                    {{ tag }}
+                    {% if not forloop.last %}|{% endif %}
+                {% endfor %}
+            </span>
+            {% endif %}
+        </li>
+        {% endfor %}
+
+        {% if language_list|length > 14 %}
+            <li class="expand">
+                <a href="#"><span class="all">{% trans 'Show all' %} ↓</span><span class="less">{% trans 'Show less' %} ↑</span></a>
+            </li>
+        {% endif %}
+    </ul>
+{% endif %}

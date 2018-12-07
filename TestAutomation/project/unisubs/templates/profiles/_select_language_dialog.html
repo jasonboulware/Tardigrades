@@ -1,0 +1,43 @@
+{% load i18n profiles_tags %}
+
+{% if not hide_link %}
+<div class="language_bar clearfix">
+    <span>{% trans "Loading..." %}</span>
+    <a href="#" data-modal="language_modal" id="lang_select_btn" >{% trans "Select your Languages" %}</a>
+</div>
+{% endif %}
+
+<script type="text/javascript">
+    window.FORCE_ASK = {% if force_ask %}true{% else %}false{% endif %};
+    window.LANGUAGE_SELECT_ERROR = '{% trans "Select at least one language." %}';
+    window.LANGUAGE_SELECT_SAVING = '{% trans "Saving your language settings..." %}';
+</script>
+
+{% if show_current %}
+{% if current.language1 or current.language2 or current.language3 or current.language4 or current.language5 or current.language6 %}
+<div class="current-languages">
+  <span>{{ current.language1 }}</span>
+  <span>{{ current.language2 }}</span>
+  <span>{{ current.language3 }}</span>
+  <span>{{ current.language4 }}</span>
+  <span>{{ current.language5 }}</span>
+  <span>{{ current.language6 }}</span>
+</div>
+{% endif %}
+{% endif %}
+
+<div id="language_modal" style="display: none" class="clearfix bootstrap">
+    <div class="modal" style="display: block;">
+        <div class="modal-header">
+            <h3>{% trans "What languages do you speak?" %}</h3>
+	    <p>{% trans "Prioritize the languages you’d like to caption or translate." %}</p>
+        </div>
+	{% block select_language_form %}
+	{% select_language_form %}
+	{% endblock %}
+        <div class="modal-footer">
+            <button class="submit_button btn primary">{% trans "Submit" %}</button>
+            <button class="close_button btn cancel">{% trans "Cancel" %}</button>
+        </div>
+    </div>
+</div>

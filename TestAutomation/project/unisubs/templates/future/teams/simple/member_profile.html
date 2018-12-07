@@ -1,0 +1,10 @@
+{% extends "future/teams/member_profile.html" %}
+{% load i18n forms %}
+
+{% block main_content %}
+<!-- not wrapping this inside a div.container since it looks like
+     getting cramped too much with the screen estate available -->
+
+  {% include "future/teams/simple/subtitling_history.html" with histories=subtitling_history_to_show hide_member_profile_link=1 paginated=1%}
+
+{% endblock %}

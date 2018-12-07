@@ -1,0 +1,33 @@
+{% extends "profiles/base.html" %}
+
+{% load i18n teams_tags paginator profiles_tags widget auth_tags %}
+
+{% block title %}
+    {% blocktrans %}
+        {{ user_info }}'s videos | Amara
+    {% endblocktrans %}
+{% endblock %}
+
+{% block email_confirmation_block %}
+    {% email_confirmation_notification 'true' %}
+{% endblock %}
+
+{% block view_content %}
+
+    {% with 'videos' as current %}
+        {% include 'profiles/_tabs.html' %}
+    {% endwith %}
+
+    {% if is_paginated %}{% paginator %}{% endif %}
+    {% if user_video_list %}
+        <ul class="listing videos">
+            {% for video in user_video_list %}
+                {% include 'profiles/_video_detail.html' %}
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="empty">{{ user_info }} {% trans "hasn't shared any videos on Amara." %}</p>
+    {% endif %}
+    {% if is_paginated %}{% paginator %}{% endif %}
+
+{% endblock %}

@@ -1,0 +1,17 @@
+{% load i18n %}
+<nav class="selectList-actions">
+  <div class="checkbox">
+    <input id="select_all" type="checkbox" class="selectAll" data-target="#applicationReview-selectList">
+    <label for="select_all" class="text-gray"><span class="checkbox-icon"></span>Select all</label>
+  </div>
+</nav>
+{% if page %}
+<ul id="applicationReview-selectList" class="selectList selectList-members" data-target="#applicationReview-actionBar">
+  {% for application in page %}
+  {% include "future/teams/applications/application-item.html" with application=application %}
+  {% endfor %}
+</ul>
+{% include "future/paginator.html" %}
+{% else %}
+<div class="zero-state">{% trans "No applications" %}</div>
+{% endif %}

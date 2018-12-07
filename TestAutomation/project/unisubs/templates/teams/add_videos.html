@@ -1,0 +1,24 @@
+{% extends "teams/base.html" %}
+
+{% load i18n teams_tags widget form_helpers %}
+
+{% block title %}
+    {% trans 'Team video' %} | Amara
+{% endblock %}
+
+{% block view_content %}
+
+    <div class="view grid_8 omega">
+        {% with 'videos' as current %}
+            {% include 'teams/_tabs.html' %}
+        {% endwith %}
+        <form method='post' action="." enctype="multipart/form-data" class="add-video">
+            <h3>{% trans 'Add multiple videos' %}</h3>
+            {% smart_field_render form.feed_url %}
+            <div class="submit">
+                <button><span>{% trans 'Save' %}</span></button>
+            </div>
+            {% csrf_token %}
+        </form>
+    </div>
+{% endblock %}

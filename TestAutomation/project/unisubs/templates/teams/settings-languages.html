@@ -1,0 +1,44 @@
+{% extends "teams/base.html" %}
+{% load i18n teams_tags %}
+
+{% block title %}
+    {{ team }} {% trans 'Settings' %} | Amara
+{% endblock %}
+
+{% block html_attrs %}id="team_settings_languages"{% endblock %}
+
+{% block view_content %}
+    <div class="view grid_8 omega">
+        {% with 'settings' as current %}
+            {% include 'teams/_tabs.html' %}
+        {% endwith %}
+
+        <div class="tools subnav">
+            {% with 'languages' as current_sub %}
+                {% include 'teams/_subnav_settings.html' %}
+            {% endwith %}
+        </div>
+
+        <form class="settings" enctype="multipart/form-data" method="POST" action="">
+            {{ form.non_field_errors }}
+            {% csrf_token %}
+
+            <fieldset>
+                <legend>{% trans 'Preferred Languages' %}</legend>
+                <p class="notation">{% trans 'Translation tasks will be auto-created for these languages' %}</p>
+                {{ form.preferred }}
+            </fieldset>
+
+            <fieldset>
+                <legend>{% trans 'Blacklisted Languages' %}</legend>
+                <p class="notation">{% trans 'Will not be shown when creating or performing tasks' %}</p>
+                {{ form.blacklisted }}
+            </fieldset>
+
+            <div class="submit">
+                <input type="submit" class="submit save" value="Save Changes" name="save" />
+            </div>
+        </form>
+    </div>
+
+{% endblock %}

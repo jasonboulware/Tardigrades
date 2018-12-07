@@ -1,0 +1,31 @@
+Hi {{ user }},
+
+<p>
+{% if sent_back %}
+<p>Your {{ task_language }} subtitles for the video “{{ title }}” have been reviewed
+by <a href="{{ reviewer_message_url }}">{{ reviewer }}</a> from the {{ team.name }} team.</p>
+The subtitles have been returned to you for additional work and/or corrections.
+<a href="{{ perform_task_url }}">Perform this task.</a><br/>
+{% endif %}
+{% if reviewed_and_pending_approval %}
+<p>Congratulations, your {{ task_language }} subtitles for the video “{{ title }}” have been reviewed
+by <a href="{{ reviewer_message_url }}">{{ reviewer }}</a> from the {{ team.name }} team.</p>
+The subtitles passed review and have been submitted for approval.
+{% endif %}
+{% if reviewed_and_published %}
+<p>Congratulations, your {{ task_language }} subtitles for the video “{{ title }}” have been reviewed
+by <a href="{{ reviewer_message_url }}">{{ reviewer }}</a> from the {{ team.name }} team.</p>
+The subtitles passed review and have been published!
+{% endif %}
+</p>
+{% if note %}
+{{ reviewer}} included the following note:
+
+{{ note|linebreaks }}
+
+{% endif %}
+
+
+<a href="{{reviewer_message_url}}">Send {{ reviewer }} a message</a>
+{% if sent_back %} or <br/>
+<a href="{{subs_url}}">view your subtitles</a>.{% endif %}

@@ -1,0 +1,41 @@
+/*
+ * bottom-sheet is a dark, translucent, div at the bottom of the screen.  It
+ * fits a header and a list of buttons.  The main use for it is to put actions
+ * based on the current context.  For example: when the user selects videos on
+ * the videos page, we want to show a button to open the bulk edit form.
+ */
+
+.bottom-sheet {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 0;
+    padding: 0 20px;
+    background: rgba(0, 0, 0, 0.7);
+    transition: ease height 0.5s, ease padding 0.5s;
+    color: $off-white;
+    text-align: center;
+
+    &.shown {
+        height: 120px;
+        padding: 20px;
+    }
+
+    button {
+        margin-right: 20px;
+    }
+
+    button.dismiss {
+        // Button that dismisses the bottom sheet.  It's placed off to
+        // the top-right corner and colored to be less prominent.
+        position: absolute;
+        top: 10px;
+        right: 10px;
+
+        @include small-button;
+        @include button-color($medium-gray);
+        margin: 0;
+    }
+
+}

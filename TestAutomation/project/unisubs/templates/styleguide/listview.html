@@ -1,0 +1,86 @@
+{% extends "styleguide/base.html" %}
+{% load dropdown captureas ui %}
+
+{% block content %}
+
+<section>
+  <p>List View is a generic way to display items in a tabular layout.</p>
+
+
+  <div class="content">
+    <h3>List View items have:</h3>
+    <ul class="bullets">
+      <li>Associated actions that get hidden until the user hovers the row.</li>
+      <li>A checkbox column that can get hooked up to an <a href="{% url "styleguide:section" "actionBar" %}">action bar</a></li>
+      <li>Extra information that gets show when you expand the item.  Click the (i) icon below to see.</li>
+    </ul>
+  </div>
+
+  <div class="content">
+    <h3>Keyboard Controls</h3>
+    <ul class="bullets">
+      <li>Up/Down -- navigate the list</li>
+      <li>Space -- toggle the checkbox</li>
+      <li>Enter -- Activate the right-most action (usually a context menu)</li>
+      <li>Ctrl-a -- Select all checkboxes</li>
+    </ul>
+  </div>
+
+  {% comment %}Note: sizing columns is tricky because there can be an arbitrary number,
+  and also some columns grow like (title/languge) while some columns shouldn't
+  grow (like checkboxes and actions).  Therefore, each listView needs an extra
+  class which sets grid-template-columns.  Here, it's the styleguide-example
+  class. {% endcomment %}
+  <div tabindex="0" class="listView styleguide-example">
+    <div class="listView-header">{% checkbox "all" id_prefix="selection-" class="checkAll" data_name="selection" %}</div>
+    <div class="listView-header">Title</div>
+    <div class="listView-header">Language</div>
+    <div class="listView-header"></div>
+
+    {% for i in "x"|rjust:"10" %} {# dirty way to do a for loop #}
+    {% captureas menu_id %}menu-1-{{ forloop.counter }}{% endcaptureas %}
+    <div class="listView-checkbox">{% checkbox forloop.counter id_prefix="selection-" name="selection" %}</div>
+    <div>{% lorem 4 w random %}<div class="listView-secondary">Some extra info</div></div>
+    <div>{% cycle "English" "French" "Spanish" "Japanese" %}<div class="listView-secondary">Some extra info</div></div>
+    <div class="listView-actions">
+      <button class="listView-action listView-expand"><span class="fa fa-info-circle"></span></button>
+      {% dropdown-button-icon menu_id "listView-action" %}
+      {% dropdown menu_id %}
+      {% dropdown-js-item _('Show Details') 'expand' class="listView-showDetails" icon="fa-info-circle" %}
+      {% dropdown-item _('Edit') "profiles:dashboard" separator=True %}
+      {% dropdown-item _('Delete') "profiles:dashboard" %}
+      {% enddropdown %}
+    </div>
+    <div class="listView-secondaryRow">An entire extra row of info</div>
+    {% endfor %}
+  </div>
+</section>
+
+<section>
+  <p>A varient of List View is the always-expanded version.  Here the secondary info is shown by default, without having to expand it.</p>
+
+  <div class="listView styleguide-example">
+    <div class="listView-header">{% checkbox "all" id_prefix="selection2-" class="checkAll" data_name="selection2" %}</div>
+    <div class="listView-header">Title</div>
+    <div class="listView-header">Language</div>
+    <div class="listView-header"></div>
+
+    {% for i in "x"|rjust:"10" %} {# dirty way to do a for loop #}
+    {% captureas menu_id %}menu-2-{{ forloop.counter }}{% endcaptureas %}
+    <div class="listView-checkbox">{% checkbox forloop.counter id_prefix="selection2-" name="selection2" %}</div>
+
+    {# To make an always-expanded listview, just add the visible class to the secondary info  #}
+    <div>{% lorem 4 w random %}<div class="listView-secondary visible">Some extra info</div></div>
+    <div>{% cycle "English" "French" "Spanish" "Japanese" %}<div class="listView-secondary visible">Some extra info</div></div>
+    <div class="listView-actions">
+      {% dropdown-button-icon menu_id "listView-action" %}
+      {% dropdown menu_id %}
+      {% dropdown-item _('Edit') "profiles:dashboard" separator=True %}
+      {% dropdown-item _('Delete') "profiles:dashboard" %}
+      {% enddropdown %}
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+{% endblock %}

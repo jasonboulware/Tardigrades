@@ -1,0 +1,15 @@
+{% extends "profiles/base.html" %}
+
+{% load i18n messages_tags %}
+
+{% block html_attrs %}id="user_review_sync_errors""{% endblock %}
+{% block body-class %}account {{ block.super }}{% endblock %}
+{% block title %}{{ user_info }} | Amara{% endblock %}
+
+{% block view_content %}
+    {% with 'account' as current %}
+        {% include 'profiles/_tabs.html' %}
+{% endwith %}
+
+{% include 'externalsites/_sync-errors-form.html' %}
+{% endblock %}

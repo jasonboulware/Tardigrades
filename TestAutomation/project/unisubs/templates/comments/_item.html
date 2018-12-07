@@ -1,0 +1,5 @@
+{% load profiles_tags i18n %}
+    <li class="comment" comment_id="{{ item.id }}" id="comments-{{ item.id }}">
+        <h3><a href="{{ item.user.profile_url }}" title="View {{ item.user }}'s profile">{% user_avatar item.user %}{{ item.user }}</a> commented <a href="#comments-{{ item.id }}" title="Permalink">{{ item.submit_date|timesince }} {% trans 'ago' %}</a></h3>
+        <p>{{ item.get_content|safe }}</p>
+    </li>

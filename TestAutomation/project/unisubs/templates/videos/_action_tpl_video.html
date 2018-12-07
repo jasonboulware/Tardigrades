@@ -1,0 +1,11 @@
+{% load i18n %}
+
+<li class="{{ item.type }}">
+    <p>
+        {% if item.user %}<a class="username" href="{{ item.user.profile_url }}">{{ item.user }}</a>{% endif %}    	
+    	{{ info|safe }}
+    </p>
+    <span class="timestamp">
+    	{{ item.created|timesince }} {% trans 'ago' %}
+    </span>
+</li>

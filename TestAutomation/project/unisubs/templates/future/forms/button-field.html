@@ -1,0 +1,15 @@
+<div class="form-group{% if field.errors %} has-error{% endif %}">
+  <div class="buttonField">
+    {{ field }}
+    <button class="button buttonField-button {{ button_class }}">{{ button_label }}</button>
+  </div>
+  {% if field.errors %}
+  {% for error in field.errors %}
+  <p class="helpBlock">{{ error|escape }}</p>
+  {% endfor %}
+  {% elif no_help_block %}
+  {{ field.help_text }}
+  {% elif field.help_text %}
+  <p class="helpBlock">{{ field.help_text }}</p>
+  {% endif %}
+</div>

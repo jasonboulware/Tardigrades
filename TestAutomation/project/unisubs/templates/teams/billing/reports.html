@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% load i18n teams_tags %}
+
+{% block main_content %}
+
+<div class="grid_8 push_2">
+    <h2>{% trans "Generate Billing Report" %}</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="group">
+            <p>{{ form.teams.label_tag }}</p>
+            <div class="checkbox-grid group">
+                {{ form.teams }}
+            </div>
+            <p>{{ form.start_date.label_tag }}
+                {{ form.start_date }}
+                {{ form.start_date.help_text }}
+            </p>
+            <p>{{ form.end_date.label_tag }}
+                {{ form.end_date }}
+                {{ form.end_date.help_text }}
+            </p>
+            <p>{{ form.type.label_tag }}
+                {{ form.type }}
+                {{ form.type.help_text }}
+            </p>
+        </div>
+
+        <button type="submit" class="green_button big" value="login">{% trans 'Submit' %}</button>
+    </form>
+
+</div>
+
+<div class="grid_12">
+    <div class="sso">
+        <h2>Reports</h2>
+    </div>
+
+    <table class="new-style">
+
+        <thead>
+            <th>Team names</th>
+            <th>Start date</th>
+            <th>End date</th>
+            <th>Report type</th>
+            <th>Processed on</th>
+            <th>Link</th>
+        </thead>
+
+        <tbody>
+
+        {% for report in reports %}
+        <tr>
+            <td>{{ report.teams.all|join:', ' }}</td>
+            <td>{{ report.start_date }}</td>
+            <td>{{ report.end_date }}</td>
+            <td>{{ report.get_type_display }}</td>
+            <td>{{ report.processed|date:"Y-m-d" }}</td>
+            <td>
+            {% if report.processed %}
+                {% if report.csv_file %}
+                    <a href="{{ report.csv_file.url }}">Download csv</a>
+                {% else %}
+                    Failed
+                {% endif %}
+            {% else %}
+                Processing
+            {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

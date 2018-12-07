@@ -1,0 +1,11 @@
+*.pyc
+__pycache__
+.git
+codeship.aes
+aws_creds
+user-data
+amara-assets
+!amara-assets/dist
+!amara-assets/assets
+!amara-assets/scss
+!amara-assets/settings_extra.py

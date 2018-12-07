@@ -1,0 +1,17 @@
+{% extends "videos/email_base.html" %}
+{% load i18n localeurl_tags %}
+
+{% block content %}
+    <div style="font-size: 12px;">
+        <p>{% blocktrans %}
+        {{ note_user }} added a note to subtitles on which you are collaborating. View tasks for <a href="{{ tasks_url }}">{{ video }} / {{ language }}</a>.
+        {% endblocktrans %}</p>
+
+        <blockquote style="margin:20px; padding-left: 20px; border-left: 4px solid #aaa; color: #777;">
+            {{body|linebreaks}}
+        </blockquote>
+    </div>
+{% endblock %}
+
+{% block dont_send %}
+{% endblock %}

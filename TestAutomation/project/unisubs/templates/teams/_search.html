@@ -1,0 +1,9 @@
+<form action="" method="get" class="search">
+    <fieldset>
+        <input type="hidden" name="assignee" value="{{ request.GET.assignee }}" />
+        <input type="hidden" name="project" value="{{ request.GET.project }}" />
+        <input type="hidden" name="lang" value="{{ request.GET.lang }}" />
+        <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Search {{ team }}&hellip;" />
+    </fieldset>
+</form>
+{% include "teams/_search_js.html" %}

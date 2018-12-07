@@ -1,0 +1,30 @@
+{% load i18n %}
+<aside class="modal" id="remove-form">
+  <h3>
+    {% blocktrans count count=video_count %}
+    Remove Video
+    {% plural %}
+    Remove {{ count }} Videos
+    {% endblocktrans %}
+  </h3>
+  <button class="close"></button>
+  <form method="POST">
+    {% csrf_token %}
+    {% include "_non-field-errors.html" %}
+    <p class="confirmation">
+      {% blocktrans count counter=video_count %}
+      Are you sure you want to remove the video from your team?
+      {% plural %}
+      Are you sure you want to remove the videos from your team?
+      {% endblocktrans %}
+    </p>
+
+    {% if form.include_all %}
+      {% include "_field.html" with field=form.include_all %}
+    {% endif %}
+
+    <footer class="buttons">
+      <button>{% trans "Remove" %}</button>
+    </footer>
+  </form>
+</aside>

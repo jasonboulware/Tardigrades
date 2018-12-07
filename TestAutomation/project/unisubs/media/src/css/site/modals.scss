@@ -1,0 +1,127 @@
+aside.modal {
+    display: none;
+    position: fixed;
+    left: 50%;
+    top: 10%;
+    margin: 0 0 0 -280px;
+    width: 560px;
+    z-index: $z-index-modal;
+    max-height: 80%;
+    overflow: auto;
+
+    border-radius: 3px;
+    box-shadow: 0 0 30px rgba(black, .4);
+    background: $darker-gray;
+    color: $off-white;
+    padding: 20px 40px;
+
+    &.shown {
+        display: block;
+    }
+
+    table th, td {
+        border-style: none none none;
+    }
+
+    a.add-row {
+        color: $white;
+    }
+
+    button.close {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 5px;
+        color: $white;
+        background: $darkish-gray;
+        border: 0;
+        font: normal normal normal 18px/1 FontAwesome;
+        min-width: 18px;
+        text-align: center;
+        cursor: pointer;
+
+        &:after {
+            content: "\f00d";
+        }
+
+        &:hover {
+            background: $medium-gray;
+        }
+    }
+
+    h3 {
+        margin-bottom: 20px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: inherit;
+        border-bottom: 1px solid #777;
+
+        .subheading {
+            display: block;
+            font-size: $default-font-size;
+            font-weight: $font-weight-normal;
+            line-height: $line-height;
+        }
+    }
+
+    footer.buttons {
+        @extend %clearfix;
+        margin-top: 24px;
+        text-align: right;
+    }
+
+    footer.buttons button {
+        background: $medium-gray;
+        @include medium-button;
+        border: 1px solid transparent;
+        outline: none;
+        color: $off-white;
+        float: right;
+        margin-left: 5px;
+
+        &:hover {
+            background: $medium-gray;
+            border: 1px solid $light-gray;
+        }
+
+        &:first-of-type {
+            background: $primary;
+        }
+
+        &.delete {
+            float: left;
+            background: $red;
+        }
+
+        &.link-style {
+            background: none;
+            color: #4398C5;
+
+            &:hover {
+                text-decoration: underline;
+                border: 1px solid transparent;
+            }
+        }
+    }
+}
+
+.modal-overlay {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: $z-index-overlay;
+    background: rgba(245, 245, 238, .7);
+
+    .loading {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        margin-top: -50px;
+        font-size: 100px;
+        text-align: center;
+    }
+}

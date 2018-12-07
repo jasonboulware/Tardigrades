@@ -1,0 +1,39 @@
+{% load i18n %}
+<ol ng-switch-when="normal">
+    <li ng-class="workflow.stageCSSClass('typing')">
+        <h3 ng-show="!translating()"><a href="#" ng-click="changeStage('typing')" ng-class="stageLinkClass('typing')"> {% trans "Type what you hear" %}</a></h3>
+        <h3 ng-show="translating()"><a href="#" ng-click="changeStage('typing')" ng-class="stageLinkClass('typing')">{% trans "Translate" %}</a></h3>
+        <p ng-show="!translating()">{% trans "Is all the content subtitled?" %}</p>
+        <p ng-show="translating()">{% trans "Is all the content translated?" %}</p>
+	{% include "./workflow-errors-typing.html" %}
+        <button title="{% trans 'Be sure you have no blank lines' %}" ng-class="{disabled:!workflow.canCompleteStage('typing')}"
+            ng-click="workflow.canCompleteStage('typing') && workflow.completeStage('typing')">
+            {% trans "Yes, start syncing" %}
+        </button>
+    </li>
+
+    <li ng-class="workflow.stageCSSClass('syncing')">
+        <h3><a href="#" ng-click="changeStage('syncing')" ng-class="stageLinkClass('syncing')">{% trans "Sync timing" %}</a></h3>
+        <p class="stats">
+            {% blocktrans with "[[ workflow.subtitleList.syncedCount]]" as count and "[[ workflow.subtitleList.length() ]]" as total %}
+            synced subtitles: {{ count }} / {{ total }}
+            {% endblocktrans %}
+        </p>
+        <button  ng-class="{disabled:!workflow.canCompleteStage('syncing')}"
+            ng-click="workflow.canCompleteStage('syncing') && workflow.completeStage('syncing')">
+            {% trans "Start review" %}
+        </button>
+    </li>
+
+    <li ng-class="workflow.stageCSSClass('review')">
+        <h3><a href="#" ng-click="changeStage('review')" ng-class="stageLinkClass('review')">{% trans "Review and complete" %}</a></h3>
+        <p>{% trans "Watch the video again and verify that the subtitles are complete and correct." %}<br>
+        <a class="edit-metadata" href="#" ng-click="onEditTitleClicked($event)">{% trans "Edit title and description." %}</a>
+        </p>
+	{% include "./workflow-errors-review.html" %}
+        <button ng-repeat="action in actions" ng-class="{'disabled':!action.canPerform()}" class="[[ action.class ]]" ng-click="action.canPerform() && action.perform()"
+	 title="[[ action.tooltip() ]]">
+            [[ action.label ]]
+        </button>
+    </li>
+</ol>

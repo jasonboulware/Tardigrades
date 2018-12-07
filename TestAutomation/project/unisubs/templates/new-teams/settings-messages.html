@@ -1,0 +1,53 @@
+{% extends "new-teams/base.html" %}
+{% load i18n teams_tags %}
+
+{% block content %}
+<h2>{% trans "Team Settings - Messages" %}</h2>
+<form method="POST" action="">
+    {% csrf_token %}
+
+    <fieldset>
+      <legend>{% trans 'Custom page text' %}</legend>
+      <p class="notation">
+      {% trans 'Customize text on your team pages.' %}
+      </p>
+
+      {% include "_field.html" with field=form.pagetext_welcome_heading %}
+      {% include "_field.html" with field=form.resources_page_content %}
+
+    </fieldset>
+
+    <fieldset>
+      <legend>{% trans 'Custom messages' %}</legend>
+
+      <p class="notation">
+      {% trans 'Customize the messages sent to your users. The text you enter will accompany the default system message.' %}
+      </p>
+      <p>
+	<a href="{% url "teams:settings_lang_messages" team.slug %}">{% trans "Add messages in users' preferred languages" %} >></a>
+      </p>
+
+      {% include "_field.html" with field=form.messages_invite %}
+      {% include "_field.html" with field=form.messages_application %}
+      {% include "_field.html" with field=form.messages_joins %}
+      {% include "_field.html" with field=form.messages_manager %}
+      {% include "_field.html" with field=form.messages_admin %}
+    </fieldset>
+
+    <fieldset>
+      <legend>{% trans 'Guidelines' %}</legend>
+
+      <p class="notation">
+      {% trans 'Add guidelines to be displayed to your users when completing tasks.' %}
+      </p>
+
+      {% include "_field.html" with field=form.guidelines_subtitle %}
+      {% include "_field.html" with field=form.guidelines_translate %}
+      {% include "_field.html" with field=form.guidelines_review %}
+    </fieldset>
+
+    <div class="actions">
+      <button class="submit">{% trans "Save Changes" %} <span class="fa fa-angle-double-right"></span></button>
+    </div>
+</form>
+{% endblock %}

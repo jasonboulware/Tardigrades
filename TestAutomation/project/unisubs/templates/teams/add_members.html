@@ -1,0 +1,41 @@
+{% extends "teams/base.html" %}
+
+{% load i18n teams_tags widget %}
+
+{% block title %}
+    {% trans 'Add Members' %} | Amara
+{% endblock %}
+
+{% block view_content %}
+
+    <div class="view grid_8 omega">
+        {% with 'members' as current %}
+            {% include 'teams/_tabs.html' %}
+        {% endwith %}
+
+	{% if summary %}
+	<div class="summary">
+	  <h3>Members successfully processed:</h3>
+	  <ul>
+	    <li>Members added: {{ summary.added }}</li>
+	    <li>Unknown members: {{ summary.unknown|join:", " }}</li>
+	    <li>Members already part of the team: {{ summary.already|join:", " }}</li>
+	  </ul>
+	</div>
+	{% endif %}
+	<form method="post" action="" class="invite-members">
+	  {% csrf_token %}
+	  <fieldset>
+	  {{ form.errors.role }}
+          <label for="id_role">{% trans 'Assign to role' %}</label>
+          {{ form.role }}
+	  <p>{% trans 'Important: Only new members being added to the team will be assigned this role. The members that are already in the team will not change their roles.' %}</p>
+	  {% include "_field.html" with field=form.members %}
+	  <div class="actions">
+	    <button class="submit">{% trans "Add" %}</button>
+	  </div>
+	  </fieldset>
+	</form>
+    </div>
+
+{% endblock %}

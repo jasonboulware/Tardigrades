@@ -1,0 +1,50 @@
+{% load i18n amara_cache %}
+<ul>
+  {% cache-by-user old-top-panel %}
+  <li class="dropdown">
+    <button id="user-menu" class="topnav-button amaranth bold dropdown-toggle" data-toggle="dropdown" data-username="{{ user.username}}" role="button" aria-haspopup="true" aria-expanded="false">{{ user.username }} <span class="caret"></span></button>
+    <ul class="dropdown-menu collapse" aria-labeledby="user-menu">
+      <li>
+        <a href="{% url "profiles:dashboard" %}">{% trans "Dashboard" %}</a>
+      </li>
+      <li>
+        <a href="{% url "profiles:edit" %}">{% trans "Profile" %}</a>
+      </li>
+      <li>
+        <a href="{% url "profiles:videos" user.username %}">{% trans "Videos" %}</a>
+      </li>
+      <li>
+        <a href="{% url "messages:inbox" %}">
+          {% trans "Messages" %}
+          {% if user.unread_messages_count %}
+          <span class="count">{{ user.unread_messages_count }}</span>
+          {% endif %}
+        </a>
+      </li>
+      <li>
+        <a href="{% url "profiles:account" %}">
+          {% trans "Account" %}
+        </a>
+      </li>
+      <li>
+        <a href="{% url "videos:create" %}">
+          {% trans "Subtitle video" %}
+        </a>
+      </li>
+      <li>
+        <a href="{% url "logout" %}?next=/">{% trans 'Logout' %}</a>
+      </li>
+      {% if user.teams.all %}
+      <li class="separator">
+        <strong><a href="{% url "teams:user_teams" %}">{% trans "Your Teams" %}</a></strong>
+      </li>
+      {% for team in user.teams.all %}
+      <li>
+        <a href="{% url "teams:dashboard" slug=team.slug %}">{{ team }}</a>
+      </li>
+      {% endfor %}
+      {% endif %}
+    </ul>
+  </li>
+  {% endcache %}
+</ul>

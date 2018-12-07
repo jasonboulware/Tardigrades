@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% load i18n teams_tags widget media_bundle form_helpers %}
+
+{% block body_attrs %}id="teams" class="v1 create-task"{% endblock %}
+
+{% block title %}
+    {% trans "Create a Task" %} | Amara
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+
+    <script type="text/javascript">
+        var languageChoices = {{ language_choices|safe }};
+        var translatableLanguages = {{ translatable_languages|safe }};
+        var subtitlable = {{ subtitlable|safe }};
+    </script>
+
+    {% media_bundle "teams.js" %}
+{% endblock %}
+
+{% block main_content %}
+
+    {% if team.logo %}
+        <img class="logo" alt="{{ team }} logo" src="{{ MEDIA_URL }}{{ team.logo }}"/>
+    {% else %}
+        <h2 id="team_title">{{ team }}</h2>
+    {% endif %}
+
+    {% with "tasks" as current %}
+        {% include "teams/_tabs.html" %}
+    {% endwith %}
+
+    <div class="view grid_9 alpha">
+        <form method="post" action="." class="create-task">
+            {{ form.non_field_errors }}
+            <h3 class="form-title">{% trans 'New Task' %}</h3>
+            <p class="notation">{% trans 'Task availability depends on settings and workflow. Some tasks (e.g. Translate) will always require original subtitles to be completed and published first. Others (like Review and Approve) must be enabled and can only follow a completed Transcribe/Translate task.' %}</p>
+            <div class="grid_4 alpha">
+                <fieldset>
+                    <div class="type-selector">
+                        <label>{% trans 'What needs to be done?' %}</label>
+                        {{ form.errors.type }}
+                        {{ form.type }}
+                        <input type="hidden" name="id_team_video" value="{{ team_video.id }}" />
+                        <p class="notation">{% trans 'Grayed-out tasks are not available for this video at this time.' %}</p>
+                    </div>
+                    <div class="chosen">
+                        <div class="language-selector">
+                            <label>{% trans 'What language is needed?' %}</label>
+                            {{ form.errors.language }}
+                            {{ form.language }}
+                        </div>
+                        {% if can_assign %}
+                            <div class="assignee-selector">
+                                <label>{% trans 'Who should do it?' %}</label>
+                                {{ form.errors.assignee }}
+                                <div class="ajaxChosen">
+                                    <select id="id_assignee" name="assignee">
+                                        <option value="">-----</option>
+                                        <option value="">{% trans 'Begin typing to search' %}</option>
+                                    </select>
+                                </div>
+                                <p class="notation">{% trans "Tasks left unassigned can be claimed by members with the appropriate permissions." %}</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </fieldset>
+                <div class="cannot-create" style="display: none;">
+                    {% trans "You do not have permission to create any valid tasks for this video." %}
+                </div>
+            </div>
+
+            <div class="grid_4 omega">
+                <fieldset>
+                    <label>{% trans "Selected Video" %}</label>
+                    <div class="preselected video">
+                        <p>{{ team_video.video }}</p>
+                        <img src="{{ team_video.video.thumbnail }}" alt="thumbnail"/>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="grid_9 submit">
+                <button>{% trans 'Save' %}</button>
+            </div>
+
+            {% csrf_token %}
+        </form>
+    </div>
+    <div class="controls grid_3 omega">
+        <ul>
+            <li class="current">
+                <a href="#">{% trans 'New task form' %}</a>
+            </li>
+            <li>
+                <a href="{% url "teams:team_tasks" team.slug %}?team_video={{ team_video.id }}">← {% trans 'Back to tasks list' %}</a>
+            </li>
+        </ul>
+    </div>
+    <script type="text/javascript">
+        $(".ajaxChosen select").ajaxChosen({
+            method: 'GET',
+            url: '/en/teams/{{ team.slug }}/members/search/',
+            dataType: 'json'
+        }, function (data) {
+            var terms = {};
+
+            $.each(data.results, function (i, val) {
+                var can_perform_task = data.results[i][2];
+
+                if (can_perform_task) {
+                    terms[data.results[i][0]] = data.results[i][1];
+                }
+            });
+
+            return terms;
+        });
+    </script>
+{% endblock %}

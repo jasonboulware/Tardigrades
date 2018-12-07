@@ -1,0 +1,34 @@
+{% load i18n ui %}
+<ul class="comments">
+  {% for comment in comments %}
+  <li class="row">
+    <div class="col-xs-4">
+      <a href="{{ comment.user.get_absolute_url }}" class="pull-left">{{ comment.user.avatar_tag_medium }}</a>
+      <p>
+        <span class="memberName"><a href="{{ comment.user.get_absolute_url }}">{{ comment.user }}</a></span>
+      </p>
+    </div>
+    <div class="col-xs-8">
+      <div class="commentBody">
+        {{ comment.content|linebreaks }}
+        <span>{{ comment.submit_date|datetime }}</span>
+      </div>
+    </div>
+  </li>
+  {% endfor %}
+  {% if comment_form %}
+  <li class="row addComment">
+    <div class="col-xs">
+      <a href="{{ user.get_absolute_url }}" class="pull-left">{{ user.avatar_tag_medium }}</a>
+      <form id="comments-form" action="" class="ajaxForm" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="form" value="comment">
+        {{ comment_form.object_pk }}
+        {{ comment_form.content_type }}
+        {{ comment_form.content }}
+        <button type="submit" class="button cta pull-right">{% trans "Post comment" %}</button>
+      </form>
+    </div>
+  </li>
+  {% endif %}
+</ul>

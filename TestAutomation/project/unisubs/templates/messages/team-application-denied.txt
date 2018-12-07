@@ -1,0 +1,4 @@
+Hi {{ user }},
+
+Your application to join the {{ team.name }} team has been declined.
+

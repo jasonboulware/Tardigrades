@@ -1,0 +1,24 @@
+{% load forms assets %}
+<div class="multiField columns-{{ fields_and_labels|length }}{% if checkbox_mode %} checkboxes{% endif %}{% if dependent %} dependent{% endif %}">
+  {% for field, label in fields_and_labels %}
+  {% if not checkbox_mode %}
+  <label class="multiField-label {% if field.field.label_additional_classes %}{{ field.field.label_additional_classes }}{% endif %}" for="{{ field.auto_id }}">{{ label}}</label>
+  {% endif %}
+  <div class="multiField-input{% if forloop.last %} last{% endif %}{% if checkbox_mode %} checkbox{% endif %}{% if ordered or dependent %} noborder{% endif %} {% if field.field.additional_classes %}{{ field.field.additional_classes }}{% endif %}">
+    {% if checkbox_mode %}
+    <div class="checkbox">{{ field }}<label for="{{ field.auto_id }}"><span class="checkbox-icon"></span>{{ field.label }}</label></div>
+    {% else %}
+    {{ field }}
+    {% endif %}
+    {% if dependent and not forloop.last %}
+    <svg class="multiField-separator checked" viewbox="0 0 100 100" preserveAspectRatio="none"><polygon points="0 -15, 85 50, 0 115" fill="currentColor" /></svg>
+    <svg class="multiField-separator unchecked" viewbox="0 0 100 100" preserveAspectRatio="none"><polyline points="0 -15, 85 50, 0 115" stroke="currentColor" fill="none" stroke-width="15" /></svg>
+    {% endif %}
+    {% if ordered and not forloop.last %}
+    <svg class="multiField-separator ordered" viewbox="0 0 100 100" preserveAspectRatio="none"><polyline points="0 -15, 85 50, 0 115" stroke="currentColor" fill="none" stroke-width="15" /></svg>
+    {% endif %}
+  </div>
+  <div class="multiField-rowEnd"></div>
+  {% endfor %}
+  {%  if dependent %}<div class="multiField-inputExtender"></div>{% endif %}
+</div>

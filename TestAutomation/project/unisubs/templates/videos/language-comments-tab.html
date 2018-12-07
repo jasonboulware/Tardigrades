@@ -1,0 +1,7 @@
+{% load i18n comments %}
+<div class="tab" id="comments-tab">
+    <h3>{% trans "Leave a comment" %}</h3>
+    {% render_comment_form language %}
+    <h3>{{ language|get_comment_count }} {% trans "Comments" %}</h3>
+    {% render_comment_list language %}
+</div>

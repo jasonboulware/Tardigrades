@@ -1,0 +1,107 @@
+
+/*/////////////////////////////////////////////
+
+~ Profile Pages
+
+/////////////////////////////////////////////*/
+#profile .full_width h3{
+  margin: 0px;
+  }
+
+/*/////////////////////////////////////////////
+
+~ Edit Profile Form
+
+/////////////////////////////////////////////*/
+
+
+.edit_profile_shell{
+  clear: both;
+  padding: 0px 0px 20px 0px;
+  float: left;
+  width: 100%;
+  position: relative;
+  }
+
+
+.edit_profile_shell .edit_profile button span{
+  padding: 8px 0 8px 20px;
+  background: url(../images/small_buttons.png) left 0px no-repeat;
+  }
+
+.edit_profile_shell .left_column{
+  padding: 20px 30px;
+  }
+
+.edit_profile_shell .right_column{
+  padding: 20px 0px;
+  }
+
+
+#id_txtfile_form label#ie-only_file_label {
+	display: none;
+}
+
+.edit_profile_shell h2 button{
+  position: absolute;
+  margin: 0 !important;
+  right: 10px;
+  top: 12px;
+  }
+  
+
+
+.edit_profile_shell #id_picture, .edit-team #id_logo, .ajax-file-upload-field{
+    position: absolute;
+    margin-top: 3px;
+    opacity: 0;
+    z-index: 2;
+  }
+
+.edit_profile{
+  padding: 0px 0px 0px 0px;
+  }
+
+.language_list{
+  margin: 0;
+  padding: 0;
+  }
+
+.language_list li.user_language{
+  margin: 0;
+  padding: 10px;
+  list-style: none;
+  border-bottom: 1px solid #e2e6e7;
+  margin: 12px 0;
+  position: relative;
+  }
+
+.language_list li.user_language a.small_close {
+  position: absolute;
+  top: 12px; left: 0;
+  margin: 0;
+}
+
+.language_list li.user_language .entry {
+  position: relative;
+  margin-left: 12px
+}
+
+.user_language label{
+  margin: 2px 0 0 30px;
+  font-size:small;
+}
+
+.user_language input[type="checkbox"]{
+  width:auto;
+}
+
+.user_language p {
+  margin-top: 10px;
+}
+
+.user_language p label, .user_language p input {
+  display: inline;
+  float: none;
+  margin: 0;
+}

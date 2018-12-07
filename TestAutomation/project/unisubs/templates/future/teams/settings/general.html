@@ -1,0 +1,63 @@
+{% extends "future/teams/settings/base.html" %}
+{% load i18n forms %}
+
+{% block settings_form %}
+
+<form method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="form-actions-top">
+    <button type="submit" class="button cta saveChangesButton">Save Changes</button>
+  </div>
+
+  <fieldset>
+    <legend><h3>{% trans 'Team Info' %}</h3></legend>
+
+    {% if form.name %}
+      {% render_field form.name %}
+    {% endif  %}
+
+    {% render_field form.description %}
+    <div class="col2-laptop">
+      <div>
+        {% render_field form.square_logo %}
+      </div>
+      <div>
+        {% render_field form.logo %}
+      </div>
+    </div>
+
+  </fieldset>
+
+  <fieldset>
+    <legend><h3>{% trans 'Adding New Team Members' %}</h3></legend>
+    {% render_field form.admission reverse_required=True %}
+
+    <div class="teamMembershipSettingRoles" style="display:none">
+      {% render_field form.inviter_roles %}
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend><h3>{% trans 'Visibility Settings' %}</h3></legend>
+
+    {% render_field form.team_visibility %}
+    {% render_field form.video_visibility %}
+
+    {% if team.new_workflow.has_subtitle_visibility_setting %}
+      <div id="subtitleVisibility">
+        {% multi_field _("Subtitle Visibility") form.subtitles_public form.drafts_public dependent=True help_text=' ' %}
+      </div>
+    {% endif %}
+
+    {% render_field form.prevent_duplicate_public_videos %}
+  </fieldset>
+
+  <div class="fieldset-footer-shadow">
+      <div class="fieldset-backtotop-container">
+        <span class="fa fa-chevron-circle-up fieldset-backtotop-chevron"></span>
+        <span class="small">Back to top</span>
+      </div>
+      <button type="submit" class="button cta saveChangesButton">Save Changes</button>
+  </div>
+</form>
+{% endblock %}

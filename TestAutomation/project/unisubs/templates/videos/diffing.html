@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+
+{% block body_attrs %}id="video"{% endblock %}
+{% block html_attrs %}class="v1" id="diffing"{% endblock %}
+
+{% load widget i18n subtitles_tags%}
+
+{% block css %}
+  {{ block.super }}
+  <style>
+    div.unisubs-widget {
+        position: relative;
+    }
+    .unisubs-videoDiv {
+        text-align: center;
+    }
+    .unisubs-videoDiv video {
+        width: 480px;
+    }
+    span.data {
+        display: none;
+    }
+    #embed{
+      white-space: pre;
+      background: #eee;
+      boder: #666;
+    }
+  </style>
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script type="text/javascript">
+        jQuery(function($) {
+            var IS_AUTHENTICATED = {% if user.is_authenticated %}true{% else %}false{% endif %};
+            if (IS_AUTHENTICATED){
+                $('.roll_back').click(function(){
+                    if ( ! confirm('{% trans "Subtitles will be rolled back to a previous version" %}')){
+                        return false;
+                    }
+                });
+            }else{
+                $('.roll_back, .new_edit').click(function(){
+                    alert('{% trans "You need to log in to do that." %}');
+                    return false;
+                });
+            }
+            $('.time_link_0').click(function() {
+                widget_widget_div_0.playAt(parseFloat(
+                    $(this).find('.data').text()));
+                return false;
+            });
+            $('.time_link_1').click(function() {
+                widget_widget_div_1.playAt(parseFloat(
+                    $(this).find('.data').text()));
+                return false;
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block main_content %}
+    <h2 class="main-title">
+        {% if second_version.next_version %}
+            Comparing revision (#{{ second_version.version_number }}) to revision (#{{ first_version.version_number }})
+        {% else %}
+            Comparing revision (#{{ second_version.version_number }}) to current revision (#{{ first_version.version_number }})
+        {% endif %}
+    </h2>
+
+    <ul class="breadcrumb">
+      <li>
+          <a href="{{ video.get_absolute_url }}">
+              {{ video }}
+          </a>
+      </li>
+      <li>
+          <a href="{{ language.get_absolute_url }}">
+              {{ language.get_language_code_display }} {% trans 'Subtitles' %}
+          </a>
+      </li>
+      <li>
+          <a href="{{ language.get_absolute_url }}?tab=revisions">
+              {% trans 'Revision History' %}
+          </a>
+      </li>
+      <li>
+          <a href="#" class="nohover">{% trans 'Comparing Revision' %} #{{ first_version.version_number }} & #{{ second_version.version_number }}</a>
+      </li>
+    </ul>
+    <div class="centered-div">
+      <div class="amara-embed" data-resizable="true" data-hide-logo="true" data-hide-subtitle-me="true" data-url="{{ video_url }}" data-show-subtitles-default="true" data-noanalytics="true" data-embed-on-amara="true"></div>
+    </div>
+
+    <div style="clear: both"></div>
+
+    <div class="left_column">
+      {% if rollback_allowed %}
+      <div class="revision_buttons">
+        {% if second_version.next_version %}
+        <a href="{% url "videos:rollback" second_version.pk %}" class="roll_back">
+          {% trans 'Roll back to version' %} (#{{ second_version.version_number }})
+        </a>
+        {% else %}
+        <a href="" class="roll_back disabled" >
+          {% trans 'Latest Revision' %}
+        </a>
+        {% endif %}
+      </div>
+      {% endif %}
+
+        <h3 class="diff_title">
+            Revision #{{ second_version.version_number }} by {{ second_version.author }}
+            <span class="small">{{ second_version.created|timesince }} {% trans "ago" %}</span>
+        </h3>
+	<div>
+	  <a href="{% if second_version_previous %}{% url "videos:diffing" first_version.pk second_version_previous.pk %}{% endif %}"
+             class="nav_button {% if second_version_previous %}enabled{% else %}disabled{% endif %}">&#8592; {% trans "Previous" %}</a>
+	  <a href="{% if second_version_next %}{% url "videos:diffing" first_version.pk second_version_next.pk %}{% endif %}"
+	     class="nav_button {% if second_version_next %}enabled{% else %}disabled{% endif %}">{% trans "Next" %} &#8594;</a>
+	</div>
+
+        <div class="clear">&nbsp;</div>
+        <div class="clear tall">&nbsp;</div>
+
+        <div class="meta">
+            <div {% if first_version.title != second_version.title %}class="changed"{% endif %}>
+                <strong>{% trans "Title:" %}</strong>
+                {{ second_version.title }}
+            </div>
+            <div {% if first_version.description != second_version.description %}class="changed"{% endif %}>
+                <strong>{% trans "Description:" %}</strong>
+                <div class="description">
+                    {{ second_version.description|urlize|linebreaks }}
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="right_column">
+      {% if rollback_allowed %}
+      <div class="revision_buttons">
+        {% if first_version.next_version %}
+        <a href="{% url "videos:rollback" first_version.pk %}" class="roll_back">
+          {% trans 'Roll back to version' %} (#{{ first_version.version_number }})
+        </a>
+        {% else %}
+        <a href="" class="roll_back disabled" >
+          {% trans 'Latest Revision' %}
+        </a>
+        {% endif %}
+      </div>
+      {% endif %}
+
+        <h3 class="diff_title">
+            Revision #{{ first_version.version_number }} by {{ first_version.author }}
+             <span class="small">{{ first_version.created|timesince }} {% trans "ago" %}</span>
+        </h3>
+	<div>
+	  <a href="{% if first_version_previous %}{% url "videos:diffing" first_version_previous.pk second_version.pk %}{% endif %}"
+             class="nav_button {% if first_version_previous %}enabled{% else %}disabled{% endif %}">&#8592; {% trans "Previous" %}</a>
+	  <a href="{% if first_version_next %}{% url "videos:diffing" first_version_next.pk second_version.pk %}{% endif %}"
+	     class="nav_button {% if first_version_next %}enabled{% else %}disabled{% endif %}">{% trans "Next" %} &#8594;</a>
+	</div>
+
+
+        <div class="clear">&nbsp;</div>
+        <div class="clear tall">&nbsp;</div>
+
+
+         <div class="meta">
+             <div {% if first_version.title != second_version.title %}class="changed"{% endif %}>
+                 <strong>{% trans "Title:" %}</strong>
+                 {{ first_version.title }}
+             </div>
+             <div {% if first_version.description != second_version.description %}class="changed"{% endif %}>
+                 <strong>{% trans "Description:" %}</strong>
+                 <div class="description">
+                     {{ first_version.description|urlize|linebreaks }}
+                 </div>
+             </div>
+         </div>
+
+    </div>
+    <div style="clear: both"></div>
+    <ol class="subtitles-diff">
+    {% for item in diff_data.subtitle_data %}
+      <li>
+        <div class="left_column">
+          {% render_subtitle_diff item 0 %}
+        </div>
+        <div class="right_column{% if item.time_changed %} time-change{% endif %}{% if item.text_changed %} text-change{% endif %}">
+          {% render_subtitle_diff item 1 %}
+        </div>
+        <div style="clear: both"></div>
+      </li>
+    {% endfor %}
+    </ol>
+{% endblock %}

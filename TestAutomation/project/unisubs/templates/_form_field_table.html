@@ -1,0 +1,11 @@
+{% load utils_tags %}
+{% if field.errors %}
+<tr><td class="errors" colspan="2">{{ field.errors }}</td></tr>
+{% endif %}
+<tr{% if field.help_text %} class="with-help"{% endif %}>
+    <th>{{ field.label }}</th>
+    <td>{{ field }}</td>
+</tr>
+{% if field.help_text %}
+<tr><td class="notation" colspan="2">{{ field.help_text }}</td></tr>
+{% endif %}

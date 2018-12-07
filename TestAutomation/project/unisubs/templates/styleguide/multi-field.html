@@ -1,0 +1,44 @@
+{% extends "styleguide/base.html" %}
+{% load forms %}
+{% block content %}
+<p>
+Use these to display a series of checkboxes, where each one implies the one
+before.  A common case is permissions, where if you give a permission to one
+role, then you always want to give it to the "higher" roles.
+</p>
+
+<p>There are a few extra styles:</p>
+
+<ul>
+  <li><b>checkboxes </b>-- Get rendered without an extra label row</li>
+  <li><b>dependent</b> -- Used for checkboxes where each checkbox depends on the ones to its left (for example Role and Subtitle Visibility).</li>
+  <li><b>ordered</b> -- Used for fields that are time-ordered in some way (for example Assignment Time Limits)</li>
+</ul>
+
+<form method="POST">
+  {% csrf_token %}
+  {% multi_field "Animal" form.animal_color form.animal_species help_text="Try yellow dog to see an error" optional=True %}
+
+  {% render_field form.role %}
+
+  {% multi_field _("Subtitle Visibility") form.subtitles_public form.drafts_public dependent=True %}
+
+  {% multi_field _("Assignment Time Limits") form.translate_time_limit form.review_time_limit form.approval_time_limit ordered=True %}
+
+
+  <div class="form-actions">
+    <button class="button cta" type="submit">Submit</button>
+  </div>
+</form>
+
+{% if form.is_bound and form.is_valid %}
+<section>
+  <ul>
+  {% for name, value in form.cleaned_data.items %}
+  <li>{{ name}}: {{ value}}</li>
+  {% endfor %}
+  </ul>
+</section>
+{% endif %}
+
+{% endblock %}

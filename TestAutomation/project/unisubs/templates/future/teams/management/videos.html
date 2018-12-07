@@ -1,0 +1,72 @@
+{% extends "future/teams/management/base.html" %}
+{% load i18n forms %}
+
+<!-- additional header for when a project manager views the video management page -->
+{% if project_id %}
+{% block content %}
+  {% if header %}
+  <div class="container">
+    <div class="content" style="margin-bottom:-5em">
+    <h2>
+      {{header}}
+    </h2>
+    </div>
+  </div>
+  {% endif %}
+  {{ block.super }}
+{% endblock %}
+{% endif %}
+
+{% block filters %}
+<form method="GET" action="" class="ajaxForm updateOnChange updateLocation">
+  {{ filters_form.q.as_hidden }}
+  {{ filters_form.sort.as_hidden }}
+  {{ filters_form.language|render_filter_field }}
+  {{ filters_form.completed_subtitles|render_filter_field }}
+  {{ filters_form.needs_subtitles|render_filter_field }}
+  <!-- hide the project filter when a project manager views this page -->
+  {% if filters_form.fields.project.enabled and not project_id %}
+  {{ filters_form.project|render_filter_field }}
+  {% endif %}
+  {{ filters_form.duration|render_filter_field }}
+</form>
+{% endblock %}
+
+{% block filters2 %}
+<div class="row">
+  <div class="col-xs-8 proxyField" data-proxy-for="#id_filters_q">
+    {{ filters_form.q|render_field }}
+  </div>
+  <div class="col-xs-4 proxyField" data-proxy-for="#id_filters_sort">
+    {{ filters_form.sort|render_field }}
+  </div>
+</div>
+{% endblock %}
+
+{% block videos %}
+<nav class="selectList-actions">
+  {% if enable_add_form %}
+  <div class="pull-right">
+    <a class="ajaxLink" data-href="?form=add-videos">{% trans "Add videos" %}</a>
+  </div>
+  {% endif %}
+  <div class="checkbox" id="videos-select-all">
+      {% include "future/teams/management/videos-select-all.html" %}
+  </div>
+</nav>
+<div id="video-list">{% include "future/teams/management/video-list.html" %}</div>
+{% endblock %}
+
+{% block bottom %}
+{% if manage_forms %}
+<div id="manage-actions" class="actionBar">
+  <form class="ajaxForm copyQuery" method="GET" action="{{ request.path }}">
+    <input class="selectList-selection" type="hidden" name="selection">
+    {% for name, css_class, label in manage_forms %}
+    <button class="button {{ css_class }}" type="submit" name="form" value="{{ name }}">{{ label }}</button>
+    {% endfor %}
+    {% include "future/teams/management/videos-deselect-all.html" %}
+      </form>
+</div>
+{% endif %}
+{% endblock %}

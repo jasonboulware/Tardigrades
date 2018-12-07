@@ -1,0 +1,43 @@
+{% extends "styleguide/base.html" %}
+{% load modal %}
+
+{% block content %}
+<p>Use modals to present additional steps needed before carrying out an action.
+A typical example is when a user clicks a button to perform some action, but
+they need to fill out a form first.  Use modals sparingly, since they prevent
+users from interacting with the main page.</p>
+
+<p>Two close modals you have 2 choices:</p>
+<ul>
+  <li>Add a button with the .modal-close class in the footer.</li>
+  <li>Don't include any .modal-close button.  In this case we will add a close button to the modal, and also make it so clicking outside of the modal closes it.  Use this for information dialogs, rather than forms, since you don't want users to lose their input by accident.</li>
+</ul>
+
+<button type="button" class="button cta modal-show" data-target="#explicit">Modal with explicit close</button>
+<button type="button" class="button cta modal-show" data-target="#implicit">Modal with implicit close</button>
+
+{% startmodal "explicit" "Modal title"  %}
+<form>
+  <h4 class="modal-header">Modal header</h4>
+  <div class="modal-content">
+    <div class="form-group">
+      <label>Field Name</label>
+      <input type="text" placeholder="Field">
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="button borderless modal-close">Cancel</button>
+    <button class="button cta" type="submit">Save</button>
+  </div>
+</form>
+{% endmodal %}
+
+{% startmodal "implicit" "Modal title"  %}
+<form>
+  <div class="modal-content">
+    Here's some info about something.
+  </div>
+</form>
+{% endmodal %}
+
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends "future/teams/base.html" %}
+{% load i18n %}
+
+{% block content %}
+
+{% if team.logo %}
+  <div class="block-center">
+    <div class="banner-container hidden-sm hidden-xs">
+      <img class="banner-image" src="{{ MEDIA_URL }}{{ team.logo }}"></img>
+    </div>
+  </div>
+{% endif %}
+
+<main id="dashboard" class="pageContent">
+  <section class="pageSection">
+    <div class="container">
+
+      <div class="content text-center">
+        <h1 class="text-center">{{ team.name }}</h1>
+        {% if team_messages.pagetext_welcome_heading %}
+        <p class="compact-text" style="display:inline-block">{{ team_messages.pagetext_welcome_heading }}</p><br>
+        {% endif %}
+        {% if team.description %}
+        <p class="compact-text" style="display:inline-block">{{ team.description }}</p>
+        {% endif %}
+
+        <div class="grid grid-centered">
+          <div class="stat-container">
+            <h1 class="text-center stat-value">{{members_count}}</h1>
+            <h3 class="text-center">
+              {% if members_count > 1 %}
+                {% trans 'members' %}
+              {% else %}
+                {% trans 'member' %}
+              {% endif %}
+            </h3>
+          </div>
+
+          {% if videos_count %}
+          <div class="stat-container">
+            <h1 class="text-center stat-value">{{videos_count}}</h1>
+            <h3 class="text-center">
+              {% if videos_count > 1 %}
+                {% trans 'videos' %}
+              {% else %}
+                {% trans 'video' %}
+              {% endif %}
+            </h3>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+
+      {% if join_mode %}
+      <div class="content text-center">
+        {% if join_mode == "open" %}
+          <a class="button cta" href="{% url "teams:join" slug=team.slug %}">{% trans "Join the team" %}</a>
+        {% elif join_mode == "application" %}
+          <a class="button cta" href="{% url "teams:join" slug=team.slug %}">{% trans "Apply to join the team" %}</a>
+        {% elif join_mode == "pending-application" %}
+          <p>
+            {% trans "You already have an on-going aplication for this team." %}
+          </p>
+        {% elif join_mode == "invitation" %}
+          {% url "teams:admin-list" slug=team.slug as admin_list_url %}
+          <p>
+            {% blocktrans %}
+            This team is by invitation only. If you're interested in helping out, 
+            <a href="{{admin_list_url}}">contact a team admin</a>.
+            {% endblocktrans %}
+          </p>    
+        {% elif join_mode == "login" %}
+          <a class="button cta" href="{{ login_base_url }}?next={% if next %}{{ next|urlencode }}{% else %}{{ request.path_info|urlencode }}{% endif %}">{% trans "Login to join the team" %}</a>
+        {% elif join_mode == "login-ted" %}
+          <a class="button cta" href="{{ login_base_url }}?next={% if next %}{{ next|urlencode }}{% else %}{{ request.path_info|urlencode }}{% endif %}">{% trans "Login via TED to join the team" %}</a>
+        {% endif %}
+      </div>
+      {% endif %}      
+    </div>
+  </section>
+
+{% if videos_count %}
+<section class="pageSection">
+  <div class="container text-center">
+    <div class="content">
+      {% include "collab/newest-videos.html" with grid_centered=True %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+</main>
+
+{% endblock %}

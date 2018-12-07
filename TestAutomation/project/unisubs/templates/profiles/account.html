@@ -1,0 +1,310 @@
+{% extends "profiles/base.html" %}
+
+{% load i18n messages_tags %}
+
+{% block html_attrs %}id="user_account"{% endblock %}
+{% block body-class %}account {{ block.super }}{% endblock %}
+{% block title %}{{ user_info }} | Amara{% endblock %}
+
+{% block view_content %}
+    {% with 'account' as current %}
+        {% include 'profiles/_tabs.html' %}
+    {% endwith %}
+    <div class="account">
+        <form class="edit_profile" action="." method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ editaccountform.non_field_errors }}
+            <h3>{% trans "User Details" %}</h3>
+            <fieldset>
+              <div class="grid_4 alpha">
+                {% include "_form_field.html" with field=editaccountform.username %}
+                {% include "_form_field.html" with field=editaccountform.email %}
+              </div>
+              <div class="grid_4 omega">
+                {% include "_form_field.html" with field=editaccountform.new_password %}
+                {% include "_form_field.html" with field=editaccountform.new_password_verify %}
+              </div>
+            </fieldset>
+            <fieldset>
+              <div class="grid_4 alpha">
+		<button name="editaccount" class="button save" type="submit" value="Save">
+		  {% trans 'Save Changes' %}
+		</button>
+		<p>
+		  You need to enter your current password to change those. If you do not know your password, you can <a href="{% url "password_reset" %}">reset it by email</a>.
+		</p>
+              </div>
+                <div class="grid_4 omega">
+                  {% include "_form_field.html" with field=editaccountform.current_password %}
+                </div>
+            </fieldset>
+	</form>
+        <form class="edit_profile" action="." method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ editnotificationsform.non_field_errors }}
+            <div class="grid_8 alpha third-party">
+                <fieldset>
+                    <h3>{% trans "YouTube Sync" %}</h3>
+                    <div class="callout">
+                      {% if youtube_accounts %}
+                            {% for account in youtube_accounts  %}
+                            <a class="button reduced" href="{% url "profiles:remove-third-party" "youtube" account.pk %}">{% trans 'Disconnect' %}</a>
+                                <p>
+                                    <img src="{{ STATIC_URL }}images/partners/youtube.png" alt="YouTube"/>
+                                    {% blocktrans with account.username as username %}
+                                        <strong>link is active</strong> for {{ username }}
+                                    {% endblocktrans %}
+                                </p>
+                            {% endfor %}
+		      <p><a href="{% url "profiles:profile_sync_externalsites" %}">{% trans "Check for syncing issues" %} >> </a></p>
+                        {% else %}
+                            <a class="button open-modal reduced" href="#youtube-modal">
+                                <span>Connect to</span>
+                                <img src="{{ STATIC_URL }}images/partners/youtube.png" alt="YouTube"/>
+                            </a>
+                            <p>{% trans "Enable Amara crowd subtitles on your personal YouTube channel" %}</p>
+                        {% endif %}
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <h3>{% trans "Vimeo Sync" %}</h3>
+                    <div class="callout">
+                      {% if vimeo_accounts %}
+                            {% for account in vimeo_accounts  %}
+                            <a class="button reduced" href="{% url "profiles:remove-third-party" "vimeo" account.pk %}">{% trans 'Disconnect' %}</a>
+                                <p>
+                                    {% blocktrans with account.username as username %}
+                                        <strong>link is active</strong> for {{ username }}
+                                    {% endblocktrans %}
+                                </p>
+                            {% endfor %}
+		      <p><a href="{% url "profiles:profile_sync_externalsites" %}">{% trans "Check for syncing issues" %} >> </a></p>
+                        {% else %}
+                            <a class="button open-modal reduced" href="#vimeo-modal">
+                                <span>Connect to Vimeo</span>
+                            </a>
+                            <p>{% trans "Enable Amara crowd subtitles on your personal Vimeo account" %}</p>
+                        {% endif %}
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <h3>{% trans "Other Accounts" %}</h3>
+                    <div class="callout">
+                        <p>{% trans "Sign in to Amara with Twitter, Facebook, and other accounts" %}</p>
+                        <a href="#account-modal" class="open-modal button reduced">{% trans "Add an account" %}</a>
+                    </div>
+                    <ul class="listing">
+                        {% if twitters %}
+                            {% for twitter in twitters %}
+                                <li>
+                                    <h3>Twitter - {{ twitter.username }}</h3>
+                                    <ul class="actions">
+                                        <li><a href="{% url "profiles:remove-third-party" "twitter" twitter.pk %}" title="Unlink this account">{% trans "Remove" %}</a></li>
+                                    </ul>
+                                </li>
+                            {% endfor %}
+                        {% endif %}
+
+                        {% if facebooks %}
+                            {% for fb in facebooks %}
+                                <li>
+                                    <h3>Facebook - {{ fb.uid }}</h3>
+                                    <ul class="actions">
+                                        <li><a href="{% url "profiles:remove-third-party" "facebook" fb.pk %}" title="Unlink this account">{% trans "Remove" %}</a></li>
+                                    </ul>
+                                </li>
+                            {% endfor %}
+                        {% endif %}
+                        {% if vimeos %}
+                            {% for vim in vimeos %}
+                                <li>
+                                    <h3>Vimeo - {{ vim.username }}</h3>
+                                    <ul class="actions">
+                                        <li><a href="{% url "profiles:remove-third-party" "vimeo" vim.pk %}" title="Unlink this account">{% trans "Remove" %}</a></li>
+                                    </ul>
+                                </li>
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+                </fieldset>
+            </div>
+            <div class="grid_4 alpha">
+                <fieldset>
+                    <h3>{% trans "Notifications" %}</h3>
+                    {% include "_form_field.html" with field=editnotificationsform.notify_by_message widget_type="checkbox" %}
+                    <p class="notation">{% trans "Send notifications to my amara.org inbox" %}</p>
+                    {% include "_form_field.html" with field=editnotificationsform.notify_by_email widget_type="checkbox" %}
+                    <p class="notation">{% trans "Send an email notification for each message received" %}</p>
+		    <button name="editnotifications" class="button save" type="submit" value="Save">
+		      {% trans 'Save Changes' %}
+		    </button>
+                </fieldset>
+            </div>
+            <div class="grid_4 omega">
+                <fieldset id="api">
+                    <h3>{% trans "API Access" %}</h3>
+                    <div{% if not editnotificationsform.instance.api_key.key %} style="display:none"{% endif %}>
+                        <label>{% trans "Your API key" %}</label>
+                        <textarea class="api-key-holder" readonly="readonly">{{editnotificationsform.instance.api_key.key}}</textarea>
+                        <p class="api-key-status"></p>
+                    </div>
+                    <a href="{% url "profiles:generate-api-key" %}" class="get-new-api-bt button reduced">
+                        {% if editnotificationsform.instance.api_key.key %}
+                            {% trans "Reset your API key" %}
+                        {% else %}
+                            {% trans "Get an API key" %}
+                        {% endif %}
+                    </a>
+                </fieldset>
+            </div>
+            <div class="submit">
+                <a class="button delete" href="{% url "auth:delete_user" %}">{% trans 'Delete Your Account' %}</a>
+            </div>
+        </form>
+    </div>
+
+    <div class="bootstrap">
+        <div class="modal" id="account-modal">
+            <div class="modal-header">
+                <a href="#" class="close">x</a>
+                <h3>{% trans 'Add a linked account' %}</h3>
+            </div>
+
+                <form method="get" action="{% url "profiles:add-third-party" %}">
+
+                    <div class="modal-body">
+                        <fieldset>
+                            <p>
+                                {% blocktrans %}
+                                What kind of account do you want to add?
+                                {% endblocktrans %}
+                            </p>
+
+                            <select id="account-type-select" name="account_type">
+                                <option>Select...</option>
+                                <option value="twitter">Twitter</option>
+                                <option value="facebook">Facebook</option>
+                            </select>
+                        </fieldset>
+                    </div>
+
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-primary" value="{% trans 'Link' %}" disabled="disabled" />
+                    </div>
+                </form>
+        </div>
+        <div class="modal" id="youtube-modal">
+            <div class="modal-header">
+                <a href="#" class="close">x</a>
+                <h3>{% trans 'Enable Crowd Subtitles on your Personal YouTube Channel' %}</h3>
+            </div>
+
+                <form method="get" action="{% url "externalsites:youtube-add-account" %}">
+
+                    <div class="modal-body">
+                        <fieldset>
+                            <img src="{{ STATIC_URL }}images/partners/youtube.png" alt="YouTube" height="65"/>
+                            <input type="hidden" name="username" value="{{ user.username }}"/>
+
+                            <h5>{% trans "How We Enable Crowd Subtitles" %}</h5>
+                            <ul>
+                                <li>
+                                    {% blocktrans %}
+                                        We automatically <strong>add your public and unlisted YouTube videos to Amara</strong> (and import their subtitles).
+                                    {% endblocktrans %}
+                                </li>
+                                <li>
+                                    {% blocktrans %}
+                                        We <strong>display all of your YouTube videos</strong> on your public Amara profile.
+                                    {% endblocktrans %}
+                                </li>
+                                <li>
+                                    {% blocktrans %}
+                                        We <strong>invite your viewers to subtitle</strong> by adding a link to your video descriptions.
+                                    {% endblocktrans %}
+                                </li>
+                                <li>
+                                    {% blocktrans %}
+                                        We <strong>send subtitles to YouTube</strong> whenever they're completed on Amara.
+                                    {% endblocktrans %}
+                                </li>
+                            </ul>
+
+                            <h5>{% trans "When We Send Subtitles to YouTube" %}</h5>
+                            <ul>
+                                <li>
+                                    {% blocktrans %}
+                                        The link is <strong>one-way only</strong>. Changes made on YouTube won't be reflected on Amara and may be overwritten. Use Amara to edit subtitles.
+                                    {% endblocktrans %}
+                                </li>
+                                <li>
+                                    {% blocktrans %}
+                                        Amara will <strong>append a credit</strong> to the subtitles if space allows.
+                                    {% endblocktrans %}
+                                </li>
+                            </ul>
+
+                            <p><a href="https://support.amara.org/support/solutions/articles/40227-syncing-to-youtube" target="_blank">{% trans "Learn more" %}</a>{% trans " about Crowd Subtitles and YouTube" %}</p>
+
+                            <h5>{% trans "Ready to Enable Crowd Subtitles?" %}</h5>
+                            <input type="submit" class="btn btn-primary" value="{% trans 'Link accounts' %}" />
+
+                            <p class="notation">If you don't yet have a YouTube channel you should <a href="https://accounts.google.com/ServiceLogin?passive=true&continue=http%3A%2F%2Fwww.youtube.com/create_channel" target="_blank">{% trans "create one now" %}</a> (opens in a new window)</p>
+                        </fieldset>
+                        <p>
+                            {% trans "Organizations/companies: interested in YouTube sync and crowd subtitling? " %}
+                            <a href="mailto:enterprise@amara.org">{% trans "Contact us" %}</a>.
+                        </p>
+                    </div>
+                </form>
+        </div>
+        <div class="modal" id="vimeo-modal">
+            <div class="modal-header">
+                <a href="#" class="close">x</a>
+                <h3>{% trans 'Enable Crowd Subtitles on your Personal Vimeo Account' %}</h3>
+            </div>
+
+                <form method="get" action="{% url "externalsites:vimeo-add-account" %}">
+
+                    <div class="modal-body">
+                        <fieldset>
+                            <input type="hidden" name="username" value="{{ user.username }}"/>
+
+                            <h5>{% trans "How We Enable Crowd Subtitles" %}</h5>
+                            <ul>
+                                <li>
+                                    {% blocktrans %}
+                                        When you add a video from your Vimeo account to Amara, we <strong>fetch the subtitles</strong> for this video from Vimeo.
+                                    {% endblocktrans %}
+                                </li>
+                                <li>
+                                    {% blocktrans %}
+                                        We <strong>send subtitles</strong> to your videos to Vimeo whenever they are completed on Amara.
+                                    {% endblocktrans %}
+                                </li>
+                            </ul>
+
+                            <h5>{% trans "When We Send Subtitles to Vimeo" %}</h5>
+                            <ul>
+                                <li>
+                                    {% blocktrans %}
+                                        The link is <strong>one-way only</strong>. Changes made on Vimeo won't be reflected on Amara and may be overwritten. Use Amara to edit subtitles.
+                                    {% endblocktrans %}
+                                </li>
+                            </ul>
+
+
+                            <h5>{% trans "Ready to Enable Crowd Subtitles?" %}</h5>
+                            <input type="submit" class="btn btn-primary" value="{% trans 'Link accounts' %}" />
+                        </fieldset>
+                        <p>
+                            {% trans "Organizations/companies: interested in Vimeo sync and crowd subtitling? " %}
+                            <a href="mailto:enterprise@amara.org">{% trans "Contact us" %}</a>.
+                        </p>
+                    </div>
+                </form>
+        </div>
+    </div>
+
+{% endblock %}

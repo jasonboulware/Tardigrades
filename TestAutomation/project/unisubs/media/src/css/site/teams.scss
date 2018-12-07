@@ -1,0 +1,159 @@
+#team-welcome {
+    .banner {
+        padding-bottom: 20px;
+
+        ol {
+            margin: 40px 0;
+        }
+
+        li {
+            display: block;
+            float: left;
+            margin-right: 40px;
+            width: 33%;
+
+            &:last-of-type {
+                float: none;
+                width: auto;
+                margin-right: 0;
+            }
+        }
+
+        h4 {
+            text-align: center;
+        }
+
+        .icon {
+            text-align: center;
+            font-size: 80px;
+            line-height: 90px;
+        }
+    }
+
+    .video {
+        float: left;
+        margin-bottom: 20px;
+
+        &:first-of-type {
+            margin-right: 80px;
+        }
+    }
+}
+
+fieldset.assets>div {
+    float: left;
+    width: 50%;
+}
+
+#team-settings-integration {
+    fieldset {
+        margin-bottom: 40px;
+        border: 1px solid $light-gray;
+        padding: 10px;
+    }
+
+    fieldset.disabled .account-fields {
+        display: none;
+    }
+
+    .youtube-form {
+        padding-bottom: 10px;
+
+        .remove-button {
+            float: right;
+
+            button {
+                @include medium-button;
+                @include button-color($red);
+            }
+        }
+    }
+
+}
+
+table.team-stats {
+    margin-bottom: 80px;
+
+    tr.secondary th {
+        border-bottom-width: 1px;
+    }
+}
+
+ul.member-list {
+    li {
+        @extend %clearfix;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    a.thumb {
+        float: left;
+        display: block;
+        margin-right: 10px;
+    }
+}
+
+.team-bulk-move {
+    ul {
+        margin-top: 10px;
+    }
+    li {
+        cursor: pointer;
+
+        &.selected .wrapper {
+            border: 8px solid $primary;
+            margin: -8px;
+        }
+    }
+
+    fieldset {
+        position: relative;
+    }
+
+    #select-all {
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+}
+
+.application-form-message {
+    padding: 20px 0;
+}
+
+form.team-application {
+    ul.language-selects {
+        @extend %clearfix;
+        li {
+            float: left;
+            width: 50%;
+            padding: 0;
+            margin: 0;
+            padding-bottom: 5px;
+
+            &:nth-of-type(odd) {
+                padding-right: 5px;
+            }
+            &:nth-of-type(even) {
+                padding-left: 5px;
+            }
+        }
+    }
+}
+
+ul.team-managers {
+    li:hover {
+        background: $lightest-gray;
+
+        button.remove {
+            background: $lightest-gray;
+        }
+    }
+    button.remove {
+        @include icon-button;
+        float: right;
+    }
+}
+
+.team-landing-page ul.thumb-list {
+    @include thumb-list-height($line-height * 4);
+}

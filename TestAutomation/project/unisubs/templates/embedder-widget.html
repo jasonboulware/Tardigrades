@@ -1,0 +1,34 @@
+{% load media_bundle %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% include "gtm-head.html" %}
+    <title>Amara widget</title>
+    <meta charset="utf-8" />
+    {% media_bundle 'embedder.css' %}
+    {% media_bundle 'embedder.js' %}
+  </head>
+  <body>
+    {% include "gtm-body.html" %}
+    <!--    <div class="container"> -->
+    <div>
+      <div id="widget-div" class="amara-embed"></div>
+    </div>
+    <script  type="text/javascript">
+    var qs = (function(a) {
+      if (a == "") return {};
+      var b = {};
+      for (var i = 0; i < a.length; ++i) {
+        var p=a[i].split('=');
+        if (p.length != 2) continue;
+        b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+      }
+      return b;
+      })(window.location.search.substr(1).split('&'));
+      var parsedAttributes = JSON.parse(qs['data'])
+      for (var attribute in parsedAttributes) {
+        document.getElementById("widget-div").dataset[attribute] = parsedAttributes[attribute];
+      }
+    </script>
+  </body>
+</html>

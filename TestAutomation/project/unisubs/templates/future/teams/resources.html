@@ -1,0 +1,11 @@
+{% extends "future/teams/base.html" %}
+{% load i18n html %}
+
+{% block content %}
+<div class="container">
+  <section>
+    <h1>{% trans "Team resources" %}</h1>
+    {{ team.resources_page_content|urlize|clean_html|linebreaks }}
+  </section>
+</div>
+{% endblock %}

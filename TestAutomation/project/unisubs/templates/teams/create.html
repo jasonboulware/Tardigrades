@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% load i18n media_bundle %}
+
+{% block title %}
+    {% trans 'Create team' %} | Amara
+{% endblock %}
+
+{% block body_attrs %}id="teams" class="v1"{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    {% media_bundle "prepopulate.js" %}
+    <script type="text/javascript">
+        jQuery(function($){
+            $('#id_slug').prepopulate($('#id_name'), 50);
+        });
+    </script>
+{% endblock %}
+
+{% block main_content %}
+    <h2>{% trans 'Create a team' %}</h2>
+
+    <ul class="tabs">
+        <li{% if not user.teams.exists %} class="current"{% endif %}>
+            <a href="{% url "teams:index" %}">
+                {% trans 'All Teams' %}
+            </a>
+        </li>
+        <li{% if user.teams.exists %} class="current"{% endif %}>
+            <a href="{% url "teams:user_teams" %}">
+                {% trans 'My Teams' %}
+            </a>
+        </li>
+    </ul>
+
+    <div class="view grid_9 alpha">
+        <form method='post' action="." enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="grid_4 alpha">
+                <fieldset>
+                    <legend>{% trans 'Team Details' %}</legend>
+                    {% include "_form_field.html" with field=form.name %}
+                    {% include "_form_field.html" with field=form.slug label="Team URL" help_text="http://amara.org/teams/" %}
+                    {% include "_form_field.html" with field=form.description %}
+                <fieldset>
+            </div>
+            <div class="grid_4 omega">
+                <fieldset>
+                    <legend>{% trans 'Display Settings' %}</legend>
+                    {% include "_form_field.html" with field=form.logo label="Logo/Banner" help_text="Max 940 x 235" %}
+                </fieldset>
+                <fieldset>
+                    <legend>{% trans 'Workflow' %}</legend>
+                    {% include "_form_field.html" with field=form.is_visible widget_type="checkbox" %}
+                    {% include "_form_field.html" with field=form.workflow_type  %}
+                </fieldset>
+            </div>
+            <div class="submit">
+                <button class="button">{% trans 'Create Team' %}</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="controls grid_3 omega">
+        <ul>
+            <li class="current">
+                <a href="#">{% trans 'Create a team' %}</a>
+            </li>
+            <li>
+            {% if not user.teams.exists %}
+                <a href="{% url "teams:index" %}">← {% trans 'Back to teams' %}</a>
+            {% else %}
+                <a href="{% url "teams:user_teams" %}">← {% trans 'Back to my teams' %}</a>
+            {% endif %}
+            </li>
+        </ul>
+    </div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% load i18n %}
+<aside class="modal" id="move-form">
+  <h3>
+    {% blocktrans count count=video_count %}
+    Move Video
+    {% plural %}
+    Move {{ count }} Videos
+    {% endblocktrans %}
+  </h3>
+  <button class="close"></button>
+  <form class="team-bulk-move" method="POST">
+    {% csrf_token %}
+    {% include "_non-field-errors.html" %}
+    {% include "_field.html" with field=form.new_team %}
+    <label>
+      <span class="label">{{ form.project.label }}</span>
+      {% include "_error-list.html" with errors=form.project.errors %}
+      {% with project_value=form.project.value %}
+      <select name="project">
+        {% for project_id, project_name, team_id in form.project_options %}
+        <option value="{{ project_id }}" {% if project_id == project_value %}selected{% endif %} data-team="{{ team_id }}">{{ project_name }}</option>
+        {% endfor %}
+      </select>
+      {% endwith %}
+    </label>
+
+    {% if form.include_all %}
+    {% include "_field.html" with field=form.include_all %}
+    {% endif %}
+
+    <footer class="buttons">
+      <button class="submit">{% trans "Move" %}</button>
+    </footer>
+  </form>
+</aside>

@@ -1,0 +1,21 @@
+{% extends 'videos/email_base.html' %}
+
+{% load i18n localeurl_tags %}
+
+{% block content %}
+    <p style="font-size: 12px;">
+        {% blocktrans with team as team_name and team.get_absolute_url|rmlocale as team_url %}
+            The list of videos for team <a href="http://{{ domain }}{{ team_url }}">{{ team_name }}</a> 
+            was processed completely. Here is a summary.
+        {% endblocktrans %}
+    </p>
+    <ul>
+      {% for message in messages %}
+      <li>
+        {{ message }}
+      </li>
+      {% endfor %}
+    </ul>
+{% endblock %}
+
+{% block dont_send %}{% endblock %}

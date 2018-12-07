@@ -1,0 +1,31 @@
+{% load i18n %}
+<form action="" method="POST" class="team-application">
+  <div class="col-sm-9 col-sm-offset-1">
+  {% csrf_token %}
+  {% include "future/forms/non-field-errors.html" %}
+  <div class="form-group {% if form.about_you.errors %} has-error{% endif %}">
+    <label for="" >{% trans "About You" %}</label>
+    {% include "future/forms/field-toptext.html" with field=form.about_you %}
+  </div>
+  </div>
+  <div class="col-sm-9 col-sm-offset-1">
+  <div class="form-group">
+    <label for="">{% trans "Languages" %}</label>
+    <p class="helpBlock">{% trans "Select the languages you can caption or translate" %}</p>
+      <fieldset class="language-selects">
+        <ul>
+          <li>1. {{ form.language1 }}</li>
+          <li>2. {{ form.language2 }}</li>
+          <li>3. {{ form.language3 }}</li>
+          <li>4. {{ form.language4 }}</li>
+          <li>5. {{ form.language5 }}</li>
+          <li>6. {{ form.language6 }}</li>
+        </ul>
+      </fieldset>
+  </div>
+  <div class="form-actions">
+    <button class="button borderless">Cancel</button>
+    <button type="submit" class="button cta">Submit</button>
+  </div>
+  </div>
+</form>

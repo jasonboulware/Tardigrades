@@ -1,0 +1,43 @@
+{% extends "future/teams/base.html" %}
+{% load i18n forms %}
+
+{% block content %}
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="content">
+          <div class="row">
+            <div class="col-sm-9 col-sm-offset-3">
+              <header>
+                  <h1>{% trans "Application Review" %}<span class="number">{{ total_items }}</span></h1>
+              </header>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-3">
+              <form method="GET" action="" class="ajaxForm updateOnChange updateLocation">
+                {{ filters_form.language|render_filter_field }}
+              </form>
+            </div>
+            <div id="application-list-all" class="col-sm-9">
+            {% include "future/teams/applications/application-list.html" %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block bottom %}
+<div id="applicationReview-actionBar" class="actionBar">
+  <form class="ajaxForm copyQuery" method="GET" action="{{ request.path }}">
+    <input class="selectList-selection" type="hidden" name="selection">
+    <button class="button cta" type="submit" name="form" value="approve">Approve</button>
+    <button class="button cta" type="submit" name="form" value="deny">Deny</button>
+    <button class="button borderless deselectAll" data-target="#applicationReview-selectList">Deselect</button>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% load i18n ui %}
+{% if page %}
+<table class="table lined align-middle">
+  {% for record in page %}
+    <tr>
+      <td>{% include "future/users/icon-link.html" with user=record.user %}</td>
+      <td>{{ record.get_message|safe }}</td>
+      <td class="text-gray">{{ record.created|datetime }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% include "future/paginator.html" %}
+{% else %}
+<div class="zero-state">{% trans "No activity" %}</div>
+{% endif %}

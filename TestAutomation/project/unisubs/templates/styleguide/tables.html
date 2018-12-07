@@ -1,0 +1,23 @@
+{% extends "styleguide/base.html" %}
+
+{% block content %}
+<section>
+<p> Use tables for tabular data.  Take care because they can be hard to read on
+mobile devices and other browsers with not a lot of width.</p>
+
+<p>Classes:</p>
+
+<ul>
+  <li><strong>.striped</strong>: Make alternate rows striped</li>
+  <li><strong>.lined</strong>: Add a line below each line</li>
+</ul>
+</section>
+
+<section>
+<h3>Examples</h3>
+{% include "styleguide/tables-table.html" with class="table" %}
+{% include "styleguide/tables-table.html" with class="table striped" %}
+{% include "styleguide/tables-table.html" with class="table lined" %}
+</section>
+
+{% endblock %}

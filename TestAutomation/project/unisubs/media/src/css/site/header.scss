@@ -1,0 +1,35 @@
+#header {
+    background: $off-white;
+    border-bottom: 1px solid $darkish-gray;
+}
+
+.announce-banner {
+    background-color: $off-white;
+    color: $darkish-gray;
+    text-align: center;
+    padding: 8px 0;
+    border-bottom: 1px solid $green;
+
+    .hide-announcement {
+        float: right;
+        color: $green;
+        margin-left: 10px;
+    }
+}
+
+ul.breadcrumbs {
+    width: 100%;
+
+    max-width: $content-max-width;
+    margin: 0 auto;
+    padding: 0 20px 10px 20px;
+
+    li {
+        display: inline;
+        padding: 0;
+        margin: 0;
+    }
+    li+li:before {
+        content: " > ";
+    }
+}

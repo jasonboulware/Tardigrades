@@ -1,0 +1,11 @@
+<div class="filterList{% if widget_type == "select" or widget_type == "select-multiple" %} filterList-select{% endif %}">
+  <h4 class="filterList-heading">{{ label }}</h4>
+  <div class="filterList-content">
+    {{ field }}
+    {% if errors %}
+    {% include "_error-list.html" %}
+    {% elif help_text %}
+    <p class="helpBlock">{{ help_text }}</p>
+    {% endif %}
+  </div>
+</div>

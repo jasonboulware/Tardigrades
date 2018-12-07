@@ -1,0 +1,127 @@
+form {
+    padding-bottom: 40px;
+
+    button.submit {
+        @include button-color($primary);
+        float: right;
+    }
+
+    .actions {
+        overflow: hidden;
+    }
+}
+fieldset {
+    border: none;
+    padding: 0 0 $line-height 0;
+    margin: 0;
+}
+
+legend {
+    font-weight: $font-weight-bold;
+    padding: 0;
+    margin: 0;
+}
+
+input, textarea, select {
+    width: 100%;
+    font-size: inherit;
+    border: 1px solid $light-gray;
+    padding: 4px;
+    margin: 0;
+    background: $lightest-gray;
+
+    &:disabled {
+        color: $lighter-gray;
+        border-color: $lighter-gray;
+    }
+}
+
+input[type=checkbox], input[type=radio] {
+    width: auto;
+    border: none;
+    padding: 0;
+}
+
+input[type=file] {
+    border: none;
+    background: inherit;
+    color: inherit;
+}
+
+.compact {
+    label {
+        @extend %clearfix;
+        width: 100%;
+    }
+    span.label {
+        display: inline-block;
+        // We need this to make the label line up with the input which has
+        // 4px padding and 1px border
+        padding-top: 5px;
+    }
+    input {
+        float: right;
+        width: 60%;
+        margin-left: 10px;
+    }
+}
+
+label {
+    display: block;
+    padding: 0;
+    margin: 0 0 $line-height/2 0;
+    font-size: inherit;
+
+    &.disabled {
+        color: $light-gray;
+        border-color: $light-gray;
+    }
+}
+
+label label {
+    // This covers the nested labels inside a radio select
+    margin: $line-height / 4 10px;
+    font-size: inherit;
+}
+
+p.help {
+    margin-top: -$line-height/2;
+    margin-bottom: $line-height/2;
+    padding: 0;
+    font-style: italic;
+}
+
+ul.errorlist {
+    color: $error;
+}
+
+.autocomplete {
+    position: absolute;
+    margin: 0;
+    border: 1px solid $light-gray;
+    background: $white;
+    z-index: $z-index-floating;
+
+    li {
+        padding: 3px 4px;
+        &:hover {
+            background: $lightest-gray;
+            cursor: pointer;
+        }
+    }
+}
+.language-selects select{
+    width: 90%;
+}
+
+hr.form-separator {
+    margin: 20px 0;
+}
+
+div.summary {
+    border: 1px solid $light-gray;
+    background: $white;
+    margin: 20px 20px;
+    padding: 20px;
+    width: 500px;
+}

@@ -1,0 +1,17 @@
+<div class="form-group {% if field.errors %}has-error{% endif %}">
+  <label class="col-sm-2 control-label">
+    {% if not field.required %}
+    <input type="checkbox" checked class="enable-field" data-field="field-{{ field.name }}">
+    {% endif %}
+    {{ field.label }}
+  </label>
+    <div class="col-sm-10">
+      <input id="field-{{ field.name }}" name="{{ field.name }}" {% if style.input_type != "file" %}class="form-control"{% endif %} type="{{ style.input_type }}" {% if style.placeholder %}placeholder="{{ style.placeholder }}"{% endif %} {% if field.value %}value="{{ field.value }}"{% endif %}>
+        {% if field.errors %}
+            {% for error in field.errors %}<span class="help-block">{{ error }}</span>{% endfor %}
+        {% endif %}
+        {% if field.help_text %}
+            <span class="help-block">{{ field.help_text }}</span>
+        {% endif %}
+    </div>
+</div>

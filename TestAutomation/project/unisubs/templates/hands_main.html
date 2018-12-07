@@ -1,0 +1,101 @@
+{% load i18n %}
+
+<div class="help-tab">
+  <a target="_blank" href="http://support.amara.org/support/solutions">Get Help</a>
+</div>
+
+<div id="main-content">
+<div id="index-two-tone">
+  <div id="index-banner" class="top-banner">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-sm-6">
+          <h1>{% trans "Amara makes video globally accessible" %}</h1>
+          <h5>{% trans "Captions, subtitles, and translations simplified." %}</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="container whitespace text-center">
+  <div class="row">
+    <div class="index-video-container col-xs-12 col-sm-7 col-md-6">
+      <div onclick="this.nextElementSibling.style.display='block'; this.style.display='none'" id="index-video-overlay" class="flex-video flex-video-foil widescreen"><img src="{{ STATIC_URL }}images/index-video-thumbnail.png" style="cursor:pointer; width:100%;" />
+      </div>
+      <div style="display:none;" class="flex-video widescreen">
+      <iframe id="index-video" src="//www.youtube-nocookie.com/embed/aQ-xe-GSjdA?rel=0&autoplay=0&controls=1&showinfo=0&cc_load_policy=1" frameborder="0" allowfullscreen></iframe>
+
+      <!--Auto-play video when clicked -->
+      <script type="text/javascript">
+        $('#index-video-overlay').click(function(){
+        $("#index-video").attr("src", $("#index-video").attr("src").replace("autoplay=0", "autoplay=1"));
+});
+      </script>
+
+      </div>
+    </div>
+    <div class="index-video-description col-xs-12 col-sm-5 col-md-6 text-left">
+      <h3>{% trans "Meet Amara" %}</h3>
+      <h5>{% trans "Amara is home to an award winning subtitle editor that makes it easy to caption and translate video. Amara also hosts volunteer localization &amp; accessibility communities, and offers professional tools and services for subtitles." %}</h5>
+    </div>
+  </div>
+</div>
+
+<div id="index-individuals">
+  <div class="container infobox">
+    <div class="row">
+      <div class="col-xs-12 col-sm-6 col-lg-offset-1 col-lg-5">
+        <h2>{% trans "Individuals" %}</h2>
+        <h5>{% trans "Amara makes it incredibly easy (and free) to caption and translate your videos. You can instantly invite your friends and audience members to help." %}</h5>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-lg-5">
+        <h4 class="float-right"><a href="{% url "videos:create" %}">{% trans "Subtitle a Video" %} &raquo;</a></h4>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="index-community">
+  <div class="container infobox">
+    <div class="row">
+      <div class="col-xs-12 col-sm-6 col-sm-6 col-sm-push-6 col-lg-push-6 col-lg-5">
+        <span class="float-right">
+          <h2>{% trans "Community" %}</h2>
+          <h5>{% trans "Help make video accessible around the globe by volunteering for a caption or translation team. Amara is easy to learn and fun!" %}</h5>
+        </span>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-sm-pull-6 col-lg-offset-1 col-lg-pull-5 col-lg-5">
+        <h4><a href="/community">{% trans "Find your Community" %} &raquo;</a></h4>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="index-pro">
+  <div class="container infobox">
+    <div class="row">
+      <div class="col-xs-12 col-sm-6 col-lg-offset-1 col-lg-5">
+        <h2>{% trans "Professional Solutions" %}</h2>
+        <h5>{% trans "Amara provides a complete solution for captions and translation. Whether you'd like On Demand subtitles or to build your own community or team, we can help." %}</h5>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-lg-5">
+        <h4 class="float-right"><a href="//pro.amara.org">{% trans "Professional Solutions" %} &raquo;</a></h4>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div id="index-hills">
+  <img src="{{ STATIC_URL }}images/index-holding-hands.png" alt="{% trans 'Hands holding video icons in front of rolling hills' %}" />
+</div>
+
+
+
+
+
+<!-- END New Footer -->

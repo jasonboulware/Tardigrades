@@ -1,0 +1,12 @@
+{% extends "videos/email_base.html" %}
+
+{% load i18n localeurl_tags %}
+
+{% block content %}
+Hi {{ user }},<br/>
+
+<p>Thanks for verifying your email address. Your Amara account is now fully activated!</p>
+
+Happy subtitling!
+{% endblock %}
+{% block dont_send %}{% endblock %}

@@ -1,0 +1,147 @@
+ul.dropdown {
+    @extend %floating;
+    color: $dark-gray;
+
+    li {
+        float: none;
+
+        a {
+            display: block;
+            padding: 6px 20px;
+            color: inherit;
+            text-decoration: none;
+        }
+
+        &.separator {
+            border-top: 1px solid $light-gray;
+        }
+
+        &:hover {
+            background-color: lighten($primary, 10);
+            color: $white;
+        }
+    }
+
+    .count {
+        float: right;
+        margin-left: 10px;
+    }
+}
+
+nav {
+    @extend .content;
+
+    // styles for all links
+    a {
+        color: $darkish-gray;
+
+        img {
+            height: 25px;
+        }
+
+        &:hover {
+            text-decoration: none;
+            background-color: lighten($primary, 10);
+            color: $white;
+        }
+
+        &.home {
+            padding: 10px 0 0 0;
+            margin-right: 5px;
+
+            &:hover {
+                background-color: inherit;
+                color: $darkish-gray;
+            }
+        }
+    }
+
+    // styles for top-level links
+    > a {
+        padding-top: 10px;
+        display: block;
+        float: left;
+    }
+
+    @include not-small-screen {
+        ul {
+            float: left;
+        }
+        ul.right {
+            float: right;
+        }
+    }
+
+
+    li {
+        display: block;
+        float: left;
+
+        a {
+            padding: 10px 15px;
+            display: block;
+        }
+    }
+
+
+    > ul > li:first-of-type > a {
+        margin-left: -10px;
+    }
+
+    @include small-screen {
+        ul {
+            display: none;
+        }
+        li {
+            float: none;
+
+            a {
+                padding: 10px 0;
+            }
+        }
+    }
+
+    button.menu-toggle-all {
+        background: $off-white;
+        border-color: $light-gray;
+        color: $medium-gray;
+        border-radius: 5px;
+        margin: 10px 0;
+        z-index: $z-index-menu;
+    }
+    .burger {
+        position: absolute;
+        right: 10px;
+        top: 0;
+        text-align: right;
+        z-index: $z-index-menu;
+
+        @include not-small-screen {
+            display: none;
+        }
+    }
+}
+
+/* Submenus */
+@include not-small-screen {
+    nav a.menu-toggle:after {
+        content: " \25be";
+    }
+    nav a.menu-toggle.open:after {
+        content: " \25b4";
+    }
+
+    nav a.menu-toggle.open {
+        background: lighten($primary, 10);
+        color: $white;
+    }
+
+    nav ul.right ul {
+        left: auto;
+    }
+}
+@include small-screen {
+    .menu-toggle {
+        display: none;
+    }
+}

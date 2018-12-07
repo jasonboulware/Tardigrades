@@ -1,0 +1,88 @@
+{% extends "styleguide/base.html" %}
+{% block content %}
+
+<p>
+The settings pages have a different submit button and a link at the bottom of the form to scroll back up to the top. The Save Changes button appear whenever a change is made to any of the
+form fields, it does not disappear when the changes made are still the same with the original form data since it would be weird if you had the submit button appearing and disappearing. Important
+to note are the `.saveChangesButton` and `.fieldset-backtotop-container` classes to make those two elements work. The `.fieldset-footer-shadow` class is used for a footer that has some background shadow.
+</p>
+
+<form>
+  <div class="form-actions-top">
+    <button type="submit" class="button cta saveChangesButton">Save Changes</button>
+  </div>
+  <fieldset>
+    <legend><h3>Personal information</h3></legend>
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name">
+    </div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="text" id="email" name="email">
+    </div>
+    <div class="form-group">
+      <label for="phone_number">Phone number</label>
+      <input type="text" id="phone_number" name="phone_number">
+    </div>
+    <div class="form-group">
+      <label>What's you're favorite sandwich?</label>
+      <ul>
+        <li class="radio">
+          <input checked type="radio" id="radio00" value="club" name="sandwich">
+          <label for="radio00"><span class="radio-icon"></span>Club</label>
+        </li>
+        <li class="radio">
+          <input type="radio" id="radio01" value="blt" name="sandwich">
+          <label for="radio01"><span class="radio-icon"></span>BLT</label>
+        </li>
+        <li class="radio">
+          <input type="radio" id="radio02" value="sub" name="sandwich" disabled>
+          <label for="radio02"><span class="radio-icon"></span>Submarine (disabled)</label>
+        </li>
+      </ul>
+    </div>
+    <div class="form-group">
+      <div class="checkbox">
+        <input type="checkbox" id="checkbox00" value="">
+        <label for="checkbox00"><span class="checkbox-icon"></span> I agree</label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="checkbox">
+        <input type="checkbox" id="checkbox01" value="" disabled>
+        <label for="checkbox01"><span class="checkbox-icon"></span> I disagree (disabled)</label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="checkbox-spacer"></div> Spacer example
+    </div>
+  </fieldset>
+  <fieldset>
+    <legend><h3>Account information</h3></legend>
+    <div class="fieldsetHelpBlock">Details for your Amara acount</div>
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username">
+    </div>
+    <div class="form-group">
+      <label for="password1">Password</label>
+      <input type="password" id="password1" name="password1">
+    </div>
+    <div class="form-group">
+      <label for="password2">Confirm password</label>
+      <input type="password" id="password2" name="password2">
+    </div>
+  </fieldset>
+  <div class="fieldset-footer-shadow">
+      <div class="fieldset-backtotop-container">
+        <span class="fa fa-chevron-circle-up fieldset-backtotop-chevron"></span>
+        <span class="small">Back to top</span>
+      </div>
+      <button type="submit" class="button cta saveChangesButton">Save Changes</button>
+  </div>
+</form>
+
+{% endblock %}

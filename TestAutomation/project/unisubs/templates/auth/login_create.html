@@ -1,0 +1,43 @@
+{% extends "hands_base.html" %}
+
+{% load i18n teams_tags media_bundle %}
+
+{% block html_attrs %}id="login"{% endblock %}
+
+{% block main_content %}
+
+<script>
+  document.facebook_app_public_id = "{{ app_id }}";
+</script>
+
+{% media_bundle "login.js" %}
+
+<div id="login-bg" class="top-banner">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+
+        <div class="sso">
+            <h2>{% trans "Sign Up" %}</h2>
+            <h5>{% trans "You are logging in via a provider (Google, Twitter, OAuth, etc), which will create a new Amara account with this email:" %}</h5>
+	    <form method='post' action="." class="email-form">
+              {% csrf_token %}
+	      <ul>
+		<li>{{ email_form.email }}</li>
+		<li>{{ email_form.url }}</li>
+		<li>{{ email_form.first_name }}</li>
+		<li>{{ email_form.last_name }}</li>
+		<li>{{ email_form.avatar }}</li>
+		<li><button type="submit" id="{{ submit_facebook }}">Proceed</button></li>
+	      </ul>
+	    </form>
+	    <h5>{% trans "IMPORTANT: Without a valid email, some Amara features will remain inaccessible and password retrieval will not be possible." %}</h5>
+	    <h5><a href="https://pculture.org/privacy" target="_blank">{% trans "Amara respects your privacy." %}</a></h5>
+            <h5>{% trans "If you did not intend to create a new Amara account with an external provider, you can go back to the" %}</h5>
+            <h5><a href="{% url "auth:login" %}">Sign Up page</a></h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

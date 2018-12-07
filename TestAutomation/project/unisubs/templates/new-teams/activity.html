@@ -1,0 +1,34 @@
+{% extends "new-teams/base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+
+{% include "new-teams/_activity-tabs.html" %}
+{% if tab == "videos" %}
+<h2>{% blocktrans %}Video Activity for {{ team }}{% endblocktrans %}</h2>
+{% elif tab == "team" %}
+<h2>{% blocktrans %}Team Activity for {{ team }}{% endblocktrans %}</h2>
+{% endif %}
+<div class="split-view">
+  <div class="filters sidebar">
+    <h5>{% trans "Filter and Sort" %}</h5>
+    <form method="GET" action="">
+      {% include "_field.html" with field=filters_form.type %}
+      {% include "_field.html" with field=filters_form.video_language %}
+      {% include "_field.html" with field=filters_form.subtitle_language %}
+      {% include "_field.html" with field=filters_form.sort %}
+
+      <div class="actions">
+        <button class="submit">Filter</button>
+        {% if filtered %}
+        <a href="{% url "teams:activity" team.slug %}{% if query %}?q={{ query }}{% endif %}" class="button cancel">Clear</a>
+        {% endif %}
+      </div>
+    </form>
+  </div>
+  <div class="main" id="activity-list">
+    {% include "new-teams/_activity-list.html" %}
+  </div>
+</div>
+{% endblock %}

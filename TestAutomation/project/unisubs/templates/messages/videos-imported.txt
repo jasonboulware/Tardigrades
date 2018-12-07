@@ -1,0 +1,4 @@
+Hi {{ user }},
+
+The import finished and {{ imported_videos }} videos are now into our system.
+To see them, you can go to your user page {{ my_videos_url }}

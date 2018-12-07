@@ -1,0 +1,18 @@
+<script type="text/javascript">
+    $(function() {
+        if ('{{ request.GET.q }}' !== '') {
+            $searchFieldset = $('form.search fieldset');
+            $searchFieldset.append('<a href="#" class="reset">x</a>');
+            $anc = $('a.reset', $searchFieldset);
+            $anc.click(function() {
+                $anc.siblings('input[name="q"]')
+                    .val('')
+                    .attr('placeholder', 'Loading...');
+                $anc.hide();
+                $searchFieldset.parent().submit();
+                return false;
+            });
+        }
+    });
+</script>
+

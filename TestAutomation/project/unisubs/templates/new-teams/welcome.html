@@ -1,0 +1,62 @@
+{% extends "new-base.html" %}
+{% load i18n %}
+
+{% block scripts %}
+<script type="text/javascript" src="{% url "embedder_iframe" %}"></script>
+{% endblock %}
+
+{% block html_attrs %}id="team-welcome"{% endblock %}
+
+{% block header %}
+{{ block.super }}
+<div class="banner">
+  <div class="content group">
+    <h1>{{ team_messages.pagetext_welcome_heading }}</h1>
+    {% if team.description %}{{ team.description|urlize|linebreaks }}{% endif %}
+
+    <ol class="group">
+      <li>
+        <div class="icon"><span class="fa fa-user-plus"></span></div>
+        <h4>{% trans "Join the team" %}</h4>
+        <p>{% trans "As part of the team you will be able to view videos, create subtitles, and get notifications when new videos are added" %}</p>
+      </li>
+      <li>
+        <div class="icon"><span class="fa fa-users"></span></div>
+        <h4>{% trans "Collaborate with others" %}</h4>
+        <p>{% trans "As part of the team, you can collaborate with other volunteers to help create top quality subtitles." %}</p>
+      </li>
+      <li>
+        <div class="icon"><span class="fa fa-share-square-o"></span></div>
+        <h4>{% trans "Share your work" %}</h4>
+        <p>{% trans "Completed captions will be synced back to the video host and viewable across the world" %}</p>
+      </li>
+    </ol>
+
+    <div>
+      {% if join_mode == "open" %}
+      <a class="button" href="{% url "teams:join" slug=team.slug %}">{% trans "Join the team" %} <span class="fa fa-angle-double-right"></span></a>
+      {% elif join_mode == "application" %}
+      <a class="button" href="{% url "teams:join" slug=team.slug %}">{% trans "Apply to join the team" %} <span class="fa fa-angle-double-right"></span></a>
+      {% elif join_mode == "invitation" %}
+      <p>This team is invitation only. If you're interested in helping out, <a href="{% url "teams:admin-list" slug=team.slug %}">contact a team admin</a>.</p>
+      {% elif join_mode == "login" %}
+      <a class="button" href="{% url "auth:login" %}">{% trans "Login to join the team" %} <span class="fa fa-angle-double-right"></span></a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content %}
+{% if videos %}
+  <div class="content group">
+    {% for video in videos %}
+    <div class="video">
+      <div class="amara-embed" data-resizable="true" data-hide-subtitle-me="true" data-hide-logo="true" data-url="{{ video.get_video_url }}" data-show-subtitles-default="true" data-noanalytics="true" data-embed-on-amara="true">
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+{% endif %}
+{% endblock %}
+

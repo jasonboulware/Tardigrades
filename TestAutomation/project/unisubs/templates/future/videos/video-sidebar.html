@@ -1,0 +1,27 @@
+{% load i18n forms %}
+{% with complete_languages=video.complete_languages_sorted incomplete_languages=video.incomplete_languages_sorted %}
+
+{% if create_subtitles_form %}
+<div class="content videoSubtitleList">
+    <h2 class="videoSubtitlesList-item">{% trans 'Contribute' %}</h2>
+
+    <a class="ajaxLink button block cta videoSubtitlesList-item"
+       data-href="?form=create-subtitles{%if team %}&team={{team.slug}}{%endif%}">{% trans "Create new subtitles" %}</a>
+</div>
+{% endif %}
+
+{% if incomplete_languages %}
+<div class="content videoSubtitleList">
+  <h2 class="videoSubtitlesList-item">{% blocktrans with count=incomplete_languages|length %}Incomplete subtitles (<span class="total">{{ count }}</span>){% endblocktrans %}</h2>
+  {% include "future/videos/video-subtitles-list.html" with subtitles=incomplete_languages id="incomplete-subtitles" %}
+</div>
+{% endif %}
+
+{% if complete_languages %}
+<div class="content videoSubtitleList">
+  <h2 class="videoSubtitlesList-item">{% blocktrans with count=complete_languages|length %}Completed subtitles (<span class="total">{{ count }}</span>){% endblocktrans %}</h2>
+  {% include "future/videos/video-subtitles-list.html" with subtitles=complete_languages id="complete-subtitles" %}
+</div>
+{% endif %}
+
+{% endwith %}

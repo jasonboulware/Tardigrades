@@ -1,0 +1,7 @@
+<ul>
+  {% for color in colors %}
+  {% for shape in shapes %}
+  <li class="bg-{{ color }}">{{ shape }}</li>
+  {% endfor %}
+  {% endfor %}
+</ul>

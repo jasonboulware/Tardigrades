@@ -1,0 +1,22 @@
+{% load subtitles_tags i18n %}
+{%  if subtitle.text  %}
+  {% if subtitle.start_time|is_synced_value %}
+    <span class="time-span time_link">
+        <span class="data">{{ subtitle.start_time|format_sub_time }}</span>
+        <span class="badgy start">
+            <span class="stamp_text">{{ subtitle.start_time|format_sub_time }}</span>
+        </span>
+        {% if subtitle.end_time|is_synced_value %}
+            <span class="connector"></span>
+            <span class="badgy end">
+                <span class="stamp_text">{{ subtitle.end_time|format_sub_time }}</span>
+            </span>
+        {% endif %}
+    </span>
+  {% else %}
+    <span class="time-span"><span class="badgy no-sync">{% trans 'Not Synced' %}</span></span>
+  {% endif %}
+  <span class="text">
+    {{ subtitle.text|display_subtitle|safe }}
+  </span>
+{%  endif %}

@@ -1,0 +1,121 @@
+{% load i18n amara_cache announcement_tags messages_tags profiles_tags media_bundle auth_tags assets %}
+
+{% get_current_language_bidi as LANGUAGE_BIDI %}
+
+<!DOCTYPE html>
+<html {% if LANGUAGE_BIDI %}dir="rtl"{% endif %} xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://www.facebook.com/2008/fbml" xml:lang="en" lang="en" {% block html_attrs %}{% endblock %} class="base">
+
+<head>
+    {% include "gtm-head.html" %}
+    <title>{% block title %}Amara - {% trans 'Caption, translate, subtitle and transcribe video.' %}{% endblock %}</title>
+
+    <meta name="description" content="The easiest way to caption and translate any video, with crowdsourcing, volunteers, and professional services." />
+
+    <meta charset="utf-8" />
+    {% if HOSTNAME != 'amara.org' %}<meta name="robots" content="noindex, nofollow"/>{% endif %}
+    {% block opengraph-head %}
+        <meta property="fb:admins" content="539835590"/>
+    {% endblock  %}
+
+
+    <link rel="apple-touch-icon" sizes="180x180" href="{% asset "img/apple-touch-icon.png" %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% asset "img/favicon-16x16.png" %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% asset "img/favicon-32x32.png" %}">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    {% block css %}{% media_bundle "base.css" %}{% endblock %}
+
+    <!--[if IE]>
+        <style type="text/css"> .group { display: block; zoom: 1; } </style>
+    <![endif]-->
+    <!--[if gte IE 8]>
+        {% media_bundle "ie8.css" %}
+    <![endif]-->
+    <!--[if IE 8]>
+        <style> .notIE { display: none !important ; } </style>
+    <![endif]-->
+    <!--[if lt IE 9]>
+        <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href='//fonts.googleapis.com/css?family=Roboto:300,400' rel='stylesheet' type='text/css'>
+    {% js_language_data %}
+    {% media_bundle "site.js" %}
+    {% js_i18n_catalog %}
+    <script src="{% url "profiles:rpc_api" %}" type="text/javascript"></script>
+    <script type="text/javascript" src='{% url "embedder_iframe" %}'>
+    </script>
+    {% block scripts %}{% endblock %}
+    <script type="text/javascript">
+        window.STATIC_URL = '{{ STATIC_URL }}';
+        window.LANGUAGE_CODE = '{{ LANGUAGE_CODE }}';
+        {% block oldmodal %}
+            window.OLD_MODAL = true;
+        {% endblock %}
+    </script>
+</head>
+
+<body {% block body_attrs %}{% endblock %}>
+{% include "gtm-body.html" %}
+    <div class="newgrid">
+      {% announcement %}
+      {% if user.is_authenticated %}
+          {% messages %}
+          {% block email_confirmation_block %}
+              {% email_confirmation_notification %}
+          {% endblock %}
+      {% endif %}
+      {% require_email_dialog %}
+    </div>
+    {% include "future/header.html" with no_language_switcher=1 old_user_menu=1 %}
+
+    <div class="content container_12 wrapper clearfix">
+        {% block youtube_prompt %}
+        {% if request|show_youtube_prompt and not hide_prompt %}
+            <div id="youtube-prompt">
+                <img src="{{ STATIC_URL }}images/partners/youtube.png" alt="YouTube"/>
+                <h2>{% trans "Got a YouTube account?" %}</h2>
+                <p>{% trans "New: enable viewer-created translations and captions on your YouTube channel!" %}</p>
+                <ul>
+                    <li><a href="{% url "profiles:account" %}?prompt=true" class="proceed">{% trans "Connect to YouTube" %}</a></li>
+                    <li><a href="#" class="hide">{% trans "No thanks" %}</a></li>
+                </ul>
+            </div>
+        {% endif %}
+        {% endblock %}
+
+        {% if messages %}
+
+            <div id="messages">
+                {% for message in messages %}
+                    <h2 class="{% if message.tags %}{{ message.tags }}{% endif %}">{{ message|safe }}</h2>
+                {% endfor %}
+                <a href="#" id="closeBut" style="display: block; float: right;">x</a>
+            </div>
+        {% endif %}
+        {% block main_content %}{% endblock %}
+    </div>
+
+    {% include "future/footer.html" with language_switcher=1 %}
+
+    {% if user.is_staff %}
+        <div id="admin_controls">
+            <ul id="site_controls">
+                {% if user.is_staff %}
+                    <li><a target="_blank" href="{% url "admin:index" %}">{% trans 'Admin' %}</a></li>
+                {% endif %}
+                {% if user.is_superuser %}
+                    <li><a target="_blank" href="https://logs.amara.org">{% trans 'Amara Logs' %}</a></li>
+                {% endif %}
+                {% if user.is_superuser %}
+                    <li><a target="_blank" href="{% url "auth:login_trap" %}">{% trans 'Impersonate' %}</a></li>
+                {% endif %}
+                {% if user.is_superuser %}
+                    <li><a target="_blank" href="{% url "billing" %}">{% trans 'Billing' %}</a></li>
+                {% endif %}
+                <li><a href="https://github.com/pculture/unisubs/commit/{{ LAST_COMMIT_GUID }}" title="{{ LAST_COMMIT_GUID }}">Github</a></li>
+            </ul>
+            {% block page_controls %}{% endblock %}
+        </div>
+    {% endif %}
+    {% block bottom_scripts %}{% endblock %}
+</body>
+</html>

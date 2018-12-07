@@ -1,0 +1,152 @@
+@mixin small-button {
+    font-size: 14px;
+    padding: 2px 12px;
+}
+
+@mixin medium-button {
+    font-size: 16px;
+    padding: 3px 18px;
+}
+
+@mixin icon-button {
+    font-size: inherit;
+    padding: 0 5px;
+    @include button-color-light($white);
+}
+
+@mixin button-color($color) {
+    background-color: $color;
+
+    &:hover {
+        background: lighten($color, 10);
+    }
+    &:active {
+        background: lighten($color, 20);
+    }
+}
+
+@mixin button-color-light($color) {
+    background-color: $color;
+    color: $dark-gray;
+
+    &:hover {
+        background: darken($color, 10);
+    }
+
+    &:active {
+        background: darken($color, 20);
+    }
+}
+
+@mixin button {
+    display: inline-block;
+    margin: 0;
+    padding: 13px 26px;
+    font-size: 20px;
+    font-weight: $font-weight-normal;
+    border: 0;
+    color: $white;
+    cursor: pointer;
+
+    @include button-color($primary);
+
+    &:hover {
+        text-decoration: none;
+    }
+
+    .split-button & {
+        padding-right: 13px;
+    }
+
+    .split-button &.caret {
+        padding-left: 9px;
+        padding-right: 9px;
+        border-left: 1px solid $white;
+    }
+
+    &.title-action {
+        float: right;
+    }
+}
+
+@mixin full-button {
+    border: 1px solid $light-gray;
+    @include button-color-light($white);
+    width: 100%;
+    text-align: center;
+}
+
+.split-button {
+    display: inline-block;
+}
+
+
+button, a.button {
+    @include button;
+
+    &.small {
+        @include small-button;
+    }
+
+    &.medium {
+        @include medium-button;
+    }
+
+    &.icon {
+        @include icon-button;
+    }
+
+    margin-bottom: 0;
+
+    &.primary {
+        @include button-color($primary);
+    }
+
+    &.delete {
+        @include button-color($red);
+    }
+
+    &.cancel {
+        @include button-color($light-gray);
+    }
+
+    &.flat {
+        @include button-color-light($white);
+    }
+
+    &.full {
+        @include full-button;
+    }
+}
+
+.sidebar .tools {
+    button, a.button {
+        @include full-button;
+        margin-bottom: 8px;
+    }
+}
+
+.textbox-button {
+    display: table;
+
+    input {
+        display: table-cell;
+        width: auto;
+    }
+    button {
+        display: table-cell;
+        font-size: inherit;
+        padding: 5px 18px;
+    }
+
+}
+
+.dropdown-button button {
+    &:after {
+        content: ' \25BC';
+    }
+
+    &.open:after {
+        content: ' \25B2';
+    }
+}

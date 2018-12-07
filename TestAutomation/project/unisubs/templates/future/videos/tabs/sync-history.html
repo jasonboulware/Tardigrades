@@ -1,0 +1,30 @@
+{% load i18n ui query_string %}
+
+<nav class="tab-actions">
+  <a {% if can_resync and sync_history %}class="button small ajaxLink" data-href="{% query_string form=resync %}"{% else %}class="button small disabled"{% endif %}>Resync</a>
+  <a class="button small ajaxLink loadingIcon" data-href="{% query_string update-sync-history=1 %}" role="button">{% trans "Refresh" %}</a>
+</nav>
+{% if sync_history %}
+<table class="table striped">
+  <tbody>
+    <tr>
+      <th>{% trans "Date" %}</th>
+      <th>{% trans "Account" %}</th>
+      <th>{% trans "Revision" %}</th>
+      <th>{% trans "Result" %}</th>
+      <th>{% trans "Details" %}</th>
+    </tr>
+    {% for item in sync_history %}
+    <tr>
+      <td>{{ item.date|datetime }}</td>
+      <td>{{ item.account }}</td>
+      <td>{{ item.version }}</td>
+      <td>{{ item.result }}</td>
+      <td>{{ item.details }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="zero-state">No subtitle revisions are currently available for syncing.</p>
+{% endif %}

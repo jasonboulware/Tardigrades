@@ -1,0 +1,19 @@
+{% load i18n media_bundle %}
+
+{% if page %}
+<ul class="activity listing">
+  {% for record in page %}
+  <li>{% if use_old_messages %}{% include "activity/old_record.html" %}
+      {% else %}{% include "activity/record.html" %}{% endif %}</li>
+  {% endfor %}
+</ul>
+
+{% if page.has_next %}
+<div class="pagination">
+  <a class="show-more" href="" data-page="{{ page.next_page_number }}">{% trans "Show More" %}</a>
+  <img class="loading-icon" src="{% static_url %}images/ajax-loader.gif">
+</div>
+{% endif %}
+{% else %}
+<p class="empty">{% trans "Sorry, no activity yet" %}...</p>
+{% endif %}

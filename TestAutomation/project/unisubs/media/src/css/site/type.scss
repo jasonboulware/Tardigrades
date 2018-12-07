@@ -1,0 +1,135 @@
+%body-font {
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, "Liberation Sans", sans-serif;
+}
+
+%header-font {
+    font-family: "Merriweather", "Helvetica Neue", "Roboto", Helvetica, Arial, "Liberation Sans", sans-serif;
+}
+
+$line-height: 22px;
+$default-font-size: 14px;
+$small-font-size: 12px;
+$large-font-size: 16px;
+$font-weight-normal: 400;
+$font-weight-bold: 700;
+
+body, input, textarea, select, button {
+    @extend %body-font;
+    font-size: $default-font-size;
+    line-height: $line-height;
+    font-weight: $font-weight-normal;
+    color: $dark-gray;
+}
+
+p {
+    margin: 0;
+    padding: 0 0 $line-height 0;
+}
+
+.small {
+    font-size: $small-font-size;
+}
+
+strong {
+    font-weight: $font-weight-bold;
+}
+
+h1, h2, {
+    @extend %header-font;
+    padding: 0 0 0.5em 0;
+    margin: 0;
+}
+
+h3, h4 {
+    padding: 0 0 0.5em 0;
+    margin: 0;
+}
+
+h5, h6 {
+    padding: 0;
+    margin: 0;
+}
+
+h1 {
+    font-size: 40px;
+    line-height: 45px;
+}
+
+h2 {
+    font-size: 24px;
+    line-height: 28px;
+}
+
+h3 {
+    font-size: 20px;
+    line-height: 24px;
+}
+
+h4 {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+h5 {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+h6 {
+    font-size: inherit;
+    font-weight: bold;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    p {
+        @extend %body-font;
+        font-size: $default-font-size;
+        line-height: $line-height;
+        font-weight: $font-weight-normal;
+    }
+
+    a {
+        color: inherit;
+    }
+
+    &.no-spacing {
+        padding: 0;
+        margin: 0;
+    }
+}
+
+.empty {
+    font-style: italic;
+}
+
+.confirmation {
+    font-style: italic;
+}
+
+.one-line {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    height: $line-height;
+}
+.two-lines {
+    height: $line-height * 2;
+    overflow: hidden;
+}
+
+.three-lines {
+    height: $line-height * 3;
+    overflow: hidden;
+}
+
+.four-lines {
+    height: $line-height * 4;
+    overflow: hidden;
+}
+
+.extra-info {
+    float: right;
+    font-style: italic;
+    margin-left: 10px;
+}
+

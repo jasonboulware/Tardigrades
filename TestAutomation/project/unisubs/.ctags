@@ -1,0 +1,16 @@
+--python-kinds=cfm
+--javascript-kinds=c
+--languages=-html
+
+--exclude=flowplayer
+--exclude=*.min.js
+--exclude=jquery.*.js
+--exclude=jquery-*.js
+--exclude=swfobject.js
+--exclude=migrations
+--exclude=*demo*
+--exclude=libs
+--exclude=user-data
+--exclude=venv
+--exclude=static-cache
+--exclude=closure-library

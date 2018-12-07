@@ -1,0 +1,6 @@
+{% load i18n %}
+<div class="progressBar teal">
+  <div class="progressBar-progress" role="progressbar" style="width: {{ percent }}%;"></div>
+</div>
+<p class="progressBar-label teal">{{ message }}<span class="progressBar-percentage">{% if total %}{% blocktrans %}{{ percent }}% Complete ({{ count }}/{{ total }}){% endblocktrans %}{% else %}{% blocktrans %}{{ percent }}% Complete{% endblocktrans %}{% endif %}</span></p>
+

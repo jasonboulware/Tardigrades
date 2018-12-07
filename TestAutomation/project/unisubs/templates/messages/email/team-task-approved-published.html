@@ -1,0 +1,16 @@
+Hi {{ user }},
+
+<p>Your {{ task_language }} subtitles for the video “{{ title }}” have been approved 
+by {{ reviewer }} from the {{ team.name }} team and they are now published!</p>
+<p>
+</p>
+{% if note %}
+{{ reviewer}} included the following note:
+
+{{ note|linebreaks }}
+
+{% endif %}
+
+
+<a href="{{reviewer_message_url}}">Send {{ reviewer }} a message</a> or </br>
+<a href="{{subs_url}}">view your subtitles</a>.

@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block body_attrs %}id="about"{% endblock %}
+
+{% block main_content %}
+    <div class="grid_6 alpha">
+        {% blocktrans %}
+            <h2>About Amara</h2>
+            <p>
+                Amara gives individuals, communities, and larger organizations the power 
+                to overcome accessibility and language barriers for online video. The tools are free 
+                and open source and make the work of subtitling and translating video simpler, more 
+                appealing, and, most of all, more collaborative.
+            </p>
+            <p>
+                The benefits of captioning and subtitling are immense:
+                <ul>
+                    <li>Captions make videos accessible for viewers who are deaf or hard of hearing</li>
+                    <li>Translations make it possible for all of us to watch video in languages that we don't speak</li>
+                    <li>Video creators get: better SEO, more views, access to a far bigger (potentially multilingual and global) audience, accessibility for deaf and hard of hearing viewers, and more</li>
+                </ul>
+            </p>
+            <p>
+                Amara is composed of three main parts:
+                <ul>
+                    <li>A subtitle creation and viewing tool (aka the widget)</li>
+                    <li>A collaborative subtitling website</li>
+                    <li>An open protocol for subtitle search/delivery</li>
+                </ul>
+            </p>
+            <p>
+                Everything we do is available under the open source <a href="http://www.gnu.org/licenses/agpl-3.0.html">AGPL</a> license.
+            </p>
+            <h2>Our Organization</h2>
+            <p>
+                <a href="http://www.pculture.org/">Participatory Culture Foundation</a> 
+                is a non-profit organization building free and open tools for more a democratic and 
+                decentralized media. Other projects of ours include <a href="http://www.getmiro.com/">Miro</a>, 
+                <a href="http://www.mirovideoconverter.com/">Miro Video Converter</a>, 
+                <a href="http://www.mirocommunity.org/">Miro Community</a>, and 
+                <a href="http://www.openvideoalliance.org/">Open Video Alliance</a>.
+            </p>
+            <p>
+                Amara is a featured project of <a href="http://www.drumbeat.org/">Mozilla Drumbeat</a>, 
+                and the Mozilla Foundation has provided development support.  
+                Open Society Institute and the MacArthur Foundation are also financial supporters.
+            </p>
+            <h2>Publisher and Enterprise Services</h2>
+            <p>
+                Amara offers a set of professional tools and services that enable publishers and video platforms to create and manage high quality subtitles.  With Amara, you can build a community of volunteers to subtitle your content, integrate with professional services, and use a powerful quality control system to ensure world-class quality.  To learn more, see our <a href="http://www.universalsubtitles.org/en/enterprise/">enterprise services</a> and contact Dean Jansen, <a href="mailto:dean@pculture.org">dean@pculture.org</a>.
+            </p>
+        {% endblocktrans %}
+    </div>
+    <div class="grid_6 omega">
+        <h2>Three Important Ways You Can Help</h2>
+        <p>
+            Amara is an open source, non-profit project. We are volunteer driven and would love to have your help!
+            <br/>
+            Here are three ways you can get involved:
+            <ul>
+                <li>
+                Want to help us test new versions of the software before it's released? 
+                Join the <a href="http://groups.google.com/group/universal-subtitles-testing">testers list</a> 
+                and follow our <a href="http://develop.participatoryculture.org/index.php/UniversalSubtitlesQA">testing guidelines</a> 
+                to get started!
+                </li>
+                <li>
+                If you are a developer, check out the <a href="http://wiki.github.com/pculture/unisubs/dev-center">development center</a> 
+                and start with some 'bite-sized' tickets that are listed there.
+                </li>
+                <li>
+                Help out new users! Take a look at the <a href="http://universalsubtitles.org/videos/">videos list</a> 
+                and give positive and helpful feedback to people that have added subtitles to various videos.
+                </li>
+                <li>
+                Are you deaf, hard-of-hearing, or an accessibility advocate?  
+                Please join our <a href="http://groups.google.com/group/universal-subtitles-deaf-hoh/">deaf/hoh discussion list</a>.
+                </li>
+            </ul>
+        </p>
+        <h2>Awards</h2>
+        <p>Amara has won several awards in recognition of our breakthrough platform for accessibility and translation.</p>
+        <h3 id="tech-award">2011 Tech Award</h3>
+        <a href="http://thetechawards.thetech.org/node/1694"><img src="{{ STATIC_URL }}images/awards/tech_awards.png" alt="2011 Tech Award Laureate"></a>
+        <h3 id="fcc-award">FCC Award Advancement in Accessibility</h3>
+        <a href="http://www.fcc.gov/document/genachowski-and-copps-present-aaa-awards"><img src="{{ STATIC_URL }}images/awards/fcc.png" alt="FCC"></a>
+        <h3 id="iia-award">Intercultural Innovation Award</h3>
+        <a href="http://interculturalinnovation.org/universal-subtitles/"><img src="{{ STATIC_URL }}images/awards/iia.png" alt="Intercultural Innovation Award"></a>
+    </div>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends "teams/base.html" %}
+
+{% load i18n teams_tags widget %}
+
+{% block title %}
+    {% trans 'Invite Members' %} | Amara
+{% endblock %}
+
+{% block view_content %}
+
+    <div class="view grid_8 omega">
+        {% with 'members' as current %}
+            {% include 'teams/_tabs.html' %}
+        {% endwith %}
+        <form method='post' action="." enctype="multipart/form-data" class="invite-members">
+            {{ form.non_field_errors }}
+            <fieldset>
+                <legend>{% trans 'Recipient' %}</legend>
+                {{ form.errors.username }}
+                <label for="username">{% trans 'Username' %}</label>
+                <div class="ajaxChosen">
+                    <select name="username" id="uid">
+                        <option value="">-----</option>
+                        <option value="">{% trans 'Begin typing to search.' %}</option>
+                    </select>
+                </div>
+                <p class="notation">{% trans 'Amara username of the user you want to invite.' %}</p>
+
+                {{ form.errors.email }}
+                <label for="id_email">{% trans 'Email' %}</label>
+                {{ form.email }}
+                <p class="notation">{% trans 'You can also invite a team member via email--both a username and an email works too!' %}</p>
+            </fieldset>
+
+            <fieldset>
+                <legend>{% trans 'Invite Details' %}</legend>
+
+                {{ form.errors.message }}
+                <label for="id_message">{% trans 'Include a message' %}</label>
+                {{ form.message }}
+
+                {{ form.errors.role }}
+                <label for="id_role">{% trans 'Assign a role' %}</label>
+                {{ form.role }}
+                <p class="notation">{% trans 'Role to be assigned to the user if they accept your invitation.' %}</p>
+            </fieldset>
+
+            <div class="submit">
+                <button>{% trans 'Send Invites' %}</button>
+            </div>
+
+            {% csrf_token %}
+        </form>
+    </div>
+
+    <script type="text/javascript">
+    
+        $(function() {
+            $(".ajaxChosen select").ajaxChosen({
+                method: 'GET',
+                url: '/en/messages/users/search/',
+                dataType: 'json'
+            }, function (data) {
+                var terms = {};
+
+                $.each(data.results, function (i, val) {
+                    terms[data.results[i][1]] = data.results[i][1] + ' (' + data.results[i][2] + ')';
+                });
+
+                return terms;
+            });
+        });
+
+    </script>
+{% endblock %}

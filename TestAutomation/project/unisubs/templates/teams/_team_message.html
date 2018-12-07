@@ -1,0 +1,9 @@
+{% load i18n  teams_tags %}
+{% if team|is_team_member:user %}
+    <div style="margin-top: 10px; padding-top: 10px; line-height: 18px; color: #666; font-style: italic; border-top: 1px solid #A2A2A2">
+        {% blocktrans %}
+            You received this notification because you are a member of the 
+            <a href="{{ team_page }}">{{ team }}</a> team. 
+        {% endblocktrans %}
+    </div>
+{% endif %}

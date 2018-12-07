@@ -1,0 +1,37 @@
+{% extends "future/base.html" %}
+{% load i18n %}
+
+{% block content %}
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="content">
+          <div class="row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-9">
+              <h1>{% blocktrans %}Admins for {{ team }}{% endblocktrans %}</h1>
+              <br/>
+              <ul class="selectList-members selectList">
+                {% for member in admins %}
+                <li class="selectList-item">
+                  <div>{{ member.user.avatar_tag_medium }}</div>
+                  <div class="selectList-memberDetails">
+                    <h3>{{member.user}}</h3>
+                    <h3>({{member.user.display_username}})</h3>
+                  </div>
+                  <div class="pull-right">
+                    <a href="{% url "messages:new" %}?user={{ member.user.username }}">Send message</a>
+                  </div>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+

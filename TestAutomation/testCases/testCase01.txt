@@ -1,7 +1,0 @@
-01
-Prints hello function properly
-/project/testable/deeper
-test
-print_func
-"my dude!!!"
-Hello: my dude!!!

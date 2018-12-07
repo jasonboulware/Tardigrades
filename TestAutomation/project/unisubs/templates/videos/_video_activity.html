@@ -1,8 +1,0 @@
-{% load i18n %}
-
-<ul class="listing activity">
-  {% for record in records %}
-  <li>{% if use_old_messages %}{% include "activity/old_record.html" %}
-      {% else %}{% include "activity/record.html" %}{% endif %}</li>
-  {% endfor %}
-</ul>

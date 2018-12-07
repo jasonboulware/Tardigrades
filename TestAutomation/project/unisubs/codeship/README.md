@@ -1,1 +1,0 @@
-Codeship-related docker code

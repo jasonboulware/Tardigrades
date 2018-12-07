@@ -1,7 +1,0 @@
-{% load i18n %}
-<form method="get" action="{% url "videos:search" %}" class="search-form">
-    <div id="watch_search">
-        <span class="icon"></span>
-        <input name="q" placeholder="{% trans "Search videos" %}"{% if query %} value="{{ query }}"{% endif %}>
-    </div>
-</form>

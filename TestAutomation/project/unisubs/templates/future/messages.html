@@ -1,9 +1,0 @@
-{% load i18n %}
-{% if msg_count %}
-<div class="newMessages container" data-last-unread="{{ last_message_id }}">
-  <div class="alert alert-info">
-    {% blocktrans %}You have {{ msg_count }} new messages{% endblocktrans %} (<a href="{% url "messages:inbox" %}">{% trans "view all" %}</a>)
-    <a href="#" class="newMessages-hide close">&times;</a>
-  </div>
-</div>
-{% endif %}

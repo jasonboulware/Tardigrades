@@ -32,6 +32,8 @@ runTests() {
         # this line runs the the python module given the path, the function name, and the parameters
         actual_results=$(python -c "import sys; sys.path.insert(0, '..$path'); import $py_module as m; print m.$func_name($params)")
 
+        # echo "Actual Results are: $actual_results" # uncomment line to see output in html file
+
         if [ "$actual_results" == "$expected_result" ]
             then
                 result="<td bgcolor=\"#33cc33\">$pass</td></tr>"

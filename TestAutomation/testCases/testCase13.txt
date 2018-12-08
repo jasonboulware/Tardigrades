@@ -4,4 +4,4 @@ Get current branch on git
 git_helpers
 get_current_commit_hash
 
-cdb02993
+caddce3d

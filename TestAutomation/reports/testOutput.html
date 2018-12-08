@@ -1,0 +1,219 @@
+    <html>
+        <head>
+            <title>AMARA TEST CASES</title>
+            <style>
+            table {
+                font-family: arial, sans-serif;
+                border-collapse: collapse;
+                width: 100%;
+                border: 2px solid black;
+                border-radius: 8px;
+            }
+            
+            h1, h3 {
+                text-align: center;
+            }
+
+            td, th {
+                border: 1px solid #dddddd;
+                text-align: left;
+                padding: 8px;
+                border: 2px solid black;
+                border-radius: 8px;
+            }
+
+            tr:nth-child(even) {
+                background-color: lightgrey;
+            }
+            </style>
+        </head>
+        <body>
+            <h1>AMARA TEST CASES</h1>
+            <table>
+                <tr>
+                    <th>Test #</th>
+                    <th>Description</th>
+                    <th>Module</th>
+                    <th>Function</th>
+                    <th>Result</th>
+                    <th>Test Result</th>
+                </tr>
+Actual Results are: 100
+                <tr><td>01</td>
+                    <td>Converts milliseonds as an integer string to a 3 padded string</td>
+                    <td>utils</td>
+                    <td>fraction_to_milliseconds("100")</td>
+                    <td>100</td>
+                <td bgcolor="#33cc33">PASS</td></tr>
+Actual Results are: 30
+                <tr><td>02</td>
+                    <td>Converts milliseonds as an integer string to a 3 padded string</td>
+                    <td>utils</td>
+                    <td>fraction_to_milliseconds("030")</td>
+                    <td>30</td>
+                <td bgcolor="#33cc33">PASS</td></tr>
+Actual Results are: 9
+                <tr><td>03</td>
+                    <td>Converts milliseonds as an integer string to a 3 padded string</td>
+                    <td>utils</td>
+                    <td>fraction_to_milliseconds("009")</td>
+                    <td>9</td>
+                <td bgcolor="#33cc33">PASS</td></tr>
+Actual Results are: 0
+                <tr><td>04</td>
+                    <td>Converts milliseonds as an integer string to a 3 padded string</td>
+                    <td>utils</td>
+                    <td>fraction_to_milliseconds("200000")</td>
+                    <td>0</td>
+                <td bgcolor="#33cc33">PASS</td></tr>
+Actual Results are: this &amp; that
+                <tr><td>05</td>
+                    <td>Replace '&' with &amp; for html use</td>
+                    <td>utils</td>
+                    <td>escape_ampersands('this & that')</td>
+                    <td>this &amp; that</td>
+                <td bgcolor="#33cc33">PASS</td></tr>
+Actual Results are: This &amp; that &amp; some of this too. What about Jack &amp; Jill?
+                <tr><td>06</td>
+                    <td>Replace '&' with &amp; for html use</td>
+                    <td>utils</td>
+                    <td>escape_ampersands('This & that & some of this too. What about Jack & Jill?')</td>
+                    <td>This &amp; that &amp; some of this too. What about Jack &amp; Jill?</td>
+                <td bgcolor="#33cc33">PASS</td></tr>
+Actual Results are: This &amp;amp; that &amp;amp; some of this too.
+                <tr><td>07</td>
+                    <td>Replace '&' with &amp; for html use</td>
+                    <td>utils</td>
+                    <td>escape_ampersands('This &amp; that &amp; some of this too.')</td>
+                    <td>This &amp;amp; that &amp;amp; some of this too.</td>
+                <td bgcolor="#33cc33">PASS</td></tr>
+Actual Results are: 75000
+                <tr><td>08</td>
+                    <td>Convert centiseconds to milliseconds</td>
+                    <td>utils</td>
+                    <td>centiseconds_to_milliseconds(7500)</td>
+                    <td>75000</td>
+                <td bgcolor="#33cc33">PASS</td></tr>
+Actual Results are: 0
+                <tr><td>09</td>
+                    <td>Convert centiseconds to milliseconds</td>
+                    <td>utils</td>
+                    <td>centiseconds_to_milliseconds(.1)</td>
+                    <td>0</td>
+                <td bgcolor="#33cc33">PASS</td></tr>
+Actual Results are: -100
+                <tr><td>10</td>
+                    <td>Convert centiseconds to milliseconds</td>
+                    <td>utils</td>
+                    <td>centiseconds_to_milliseconds(-10)</td>
+                    <td>-100</td>
+                <td bgcolor="#33cc33">PASS</td></tr>
+Actual Results are: True
+                <tr><td>11</td>
+                    <td>Tests if viewing user is the uploader</td>
+                    <td>permissions</td>
+                    <td>can_view_activity("austin", "austin")</td>
+                    <td>True</td>
+                <td bgcolor="#33cc33">PASS</td></tr>
+Actual Results are: master
+                <tr><td>12</td>
+                    <td>Get current branch on git</td>
+                    <td>git_helpers</td>
+                    <td>get_current_branch()</td>
+                    <td>master</td>
+                <td bgcolor="#33cc33">PASS</td></tr>
+Actual Results are: caddce3d
+                <tr><td>13</td>
+                    <td>Get current branch on git</td>
+                    <td>git_helpers</td>
+                    <td>get_current_commit_hash()</td>
+                    <td>cdb02993</td>
+                <td bgcolor="#cc0000">FAIL</td></tr>
+Actual Results are: True
+                <tr><td>14</td>
+                    <td>Checks for appropriate file extension for video files</td>
+                    <td>filetypes</td>
+                    <td>isVideoFilename("wave.mp4")</td>
+                    <td>True</td>
+                <td bgcolor="#33cc33">PASS</td></tr>
+Actual Results are: False
+                <tr><td>15</td>
+                    <td>Checks for appropriate file extension for video files</td>
+                    <td>filetypes</td>
+                    <td>isVideoFilename("wave.mp3")</td>
+                    <td>False</td>
+                <td bgcolor="#33cc33">PASS</td></tr>
+Actual Results are: True
+                <tr><td>16</td>
+                    <td>Checks if appropriate file</td>
+                    <td>filetypes</td>
+                    <td>isAllowedFilename("wave.mp4")</td>
+                    <td>True</td>
+                <td bgcolor="#33cc33">PASS</td></tr>
+Actual Results are: False
+                <tr><td>17</td>
+                    <td>Checks if appropriate file</td>
+                    <td>filetypes</td>
+                    <td>isAllowedFilename("idk.idk")</td>
+                    <td>False</td>
+                <td bgcolor="#33cc33">PASS</td></tr>
+Actual Results are: True
+                <tr><td>18</td>
+                    <td>Checks for appropriate file extension for audio files</td>
+                    <td>filetypes</td>
+                    <td>isAudioFilename("wave.mp3")</td>
+                    <td>True</td>
+                <td bgcolor="#33cc33">PASS</td></tr>
+Actual Results are: False
+                <tr><td>19</td>
+                    <td>Checks for appropriate file extension for audio files</td>
+                    <td>filetypes</td>
+                    <td>isAudioFilename("wave.mp4")</td>
+                    <td>False</td>
+                <td bgcolor="#33cc33">PASS</td></tr>
+Actual Results are: True
+                <tr><td>20</td>
+                    <td>Checks for appropriate file extension for torrent files</td>
+                    <td>filetypes</td>
+                    <td>isTorrentFilename("Torrent.torrent")</td>
+                    <td>True</td>
+                <td bgcolor="#33cc33">PASS</td></tr>
+Actual Results are: False
+                <tr><td>21</td>
+                    <td>Checks for appropriate file extension for torrent files</td>
+                    <td>filetypes</td>
+                    <td>isTorrentFilename("Torrent.what")</td>
+                    <td>False</td>
+                <td bgcolor="#33cc33">PASS</td></tr>
+Actual Results are: .mov
+                <tr><td>22</td>
+                    <td>Guesses Extension Type</td>
+                    <td>filetypes</td>
+                    <td>guessExtension("video/quicktime")</td>
+                    <td>.mov</td>
+                <td bgcolor="#33cc33">PASS</td></tr>
+Actual Results are: .mkv
+                <tr><td>23</td>
+                    <td>Guesses Extension Type</td>
+                    <td>filetypes</td>
+                    <td>guessExtension("video/x-matroska")</td>
+                    <td>.mkv</td>
+                <td bgcolor="#33cc33">PASS</td></tr>
+Actual Results are: video/quicktime
+                <tr><td>24</td>
+                    <td>Guesses Mime Type</td>
+                    <td>filetypes</td>
+                    <td>guessMimeType("test.mov")</td>
+                    <td>video/quicktime</td>
+                <td bgcolor="#33cc33">PASS</td></tr>
+Actual Results are: video/x-msvideo
+                <tr><td>25</td>
+                    <td>Guesses Mime Type</td>
+                    <td>filetypes</td>
+                    <td>guessMimeType("test.avi")</td>
+                    <td>video/x-msvideo</td>
+                <td bgcolor="#33cc33">PASS</td></tr>
+            </table>
+            <h3>Team Tardigrades</h3>
+        </body>
+    </html>

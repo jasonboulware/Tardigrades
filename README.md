@@ -8,3 +8,7 @@
 ## How to run the script in your terminal
 1. `cd` into TestAutomation/scripts.
 2. Run `./runAllTests.sh`
+
+## If you are running a Linux virtual machine or Linux OS go to the reports directory and launch the testOutput.html file
+
+## If you are running a Linux virtualization on Windows 10 go to the reports directory and launch the testOutput.html file manually.

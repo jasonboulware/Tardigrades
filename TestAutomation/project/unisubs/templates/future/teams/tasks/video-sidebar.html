@@ -1,0 +1,19 @@
+{% load i18n %}
+<div class="content videoSubtitleList">
+  <h2 class="videoSubtitlesList-item">{% trans "Contribute" %}</h2>
+  <a href="{% url "teams:team_tasks" team.slug %}?team_video={{ team_video.id }}"><i class="icon icon-transcribe"></i> {% trans "View tasks for this video" %}</a>
+</div>
+{% with complete_languages=video.complete_languages_with_public_versions incomplete_languages=video.incomplete_languages_with_public_versions %}
+{% if complete_languages %}
+<div class="content videoSubtitleList">
+  <h2 class="videoSubtitlesList-item">{% blocktrans with count=complete_languages|length %}Completed subtitles (<span class="total">{{ count }}</span>){% endblocktrans %}</h2>
+  {% include "future/videos/video-subtitles-list.html" with subtitles=complete_languages id="complete-subtitles" %}
+</div>
+{% endif %}
+{% if incomplete_languages %}
+<div class="content videoSubtitleList">
+  <h2 class="videoSubtitlesList-item">{% blocktrans with count=incomplete_languages|length %}Incomplete subtitles (<span class="total">{{ count }}</span>){% endblocktrans %}</h2>
+  {% include "future/videos/video-subtitles-list.html" with subtitles=incomplete_languages id="incomplete-subtitles" %}
+</div>
+{% endif %}
+{% endwith %}

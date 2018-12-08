@@ -1,0 +1,5 @@
+{% load i18n %}
+<div class="form-group searchbar">
+  <label class="sr-only">{{ placeholder }}</label>
+  <input type="text"{% if name %} name="{{ name }}"{% endif %} placeholder="{{ placeholder }}">
+</div>

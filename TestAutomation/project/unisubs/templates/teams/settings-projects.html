@@ -1,0 +1,77 @@
+{% extends "teams/base.html" %}
+{% load i18n teams_tags paginator %}
+
+{% block title %}
+    {{ team }} {% trans 'Settings' %} | Amara
+{% endblock %}
+
+{% block view_content %}
+
+    <div class="view grid_8 omega">
+        {% with 'settings' as current %}
+            {% include 'teams/_tabs.html' %}
+        {% endwith %}
+        <div class="tools subnav">
+            {% with 'projects' as current_sub %}
+                {% include 'teams/_subnav_settings.html' %}
+            {% endwith %}
+        </div>
+        <div>
+            <a class="button reduced project-add" href="{% url "teams:add_project" slug=team.slug %}">{% trans 'Add Project' %}</a>
+        </div>
+        {% if projects %}
+            <ul class="projects listing">
+                {% for project in projects %}
+                    <li>
+                        <p>{{ project.name }}</p>
+                        <ul class="actions">
+                            <li>
+                                <a class="action-edit" href="{% url "teams:edit_project" slug=team.slug project_slug=project.slug %}">{% trans 'Edit' %}</a>
+                            </li>
+                        </ul>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="empty">{% trans 'This team does not have any projects yet' %}</p>
+        {% endif %}
+    </div>
+
+    <script id="IMAGE_PRELOADER" type="text/html">
+        <img class="placeholder" width="256" height="30" src="{{ STATIC_URL }}images/ajax-loader.gif"/>
+    </script>
+
+    <script id="projectEditPanel" type="text/html">
+        <div class="project-edit-panel modal-window-bg">
+            <form action="#">
+                <div class="grid_4 alpha">
+                    <fieldset>
+                        <legend> Change project {{name}}</legend>
+                        <label for="name">Name</label>
+                        <input id="basic_name" type="text" name="name" class="clearfix" value="{{name}}"/>
+
+                        <label for="name">Description</label>
+
+                        <textarea id="basic_description" name="description" class="clearfix" >{{description}}</textarea>
+                        <input type="hidden" value='{{pk}}' name="pk"/>
+                        <input type="hidden" value='{{order}}' name="order"/>
+                        <input type="hidden" value='{{slug}}' name="slug"/>
+                    </fieldset>
+                </div>
+                <div class="grid_4 omega">
+                    <fieldset>
+                        <legend>Workflows</legend>
+                        <p class="notation">Moderate this project's subtitles. Will override the team's workflow if exists.</p>
+                        <label for="workflow_enabled"><input id="basic_workflows_enabled" type="checkbox"  name="workflow_enabled" {{workflow_enabled}}checked="checked"{{workflow_enabled}}/> Enable workflows</label>
+                    </fieldset>
+                </div>
+
+                <div class="grid_9 submit">
+                    <a class="button delete project-delete">Delete</a>
+                    <a class="button cancel project-cancel">Cancel</a>
+                    <a class="button save project-save">Save</a>
+                </div>
+            </form>
+        </div>
+    </script>
+{% endblock %}

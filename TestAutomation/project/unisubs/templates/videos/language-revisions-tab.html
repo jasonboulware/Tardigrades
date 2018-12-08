@@ -1,0 +1,67 @@
+{% load i18n %}
+<div class="tab" id="revisions-tab">
+    {% if revisions|length > 1 %}
+    <div class="tools">
+        <a class="button compare_versions_button">
+            {% trans 'Compare Revisions' %}
+        </a>
+    </div>
+    {% endif %}
+
+    {% if revisions %}
+    <ul class="listing revisions">
+        {% for item in revisions %}
+        <li>
+        <h3>
+            <input type="checkbox" class="version_checkbox" value="{{ item.pk }}"/>
+
+            {% if not item.subtitle_language.language_code %}
+            {# Hack to work around SubtitleLanguages with blank language attributes. #}
+            {# Once those are gone we can remove this. #}
+            <a href="{% url "videos:subtitleversion_detail" video_id=item.video.video_id lang="unknown" lang_id=item.language.id version_id=item.pk %}">{% trans "Revision" %} {{ item.version_number }} - {{ item.revision_time }}</a>
+            {% else %}
+            <a href="{% url "videos:subtitleversion_detail" video_id=item.video.video_id lang=item.subtitle_language.language_code lang_id=item.subtitle_language.id version_id=item.pk %}">{% trans "Revision" %} {{ item.version_number }} - {{ item.revision_time }}</a>
+            {% endif %}
+
+            {% if item.moderation_status == 'waiting_moderation' %}
+            (draft)
+            {% endif %}
+        </h3>
+        {% if item.author %}
+        <p>{% trans "by" %} <a href="{% url "profiles:profile" item.author.pk %}">{{ item.author }}</a></p>
+        {% endif %}
+        {% if item.note %}
+        <p>{{ item.note }}</p>
+        {% endif %}
+        {% if item.origin == 'rollback' and item.rollback_of_version_number %}
+        <p>{%  trans "Rollback to version #" %}{{ item.rollback_of_version_number }}</p>
+        {% elif item.origin == 'upload' %}
+        <p>{%  trans "Uploaded" %}</p>
+        {% elif item.origin == 'api' %}
+        <p>{%  trans "API" %}</p>
+        {% elif item.origin == 'web-legacy-editor' %}
+        <p>{%  trans "Legacy Subtitle Editor" %}</p>
+        {% elif item.origin == 'web-editor' %}
+        <p>{%  trans "Subtitle Editor" %}</p>
+        {% endif %}
+        <ul class="actions">
+            {% comment %}
+            <li><h4>{% trans "Timing" %}: {{ item.time_change }}</h4></li>
+            <li><h4>{% trans "Text" %}: {{ item.text_change }}</h4></li>
+            {% endcomment %}
+            {% if user.is_staff and perms.videos.edit_video %}
+            <li><h4><a style="color: #417690;" href="{% url "admin:subtitles_subtitleversion_change" item.pk %}">{% trans "Edit in Django Admin" %}</a></h4></li>
+            {% endif %}
+        </ul>
+        </li>
+        {% endfor %}
+    </ul>
+
+    {% if page_obj.has_next %}
+    <div class="pagination"><a class="" href="?tab=revisions&revisions_per_page={{ more }}&page=1" rel="next">&#8595; {% trans 'Show More' %} &#8595;</a></div>
+    {% endif %}
+
+   {% else %}
+   <p class="empty">{% trans 'No subtitles for this language.' %}</p>
+   {% endif %}
+</div>

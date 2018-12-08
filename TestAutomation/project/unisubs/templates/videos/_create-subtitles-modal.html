@@ -1,0 +1,23 @@
+{% load i18n %}
+<aside id="create-subtitles-modal" class="modal{% if create_subtitles_form.is_bound %} start-open{% endif %}" role="dialog" aria-labelledby="create-subtitles-heading">
+    <form method="post" action="">
+        {% csrf_token %}
+        <h3 id="create-subtitles-heading">{% trans 'Add a new language!' %}</h3>
+        <div class="global-errors"></div>
+        <table>
+            {% if create_subtitles_form.needs_primary_audio_language %}
+                {% include "_form_field_table.html" with field=create_subtitles_form.primary_audio_language_code %}
+            {% else %}
+                <tr>
+                    <th>{% blocktrans with language=video.get_primary_audio_language_code_display %}This video is in {{ language }}{% endblocktrans %}</th>
+                    <td></td>
+                </tr>
+            {% endif %}
+            {% include "_form_field_table.html" with field=create_subtitles_form.subtitle_language_code %}
+        </table>
+        <footer class="buttons">
+            <button>{% trans 'Continue' %}</button>
+            <button class="close">{% trans 'Cancel' %}</button>
+        </footer>
+    </form>
+</aside>

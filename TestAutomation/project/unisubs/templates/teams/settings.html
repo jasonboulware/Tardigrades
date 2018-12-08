@@ -1,0 +1,81 @@
+{% extends "teams/base.html" %}
+{% load i18n teams_tags paginator %}
+
+{% block title %}
+    {{ team }} {% trans 'Settings' %} | Amara
+{% endblock %}
+
+{% block view_content %}
+
+    {% if team.is_old_style %}<div class="grid_8 view omega">{% else %}<div class="view">{% endif %}
+
+        {% with 'settings' as current %}
+            {% include 'teams/_tabs.html' %}
+        {% endwith %}
+
+        <div class="tools subnav">
+            {% with 'settings' as current_sub %}
+                {% include 'teams/_subnav_settings.html' %}
+            {% endwith %}
+        </div>
+
+        <form class="settings" enctype="multipart/form-data" method="POST" action="">
+            {% csrf_token %}
+
+                <fieldset>
+                    <legend>Team Details</legend>
+
+                    <label for="id_name">Name</label>
+
+                    {% if team|can_rename_team:request.user %}
+                        {{ form.name }}
+                    {% else %}
+                        <input id="id_name" type="text" name="name" value="{{ team.name }}" disabled="disabled" />
+                    {% endif %}
+
+                    <label for="basic_slug">Team URL</label>
+                    <input id="basic_slug" type="text" name="slug" disabled="disabled" value="{{ team.slug }}" />
+                    <p class="notation">http://amara.org/teams/<em>{{ team.slug }}</em></p>
+
+                    <label for="basic_description">Description</label>
+                    {{ form.description }}
+                    <p class="notation">All urls will be converted to links. Line breaks and HTML not supported.</p>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Display Settings</legend>
+
+                    <div class="group">
+                        <div class="logo-field">
+                            <label for="id_logo">{% trans 'Logo/Banner' %}</label>
+                            {% if team.logo %}
+                                <img src="{{ team.logo_thumbnail_medium }}"/>
+                            {% endif %}
+                            <input type="file" id="id_logo" name="logo" />
+                            <p class="notation">{% trans 'Max 940 x 235' %}</p>
+                        </div>
+
+                        <div class="logo-field">
+                            <label for="id_square_logo">{% trans 'Square Logo' %}</label>
+                            {% if team.square_logo %}
+                                <img src="{{ team.square_logo_thumbnail }}"/>
+                            {% endif %}
+                            <input type="file" id="id_square_logo" name="square_logo" />
+                            <p class="notation">{% trans 'Recommended size: 100 x 100' %}</p>
+                        </div>
+                    </div>
+
+                    <label for="id_is_visible">{{ form.is_visible }} Publicly visible?</label>
+                    <label for="id_sync_metadata">{{ form.sync_metadata }} Sync metadata when available (Youtube)?</label>
+                </fieldset>
+
+            <div class="submit">
+                <input type="submit" class="submit save" value="Save Changes" name="save" />
+            </div>
+        </form>
+    </div>
+
+    <script id="IMAGE_PRELOADER" type="text/html">
+        <img class="placeholder" width="256" height1="30" src="{{ STATIC_URL }}images/ajax-loader.gif"/>
+    </script>
+{% endblock %}

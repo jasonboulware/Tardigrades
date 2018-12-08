@@ -1,0 +1,15 @@
+{% load i18n videos_tags %}
+
+{% if task.needs_start_dialog %}
+<a href="#multi-video-create-subtitles-modal" class="open-modal perform-task button reduced" {{ task.team_video.video|multi_video_create_subtitles_data_attrs }}>
+{% else %}
+<a href="{{ task.get_perform_url}}" class="perform-task button reduced">
+{% endif %}
+    {% if link_text %}
+        {{ link_text }}
+    {% elif task.get_type_display == 'Subtitle' or task.get_type_display == 'Translate' %}
+        {% blocktrans with language=task.get_language_display %}Create {{ language }} subtitles{% endblocktrans %}
+    {% else %}
+        {% blocktrans with language=task.get_language_display task_action=task.get_type_display %}{{ task_action }} {{ language }} subtitles{% endblocktrans %}
+    {% endif %}
+</a>

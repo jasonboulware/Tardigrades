@@ -1,0 +1,32 @@
+{% load i18n %}
+<div class="{{ class }}">
+  <table>
+    <tr>
+      <th>Start</th>
+      <td><em ng-class="{'warning': showWarning({{ subtitle }}, 'timing')}">[[ {{ subtitle }}.startTime|displayTime ]]</em></td>
+    </tr>
+    <tr>
+      <th>End</th>
+      <td><em ng-class="{'warning': showWarning({{ subtitle }}, 'timing')}">[[ {{ subtitle }}.endTime|displayTime ]]</em></td>
+    </tr>
+    <tr>
+      <th>Characters</th>
+      <td ng-class="{'warning': showWarning({{ subtitle }}, 'longline')}">[[ {{ subtitle }}.characterCount() ]]</td>
+    </tr>
+    <tr class="child"
+        ng-repeat="count in currentEdit.lineCounts() track by $index">
+      <th>Line [[ $index + 1 ]]</th>
+      <td ng-class="{'warning': showWarning({{ subtitle }}, 'longline', $index)}">[[ count ]]</td>
+    </tr>
+    <tr class="char-rate" ng-show="{{ subtitle }}.isSynced()">
+      <th>Chars/sec</th>
+      <td ng-class="{'warning': showWarning({{ subtitle }}, 'characterRate')}">[[ {{ subtitle }}.characterRate() ]]</td>
+    </tr>
+  </table>
+  <div class="warning-text">
+    <p ng-show="showWarning({{ subtitle }}, 'lines')">[[ warningMessages.lines ]]</p>
+    <p ng-show="showWarning({{ subtitle }}, 'timing')">[[ warningMessages.minDuration ]] </p>
+    <p ng-show="showWarning({{ subtitle }}, 'characterRate') && !(showWarning({{ subtitle }}, 'timing'))">[[ warningMessages.cps ]]</p>
+    <p ng-show="showWarning({{ subtitle }}, 'longline')">[[ warningMessages.cpl ]]</p>
+  </div>
+</div>

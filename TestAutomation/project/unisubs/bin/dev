@@ -1,0 +1,636 @@
+#!/usr/bin/env python3
+
+# Amara, universalsubtitles.org
+#
+# Copyright (C) 2014 Participatory Culture Foundation
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see
+# http://www.gnu.org/licenses/agpl-3.0.html.
+
+
+"""dev -- Useful commands for the dev environment
+
+Put a symlink to this script somewhere in your path.
+
+Then you can do things using "dev <command>".
+
+Run "dev" for a list of commands and "dev help <command>" for help on a
+specific command.
+"""
+
+from datetime import date
+import argparse
+import os
+import re
+import shlex
+import shutil
+import subprocess
+import sys
+
+from command import Command, CompositeCommand, RootCommand
+
+def run(cmdline, check=True, stdout=subprocess.DEVNULL, **kwargs):
+    return subprocess.run(cmdline, stdout=stdout, check=check, **kwargs)
+
+def get_output(cmdline, **kwargs):
+    result = run(cmdline, stdout=subprocess.PIPE, **kwargs)
+    return result.stdout.decode('utf8')
+
+
+initial_cwd = os.getcwd()
+def script_path():
+    path = __file__
+    while os.path.islink(path):
+        path = os.path.join(os.path.dirname(path),
+                            os.readlink(path))
+    return os.path.join(initial_cwd, path)
+
+def unisubs_root():
+    return os.path.dirname(os.path.dirname(script_path()))
+
+def progname():
+    return os.path.basename(sys.argv[0])
+
+def print_highlighted(msg):
+    print('\033[40;41m{}\033[0m'.format(msg))
+
+def get_submodule_paths():
+    """
+    Get a list of initialized submodules and their paths
+
+    Returns: list of (name, path) tuples
+    """
+    output = get_output(['git', 'submodule', 'foreach', 'pwd'],
+                        cwd=unisubs_root())
+    rv = []
+    name = None
+    for line in output.split('\n'):
+        if line == '':
+            continue
+        if name is None:
+            m = re.match(r"entering '(.*?)'", line, re.IGNORECASE)
+            if m is None:
+                print('error parsing entering line: {}'.format(line))
+                sys.exit(1)
+            name = m.group(1)
+        else:
+            path = line.strip()
+            rv.append((name, path))
+            name = None
+    return rv
+
+class Bash(Command):
+    """Run a bash script inside the app container."""
+    def add_arguments(self, parser):
+        parser.add_argument('-p', '--expose-port', action='store_true',
+                             help='Expose port 8000')
+
+    def run(self):
+        ensure_node_modules()
+        cmdline = ["docker-compose", "run", "--rm", '-u', 'root']
+        if self.args.expose_port:
+            cmdline.extend(['-p', '8000:8000'])
+        cmdline.extend(["app", "shell"])
+        subprocess.call(cmdline)
+
+class Build(Command):
+    """Build the app container."""
+
+    def add_arguments(self, parser):
+        parser.add_argument('--production', action='store_true')
+        parser.add_argument('--no-cache', action='store_true')
+
+    def run(self):
+        build_script = os.path.join(unisubs_root(), 'bin', 'build.py')
+        cmdline = ['python', build_script, 'amara-app']
+        if self.args.no_cache:
+            cmdline.append('--no-cache')
+        if not self.args.production:
+            cmdline.append('--dev')
+        subprocess.call(cmdline)
+
+class Manage(Command):
+    """Run manage.py inside the app container."""
+    def add_arguments(self, parser):
+        parser.add_argument('--guitests', action='store_true',
+                            help='Run in the GUITest environment')
+        parser.add_argument('manage_args', nargs=argparse.REMAINDER)
+
+    def run(self):
+        ensure_node_modules()
+        if self.args.guitests:
+            cwd = 'guitests'
+        else:
+            cwd = None
+        run_manage(self.args.manage_args, cwd=cwd)
+
+class Test(Command):
+    """Run unittests."""
+    raw_args = True
+
+    def run(self):
+        ensure_node_modules()
+        cmdline = ['docker-compose', 'run', '--rm', 'test', 'test']
+        cmdline.extend(self.args)
+        return subprocess.call(cmdline)
+
+class GUITest(Command):
+    """Run unittests."""
+    raw_args = True
+
+    def run(self):
+        ensure_node_modules()
+        run_node(['node', 'node_modules/gulp/bin/gulp.js', 'build'])
+        run_manage(['setup_guitests'], cwd='guitests')
+        cmdline = ['docker-compose', 'run', '--rm', 'test', 'guitest']
+        cmdline.extend(self.args)
+        subprocess.call(cmdline, cwd='guitests')
+        subprocess.call(['docker-compose', 'stop'], cwd='guitests')
+
+class GUITestLogs(Command):
+    """Run unittests."""
+    raw_args = True
+
+    def run(self):
+        cmdline = ['docker-compose', 'logs', 'app']
+        return subprocess.call(cmdline, cwd="guitests")
+
+class JSTest(Command):
+    """Run Javascript unittests."""
+
+    def run(self):
+        subprocess.call([
+            'docker', 'run', '--rm',
+            '--volume={}:/opt/apps/amara'.format(unisubs_root()),
+            'amara/jstest',
+        ])
+
+class DBReset(Command):
+    """Reset the database.
+
+    You can also setup your new database with test data by creating a
+    .dbreset-testdata file in the unisubs root directory.  Make each line an
+    argument to the setup_test_data management command, for example: "tasks
+    myuser myteam".  These will be run after the fresh database is created.
+    """
+
+    def run(self):
+        run_manage(['drop_all_tables'])
+        run_manage(['migrate'])
+        run_manage(['create_anonymous_user'])
+        self.setup_test_data()
+
+    def setup_test_data(self):
+        path = os.path.join(unisubs_root(), '.dbreset-testdata')
+        if not os.path.exists(path):
+            return
+        with open(path) as f:
+            for line in f:
+                args = shlex.split(line)
+                if args:
+                    cmdline = ['setup_test_data'] + list(args)
+                    print(cmdline)
+                    run_manage(cmdline)
+
+class DBDump(Command):
+    """Dump the database to a flie."""
+
+    def add_arguments(self, parser):
+        parser.add_argument('path', help='dump file')
+
+    def run(self):
+        mysql_cmd = ("mysqldump -u amara --host=db "
+                     "--password=amara amara")
+        with open(self.args.path, 'w') as f:
+            subprocess.call(['docker-compose', 'run', '--rm',
+                             '--entrypoint=bash', 'app', '-c', mysql_cmd], stdout=f)
+
+class DBLoad(Command):
+    """Load the database from a file."""
+
+    def add_arguments(self, parser):
+        parser.add_argument('path', help='dump file')
+
+    def run(self):
+        with open(self.args.path, 'r') as f:
+            run_manage(['drop_all_tables'])
+            run_manage(['dbshell'], stdin=f)
+
+class SyncTranslations(Command):
+    """Sync our translation filen with transifex."""
+
+    def add_arguments(self, parser):
+        parser.add_argument('-f', '--force', action='store_true',
+                            help='Force download translations'),
+        parser.add_argument('-p', '--pull-only', action='store_true',
+                            help='Download only'),
+
+    def run(self):
+        if not self.args.pull_only:
+            run_manage(['update_translations'])
+            subprocess.check_call(['tx', 'push', '--source'])
+        if self.args.force:
+            subprocess.check_call(['tx', 'pull', '--all', '--force'])
+        else:
+            subprocess.check_call(['tx', 'pull', '--all'])
+        run_manage(['compile_translations'])
+
+class Up(Command):
+    """Start docker containers."""
+
+    def add_arguments(self, parser):
+        parser.add_argument('--guitests', action='store_true',
+                            help='Run in the GUITest environment')
+        parser.add_argument('--jsonlog', action='store_true',
+                            help='Use JSON formatted logging'),
+        parser.add_argument('--dblog', action='store_true',
+                            help='Log DB queries'),
+
+    def run(self):
+        ensure_node_modules()
+        env = os.environ.copy()
+        if self.args.jsonlog:
+            env['JSON_LOGGING'] = '1'
+        if self.args.dblog:
+            env['DB_LOGGING'] = '1'
+        if self.args.guitests:
+            cwd = 'guitests'
+            cmdline = ['docker-compose', '-f', 'docker-compose.yml', '-f',
+                       'docker-compose.expose-ports.yml', 'up', 'app',
+                       'worker', 'varnish']
+        else:
+            cwd = None
+            cmdline = ['docker-compose', 'up', 'app', 'worker',
+                       'asset-builder', 'scheduler']
+        subprocess.run(cmdline, env=env, cwd=cwd)
+
+class PrepDeploy(Command):
+    """Start docker containers."""
+    def add_arguments(self, parser):
+        parser.add_argument('branch')
+
+    def run(self):
+        if self.args.branch == 'staging':
+            return self.prep_staging()
+        elif self.args.branch == 'production':
+            return self.prep_production()
+        else:
+            print("Must specify staging or production")
+
+    def prep_staging(self):
+        self.check_branch('staging')
+        self.push('staging')
+
+    def prep_production(self):
+        self.check_branch('production')
+        self.merge_branch('staging')
+        self.tag_deploy()
+        self.push('production')
+
+    def run_git(self, *args, **kwargs):
+        subprocess.check_call(['git'] + list(args))
+
+    def get_git_output(self, *args, **kwargs):
+        output = subprocess.check_output(['git'] + list(args), **kwargs).strip()
+        return output.decode('utf8')
+
+    def check_value(self, label, value, correct_value):
+        if value != correct_value:
+            raise AssertionError(
+                "{} is {} instead of {}".format(label, value, correct_value))
+        print("{} is {}".format(label, value))
+
+    def check_branch(self, correct_branch):
+        self.run_git('fetch')
+        branch = self.get_git_output('symbolic-ref', '--short', 'HEAD')
+        self.check_value("Current branch", branch, correct_branch)
+
+    def merge_branch(self, from_branch):
+        print("Merging {}".format(from_branch))
+        self.run_git('merge', '--ff-only', from_branch)
+
+    def tag_deploy(self):
+        today = date.today()
+        tag_name_base = 'deploy-{:04}-{:02}-{:02}'.format(
+            today.year, today.month, today.day)
+        exsting_tags = self.find_existing_tags(tag_name_base)
+        for tag_name in self.generate_tag_names(tag_name_base):
+            if tag_name not in exsting_tags:
+                self.run_git('tag', tag_name)
+                self.run_git('push', 'origin', tag_name)
+                return
+        raise AssertionError("Can't find new tag name")
+
+    def find_existing_tags(self, tag_name_base):
+        output = self.get_git_output('tag', '-l', tag_name_base + '*')
+        return set(output.split())
+
+    def generate_tag_names(self, tag_name_base):
+        yield tag_name_base
+        for i in range(2, 100):
+            yield tag_name_base + '-{}'.format(i)
+
+    def push(self, branch):
+        print("Pushing {}".format(branch))
+        self.run_git('push', 'origin', branch)
+
+class VarnishLogs(Command):
+    """Follow logs for varnish."""
+
+    def run(self):
+        subprocess.call(['docker-compose', 'exec', 'varnish', 'varnishlog'])
+
+class NPM(Command):
+    """Run npm for the amara-assets repo."""
+
+    # Use this command to manage the packages.json file in amara-assets.  For
+    # example:
+    #
+    #     - dev npm install [package] -- add a dependancy
+    #     - dev npm uninstall [package] -- remove a dependancy
+
+    def add_arguments(self, parser):
+        parser.add_argument('npm_args', nargs=argparse.REMAINDER)
+
+    def run(self):
+        run_node(['npm'] + list(self.args.npm_args))
+
+class Gulp(Command):
+    """Run gulp for the amara-assets repo."""
+
+    def add_arguments(self, parser):
+        parser.add_argument('--compress', action='store_true')
+        parser.add_argument('gulp_args', nargs=argparse.REMAINDER)
+
+    def run(self):
+        env = {}
+        if not self.args.compress:
+            env['SKIP_UGLIFY'] = '1'
+        run_node(['node', 'node_modules/gulp/bin/gulp.js'] +
+                 list(self.args.gulp_args), env=env)
+
+class Switch(Command):
+    """
+    Switch to a git branch
+
+    This command can be used to switch to git branches, including on our
+    submodules.
+
+    For unisubs, we check out the branch directly.
+      - If --pull is present, we also run git pull
+
+    For submodules, we do one of the following (in order of preference):
+        - Checkout branch, if it exists locally
+        - Checkout origin/branch, if it exists
+        - Checkout master
+
+    Finally, we run git submodule update, with the following:
+        - --no-fetch (--pull is not present)
+        - --merge (--pull without --rebase)
+        - --rebase (--pull and --rebase)
+
+    If there are any uncommited changes in any repo, this command will exit
+    with a failure code.
+    """
+
+    def add_arguments(self, parser):
+        parser.add_argument('branch')
+        parser.add_argument('-p', '--pull', action='store_true',
+                            help='pull changes from origin')
+        parser.add_argument('-r', '--rebase', action='store_true',
+                            help='use rebase instead of merge '
+                            'when pulling changes')
+
+    def run(self):
+        submodule_paths = get_submodule_paths()
+
+        self.check_repo_changes('unisubs', unisubs_root(),
+                                [p[0] for p in submodule_paths])
+        for name, path in submodule_paths:
+            self.check_repo_changes(name, path)
+
+        self.checkout_submodule('unisubs', unisubs_root(),
+                                fallback_to_master=False)
+        for name, path in submodule_paths:
+            self.checkout_submodule(name, path)
+
+        self.pull()
+        self.submodule_update()
+
+        self.print_branch_and_commit('unisubs', unisubs_root())
+        for name, path in submodule_paths:
+            self.print_branch_and_commit(name, path)
+
+    def check_repo_changes(self, name, path, allowed_changes=None):
+        if allowed_changes is None:
+            allowed_changes = []
+        os.chdir(path)
+        result = run(['git', 'diff-index', '--name-only', 'HEAD', '--'],
+                     stdout=subprocess.PIPE, check=False)
+        changed_files = set(result.stdout.decode('utf-8').split('\n'))
+        changed_files.discard('')
+        uncommited_changes = changed_files.difference(allowed_changes)
+        if uncommited_changes:
+            print_highlighted('Uncommited changes on {}'.format(name))
+            for filename in uncommited_changes:
+                print('* {}'.format(filename))
+            sys.exit(1)
+
+    def checkout_submodule(self, name, path, fallback_to_master=True):
+        os.chdir(path)
+        if self.args.pull:
+            run(['git', 'fetch'])
+        if self.branch_exists(self.args.branch):
+            self.checkout(name, self.args.branch)
+        elif self.branch_exists('origin/' + self.args.branch):
+            self.checkout(name, 'origin/' + self.args.branch, track=True)
+        else:
+            if not fallback_to_master:
+                print('{} does not exist on {}'.format(
+                    self.args.branch, name))
+                sys.exit(1)
+            self.checkout(name, 'master')
+
+    def checkout(self, name, branch, track=False):
+        cmdline = ['git', 'checkout']
+        if track:
+            cmdline.append('--track')
+        cmdline.append(branch)
+        # git checkout is quite chatty on stderr, squelch the output unless we
+        # need it
+        result = run(cmdline, stderr=subprocess.PIPE, check=False)
+        if result.returncode != 0:
+            print('git checkout error on {}:\n\n{}'.format(name,
+                                                           result.stderr))
+
+    def pull(self):
+        if self.args.pull:
+            cmdline = ['git', 'pull']
+            if self.args.rebase:
+                cmdline.append('--rebase')
+            run(cmdline)
+
+    def submodule_update(self):
+        os.chdir(unisubs_root())
+        cmdline = ['git', 'submodule', 'update']
+        if self.pull:
+            if self.args.rebase:
+                cmdline.append('--rebase')
+            else:
+                cmdline.append('--merge')
+        else:
+            cmdline.append('--no-fetch')
+        run(cmdline)
+
+    def print_branch_and_commit(self, name, path):
+        os.chdir(path)
+        branch = get_output(
+            ['git', 'rev-parse', '--abbrev-ref', 'HEAD']).strip()
+        commit = get_output(
+            ['git', 'rev-parse', 'HEAD']).strip()
+        print('{:20} {:30} {}'.format(name, branch, commit))
+
+    def branch_exists(self, branch):
+        result = run(
+            ['git', 'rev-parse', '--verify', '--quiet', branch],
+            check=False,
+        )
+        return result.returncode == 0
+
+class Push(Command):
+    """
+    Push all git branches
+
+    This command pushes unisubs + all submodules
+    """
+
+    def run(self):
+        for name, path in get_submodule_paths():
+            print_highlighted(name)
+            run(['git', 'push'], cwd=path)
+            print()
+        print_highlighted('unisubs')
+        run(['git', 'push'])
+
+class Bump(Command):
+    """
+    Push a commit to update submodule references
+    """
+
+    def run(self):
+        submodules_changed = False
+        submodules_changed_re = self.make_submodule_changed_re()
+        for line in get_output(['git', 'status', '--porcelain']).split('\n'):
+            if line == '':
+                continue
+            if line.startswith('??'):
+                continue
+            m = submodules_changed_re.match(line)
+            if m:
+                submodules_changed = True
+            else:
+                print('uncommited changes in unisubs')
+                run(['git', 'status', '--untracked=no'], stdout=None)
+                return 1
+
+        if submodules_changed:
+            run(['git', 'commit', '-a', '-m', 'Updating submodules'])
+            print('commited changes')
+        else:
+            print('no submodule changes to commit')
+
+    def make_submodule_changed_re(self):
+        pattern = ' *M *({})$'.format(
+            '|'.join(os.path.relpath(path, unisubs_root())
+                     for name, path in get_submodule_paths())
+        )
+        return re.compile(pattern)
+
+NEEDS_ROOT = [
+    'build_docs',
+    'update_api_docs',
+    'update_translations',
+    'compile_translations',
+    'makemigrations',
+]
+def run_manage(args, check=True, **kwargs):
+    if args and args[0] in NEEDS_ROOT:
+        cmdline = ['docker-compose', 'run', '--rm', '-u', 'root', 'app',
+                   'manage']
+    else:
+        cmdline = ['docker-compose', 'run', '--rm', 'app', 'manage']
+    if check:
+        subprocess.check_call(cmdline + args, **kwargs)
+    else:
+        subprocess.call(cmdline + args, **kwargs)
+
+# If you update this, make sure to also change the value in
+# codeship-services.yml
+NODE_IMAGE = 'node:9.0.0'
+def run_node(command, env=None):
+    """
+    Run the docker node container with the amara-assets repo
+    """
+    cmdline = [
+        'docker', 'run', '-it', '--rm',
+        '-v', '{}:/mnt'.format(unisubs_root()),
+        '-w', '/mnt/amara-assets',
+    ]
+    if env:
+        for key, value in env.items():
+            cmdline.append('-e{}={}'.format(key, value))
+    cmdline.append(NODE_IMAGE)
+    cmdline.extend(command)
+    returncode = subprocess.call(cmdline)
+    if returncode != 0:
+        sys.exit(returncode)
+
+def ensure_node_modules():
+    node_modules = os.path.join(unisubs_root(), 'amara-assets',
+                                'node_modules')
+    package_json = os.path.join(unisubs_root(), 'amara-assets',
+                                'package.json')
+    if (os.path.exists(node_modules) and
+            os.path.getmtime(node_modules) > os.path.getmtime(package_json)):
+        # node_modules up-to-date, no need to rebuild
+        return
+    print('Installing node modules...')
+    run_node(['npm', 'install', '-d'])
+
+class Dev(RootCommand):
+    subcommands = [
+        Bash,
+        Build,
+        DBDump,
+        DBLoad,
+        DBReset,
+        JSTest,
+        Manage,
+        PrepDeploy,
+        Switch,
+        Push,
+        Bump,
+        SyncTranslations,
+        Test,
+        GUITest,
+        GUITestLogs,
+        Up,
+        VarnishLogs,
+        NPM,
+        Gulp,
+    ]
+
+if __name__ == '__main__':
+    os.chdir(unisubs_root())
+    Dev().main()

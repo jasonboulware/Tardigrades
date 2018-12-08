@@ -1,0 +1,19 @@
+{% load i18n %}
+
+{% if new_user %}
+<ul class="announce-banner">
+  <li>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="note">
+            {% trans 'You have just created a new user on Amara using an external provider. If this is not what you meant to do, log out and log in with your existing credentials.' %}
+	    <br />
+	    {% trans 'Alternatively, you can' %}<a href="{% url "password_reset" %}">{% trans 'reset your password' %}</a>.
+          </div>
+        </div> <!--/col-xs-12-->
+      </div> <!--/row-->
+    </div> <!--/container-->
+  </li>
+</ul>
+{% endif %}

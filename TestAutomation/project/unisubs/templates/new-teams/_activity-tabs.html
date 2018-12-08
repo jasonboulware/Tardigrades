@@ -1,0 +1,15 @@
+{% load i18n teams_tags %}
+<ul class="tabs">
+    <li {% if tab == "activity" %}class="current"{% endif %}>
+        <a href="{% url "teams:activity" team.slug %}">{% trans "Videos" %}</a>
+    </li>
+    <li {% if tab == "videosstats" %}class="current"{% endif %}>
+        <a href="{% url "teams:videosstatistics-activity" team.slug %}">{% trans "Videos Statistics" %}</a>
+    </li>
+    {% if team|can_view_stats_tab:user %}
+    <li {% if tab == "teamstats" %}class="current"{% endif %}>
+        <a href="{% url "teams:teamstatistics-activity" team.slug %}">{% trans "Team Statistics" %}</a>
+    </li>
+    {% endif %}
+</ul>
+

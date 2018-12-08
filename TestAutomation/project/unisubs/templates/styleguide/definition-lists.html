@@ -1,0 +1,36 @@
+{% extends "styleguide/base.html" %}
+{% load styleguide %}
+
+{% block content %}
+<p>Definition lists are used to display field/value pairs.  Use the .inline
+class on the DT/DD tags to put both parts on the same row (except on mobile, where
+we always use 2 rows).</p>
+
+{% styleguide-example %}{% verbatim %}
+<dl>
+  <dt class="inline">Name:</dt>
+  <dd class="inline">Lisa Simpson</dd>
+
+  <dt class="inline">Gender:</dt>
+  <dd class="inline">Female</dd>
+
+  <dt class="inline">Age:</dt>
+  <dd class="inline">7-8</dd>
+
+  <dt>Biography (from Wikipedia):</dt>
+  <dd>
+    Lisa Marie Simpson is a fictional character in the animated television
+    series The Simpsons. She is the middle child and most intelligent of the
+    Simpson family. Voiced by Yeardley Smith, Lisa was born as a character in
+    The Tracey Ullman Show short "Good Night" on April 19, 1987. Cartoonist
+    Matt Groening created and designed her while waiting to meet James L.
+    Brooks.  Groening had been invited to pitch a series of shorts based on his
+    comic Life in Hell, but instead decided to create a new set of characters.
+    He named the elder Simpson daughter after his younger sister Lisa Groening.
+    After appearing on The Tracey Ullman Show for three years, the Simpson
+    family were moved to their own series on Fox, which debuted on December 17,
+    1989.
+  </dd>
+</dl>
+{% endverbatim %}{% end-styleguide-example %}
+{% endblock %}

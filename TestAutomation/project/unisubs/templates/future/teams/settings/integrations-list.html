@@ -1,0 +1,141 @@
+{% load i18n dropdown %}
+
+{% if yt_accounts or vimeo_accounts or kaltura_accounts or brightcove_accounts %}
+<div class="listView integrationList">
+  {% if yt_accounts %}
+  <div class="listView-header integrationList-channel">{% trans 'YouTube channels' %}</div>
+  <div class="listView-header listView-actions integrationList-actions"></div>
+  {% for yt in yt_accounts %}
+    <div class="integrationList-channel">
+
+      <a href="{{ yt.channel_url }}">
+        {{ yt.username }}
+      </a>
+
+      <div class="listView-secondaryRow visible" style="white-space: normal">
+        <ul>
+          {% if yt.team != team %}
+            <li>
+              {% blocktrans with team_url=yt.team.get_absolute_url team_name=yt.team %}
+                Synced from&nbsp; <a href="{{ team_url }}">{{ team_name }}</a>
+              {% endblocktrans %}
+            </li>
+          {% endif %}
+          {% if yt.sync_subtitles %}
+            <li>{% trans 'Exports subtitles from Amara to YouTube' %} </li>
+          {% endif %}
+          {% if yt.team == team and yt.sync_teams.count %}
+            <li>
+              {% trans 'Exports subtitles from Amara to YouTube for other teams: ' %}
+              {% for team in yt.sync_teams.all %}
+                <a href="{{ team.get_absolute_url }}">{{ team }}</a>
+                {% if forloop.last %}{% else %}, {% endif %}
+              {% endfor %}
+            </li>
+          {% endif %}
+          {% if yt.fetch_initial_subtitles %}
+            <li>{% trans 'Imports subtitles from YouTube when videos are added to Amara' %} </li>
+          {% endif %}
+          {% if yt.imports_to_owner_team %}
+            <li>{% trans 'Imports videos to this team' %} </li>
+          {% elif yt.imports_to_other_team %}
+            <li>
+              {% blocktrans with team=yt.import_team %}
+                Imports videos to {{ team }}
+              {% endblocktrans %}
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+    
+    {% include 'future/teams/settings/_integrations_actions.html' with menu_id="context-menu-youtube" form_name="edit-youtube" remove_form_name="remove-youtube" account=yt %}
+  {% endfor %}  
+  {% endif %}
+
+  {% if vimeo_accounts %}
+  <div class="listView-header integrationList-channel">{% trans 'Vimeo channels' %}</div>
+  <div class="listView-header listView-actions"></div>
+
+  {% for vimeo in vimeo_accounts %}
+    <div class="integrationList-channel">
+      {% if vimeo.team == team %}
+        <a class="ajaxLink" data-href="{% url 'teams:settings_externalsites' team.slug %}?form=edit-vimeo&selection={{ vimeo.pk }}">
+          {{ vimeo.username }}
+        </a>
+      {% else %}
+        <span class="a-tag-font">{{ vimeo.username }}</span>
+      {% endif %}
+      <div class="listView-secondaryRow visible" style="white-space: normal">
+        <ul>
+          {% if vimeo.team != team %}
+            <li>
+                {% blocktrans with team_url=vimeo.team.get_absolute_url team_name=vimeo.team %}
+                  Synced from&nbsp; <a href="{{ team_url }}">{{ team_name }}</a>
+                {% endblocktrans %}
+            </li>
+          {% endif %}
+          {% if vimeo.sync_subtitles %}
+            <li>{% trans 'Exports subtitles from Amara to Vimeo' %} </li>
+          {% endif %}
+          {% if vimeo.team == team and vimeo.sync_teams.count %}
+            <li>
+              {% trans 'Exports subtitles from Amara to Vimeo for other teams: ' %}
+              {% for team in vimeo.sync_teams.all %}
+                <a href="{{ team.get_absolute_url }}">{{ team }}</a>
+                {% if forloop.last %}{% else %}, {% endif %}
+              {% endfor %}
+            </li>
+          {% endif %}
+          {% if vimeo.fetch_initial_subtitles %}
+            <li>{% trans 'Imports subtitles from Vimeo when videos are added to Amara' %} </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+
+    {% include 'future/teams/settings/_integrations_actions.html' with menu_id="context-menu-vimeo" form_name="edit-vimeo" remove_form_name="remove-vimeo" account=vimeo %}
+  {% endfor %}
+  {% endif %}  
+
+  {% if kaltura_accounts %}
+  <div class="listView-header integrationList-channel">{% trans 'Kaltura account' %}</div>
+  <div class="listView-header listView-actions"></div>
+
+  {% for kaltura in kaltura_accounts %}
+    <div class="integrationList-channel">
+      <a class="ajaxLink" data-href="{% url 'teams:settings_externalsites' team.slug %}?form=edit-kaltura&selection={{ kaltura.pk }}">
+        {{ kaltura.partner_id }}
+      </a>
+      <!-- no secondary info for Kaltura accounts -->
+    </div>
+
+    {% include 'future/teams/settings/_integrations_actions.html' with menu_id="context-menu-kaltura" form_name="edit-kaltura" remove_form_name="remove-kaltura" account=kaltura %}   
+  {% endfor %}
+  {% endif %}
+
+  {% if brightcove_accounts %}
+  <div class="listView-header integrationList-channel">{% trans 'Brightcove CMS account' %}</div>
+  <div class="listView-header listView-actions"></div>
+
+  {% for brightcove in brightcove_accounts %}
+    <div class="integrationList-channel">
+      <a class="ajaxLink" data-href="{% url 'teams:settings_externalsites' team.slug %}?form=edit-brightcove&selection={{ brightcove.pk }}">
+        {{ brightcove.client_id }}
+      </a>
+      <!-- no secondary info for BrightcoveCMS accounts -->
+    </div>
+
+    {% include 'future/teams/settings/_integrations_actions.html' with menu_id="context-menu-brightcove" form_name="edit-brightcove" remove_form_name="remove-brightcove" account=brightcove %}     
+  {% endfor %}
+  {% endif %}
+  
+</div>
+
+{% else %}
+
+<div class="zero-state">
+  {% trans 'No integration accounts' %}
+</div>
+
+{% endif %}

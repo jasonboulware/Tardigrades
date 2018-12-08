@@ -1,0 +1,61 @@
+{% load i18n %}
+<h4>{% trans "Summary" %}</h4>
+<table>
+	<thead>
+	<tr>
+		<th>{% trans "Total calls" %}</th>
+		<th>{% trans "Total time" %}</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr>
+		<td>{{ total_calls }}</td>
+		<td>{{ total_time }} ms</td>
+	</tr>
+	</tbody>
+</table>
+<h4>{% trans "Commands" %}</h4>
+<table>
+	<thead>
+	<tr>
+	{% for name, count in counts %}
+		<th>{{ name }}</th>
+	{% endfor %}
+	</tr>
+	</thead>
+	<tbody>
+	<tr>
+	{% for name, count in counts %}
+		<td>{{ count }}</td>
+	{% endfor %}
+	</tr>
+	</tbody>
+</table>
+{% if calls %}
+<h4>{% trans "Calls" %}</h4>
+<table>
+	<thead>
+		<tr>
+			<th colspan="2">{% trans "Time (ms)" %}</th>
+			<th>{% trans "Type" %}</th>
+			<th>{% trans "Key(s)" %}</th>
+		</tr>
+	</thead>
+	<tbody>
+	{% for call in calls %}
+		<tr class="{% cycle 'djDebugOdd' 'djDebugEven' %}" id="cacheMain_{{ forloop.counter }}">
+			<td class="djdt-toggle">
+				<a class="djToggleSwitch" data-toggle-name="cacheMain" data-toggle-id="{{ forloop.counter }}" data-toggle-open="+" data-toggle-close="-" href="javascript:void(0)">+</a>
+			</td>
+			<td>{{ call.time|floatformat:"4" }}</td>
+			<td>{{ call.name|escape }}</td>
+                        <td>{% for key in call.keys %}{{key}}<br>{% endfor %}</td>
+		</tr>
+		<tr class="djUnselected djDebugHoverable {% cycle 'djDebugOdd' 'djDebugEven' %} djToggleDetails_{{ forloop.counter }}" id="cacheDetails_{{ forloop.counter }}">
+			<td colspan="1"></td>
+			<td colspan="3"><pre class="djdt-stack">{{ call.stacktrace }}</pre></td>
+		</tr>
+	{% endfor %}
+	</tbody>
+</table>
+{% endif %}

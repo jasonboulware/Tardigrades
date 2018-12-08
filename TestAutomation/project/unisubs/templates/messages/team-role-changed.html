@@ -1,0 +1,26 @@
+{% load i18n localeurl_tags %}
+{% if old_role_name != new_role_name %}
+<p>{% blocktrans %}Your role has been changed from {{ old_role_name }} to {{ new_role_name }} on the {{ team_name }} team.{% endblocktrans %}</p>
+{% else %}
+<p>{% trans "Your management capabilities have changed. You can now manage:" %}</p>
+{% endif %}
+
+{% if languages_managed %}
+<p>{% trans "Languages:" %}</p>
+<ul>
+  {% for language in languages_managed %}<li>{{ language.readable_name }}</li>{% endfor %}
+</ul>
+{% endif %}
+
+{% if projects_managed %}
+<p>{% trans "Projects:" %}</p>
+<ul>
+  <li>{% for project in projects_managed %}{{ project }}</li>{% endfor %}
+</ul>
+{% endif %}
+
+{% if custom_message %}<p>{{ custom_message }}</p>{% endif %}
+
+{% if member.is_any_type_of_manager %}
+<p>{% blocktrans with management_url=management_url|universal_url %}You can manage the work on this team from the <a href="{{ management_url }}">Management tab</a>.{% endblocktrans %}</p>
+{% endif %}

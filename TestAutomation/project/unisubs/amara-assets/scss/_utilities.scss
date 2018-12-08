@@ -1,0 +1,189 @@
+// Layout
+
+// Hide content on load. (FOUT versus FOIT)
+.wf-loading {
+  nav, .content { opacity: 0; }
+}
+.wf-active {
+  nav, .content { opacity: 1; }
+}
+.wf-inactive {
+  nav, .content { opacity: 1; }
+}
+
+
+
+.clearfix {
+  *zoom: 1;
+  &:before,
+  &:after {
+    display: table;
+    content: "";
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+.grid {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  .item {
+    width: 33%;
+  }
+  .col-* {
+    float: none;
+  }
+}
+
+.break-33 {
+  width: 33% !important;
+}
+.break-50 {
+  width: 50% !important;
+}
+.break-60 {
+  width: 60% !important;
+}
+.break-70 {
+  width: 70% !important;
+}
+.break-80 {
+  width: 80% !important;
+}
+.break-90 {
+  width: 90% !important;
+}
+
+// column wrap 
+.col2 {
+  column-count: 2;
+  column-gap: 40px;
+  li {
+    break-inside: avoid;
+    margin-bottom: 0;
+    margin-top: 1em;
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+}
+.col3 {
+  column-count: 3;
+  column-gap: 40px;
+  li {
+    break-inside: avoid;
+    margin-bottom: 0;
+    margin-top: 1em;
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+}
+
+.muted, .faded {
+  opacity: 0.5;
+}
+
+img.pull-left {
+  margin-right: 12px;
+}
+img.pull-right {
+  margin-left: 12px;
+}
+
+//play button
+.play-button {
+  display: flex;
+  align-items: center;
+  text-transform: capitalize;
+  &.center {
+    justify-content: center;
+  }
+  &:hover {
+    i {
+      color: $amaranth;
+    }
+  }
+  i {
+    font-size: 40px;
+    margin-right: 10px;
+  }
+}
+
+//caret styles
+.caret {
+  border-right: 3px solid transparent;
+  border-left: 3px solid transparent;
+}
+
+
+@media (max-width: $screen-xs-max) and (min-width: 0) {
+  .visible-xs {
+    display: block!important;
+  }
+  .hidden-xs {
+    display: none!important;
+  }
+}
+
+@media (max-width: $screen-sm-max) and (min-width: $screen-sm-min) {
+  .visible-sm {
+    display: block!important;
+  }
+  .hidden-sm {
+    display: none!important;
+  }
+}
+
+@media (max-width: $screen-md-max) and (min-width: $screen-md-min) {
+  .visible-md {
+    display: block!important;
+  }
+  .hidden-md {
+    display: none!important;
+  }
+}
+
+
+// Media Queries
+
+@media(max-width: $screen-md-max) {
+
+}
+
+@media(max-width: $screen-sm-max) {
+  .grid {
+    .item {
+      width: 50%;
+    }
+  }
+}
+
+@media(max-width: $screen-xs-max) {
+  .grid {
+    .item {
+      width: 100%;
+    }
+  }
+
+  // breaks go to full width
+  .break-33,
+  .break-50,
+  .break-60,
+  .break-70,
+  .break-80,
+  .break-90, {
+    width: 100% !important;
+  }
+
+  // columns stop wrapping 
+  .col2 {
+    column-count: 1;
+  }
+  .col3 {
+    column-count: 1;
+  }
+}

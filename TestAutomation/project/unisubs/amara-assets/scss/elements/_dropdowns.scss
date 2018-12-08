@@ -1,0 +1,59 @@
+.dropdownMenu {
+  position: absolute;
+  display: none;
+  @include shadow;
+  background: $white;
+
+  z-index: $z-index-menu;
+
+  flex-direction: column;
+}
+
+.dropdownMenu-item {
+  &.separator {
+    border-top: 1px solid dark($snow);
+  }
+}
+
+.dropdownMenu-link {
+  display: block;
+  position: relative;
+  width: 100%;
+  text-align: left;
+
+  @include no-underline;
+  color: inherit;
+  font-weight: normal;
+  padding: 4px 28px 4px 28px;
+  color: light($charcoal);
+
+  &:hover, &:focus {
+    background: $snow;
+    color: light($charcoal);
+  }
+
+  &.header {
+    background: inherit;
+    text-align: center;
+    color: $gray;
+    cursor: normal;
+  }
+
+  &.disabled {
+    color: light($gray);
+    cursor: not-allowed;
+
+    &:hover, &:focus {
+      background: $white;
+      color: light($gray);
+    }
+  }
+}
+
+.dropdownMenu-icon {
+  position: absolute;
+  left: 8px;
+  top: 4px;
+  font-size: 14px;
+  line-height: 20px;
+}

@@ -1,0 +1,104 @@
+{% extends "styleguide/base.html" %}
+{% load dropdown captureas ui %}
+
+{% block content %}
+
+<section>
+  <p>List View is a generic way to display items in a tabular layout.</p>
+
+
+  <div class="content">
+    <h3>List View items have:</h3>
+    <ul class="bullets">
+      <li>Associated actions that get hidden until the user hovers the row.</li>
+      <li>A checkbox column that can get hooked up to an <a href="{% url "styleguide:section" "actionBar" %}">action bar</a></li>
+      <li>Extra information that gets show when you expand the item.  Click anywhere on a row to expand it. Don't forget to include the `expandable` class if your rows have extra information.</li>
+    </ul>
+  </div>
+
+  <div class="content">
+    <h3>Keyboard Controls</h3>
+    <ul class="bullets">
+      <li>Up/Down -- navigate the list</li>
+      <li>Space -- toggle the checkbox</li>
+      <li>Enter -- Activate the right-most action (usually a context menu)</li>
+      <li>Ctrl-a -- Select all checkboxes</li>
+    </ul>
+  </div>
+
+  <div class="content">
+    <h3>Responsive Design and mobile</h3>
+    <p>As the browser width shrinks, we hide columns so the listView will fit.  In the example below, we hide everything except the title/language columns.</p>
+    <p>On mobile devices, you use a long press to bring up the context menu.</p>
+  </div>
+
+  {% comment %}
+  Note: To handle sizing/hiding columns, we need some extra CSS for each
+  listview.  Check out the bottom of the _list_view.scss file for examples and
+  more details.
+  {% endcomment %}
+
+  {% comment %}
+  Don't forget to include the `expandable` class if your listView rows contain secondary information
+  {% endcomment %}
+  <div tabindex="0" class="listView expandable styleguideExample">
+    <div class="listView-header listView-checkbox">{% checkbox "all" id_prefix="selection-" class="checkAll" data_name="selection" %}</div>
+    <div class="listView-header styleguideExample-title">Title</div>
+    <div class="listView-header styleguideExample-language">Language</div>
+    <div class="listView-header listView-actions">
+      {% dropdown-button-icon "header-menu" "listView-action" %}
+      {% dropdown "header-menu" %}
+      {% dropdown-header-item "Sort" %}
+      {% dropdown-js-item "a-z" "update-filter" "sort" "name" "default" %}
+      {% dropdown-js-item "z-a" "update-filter" "sort" "-name" %}
+      {% dropdown-js-item "newest first" "update-filter" "sort" "-created" %}
+      {% dropdown-js-item "oldest first" "update-filter" "sort" "created" %}
+      {% enddropdown %}
+    </div>
+
+    {% for i in "x"|rjust:"10" %} {# dirty way to do a for loop #}
+    {% captureas menu_id %}menu-1-{{ forloop.counter }}{% endcaptureas %}
+    <div class="listView-checkbox">{% checkbox forloop.counter id_prefix="selection-" name="selection" %}</div>
+    <div class="styleguideExample-title">{% lorem 20 w random %}<div class="listView-secondary">Some extra info</div></div>
+    <div class="styleguideExample-language">{% cycle "English" "French" "Spanish" "Japanese" %}<div class="listView-secondary">Some extra info</div></div>
+    <div class="listView-actions">
+      {% dropdown-button-icon menu_id "listView-action" %}
+      {% dropdown menu_id %}
+      {% dropdown-js-item _('Show Details') 'expand' class="listView-showDetails" icon="fa-info-circle" %}
+      {% dropdown-item _('Edit') "profiles:dashboard" separator=True %}
+      {% dropdown-item _('Delete') "profiles:dashboard" %}
+      {% enddropdown %}
+    </div>
+    <div class="listView-secondaryRow">An entire extra row of info</div>
+    {% endfor %}
+  </div>
+</section>
+
+<section>
+  <p>A varient of List View is the always-expanded version.  Here the secondary info is shown by default, without having to expand it.</p>
+
+  <div class="listView styleguideExample">
+    <div class="listView-header listView-checkbox">{% checkbox "all" id_prefix="selection2-" class="checkAll" data_name="selection2" %}</div>
+    <div class="listView-header styleguideExample-title">Title</div>
+    <div class="listView-header styleguideExample-language">Language</div>
+    <div class="listView-header listView-actions"></div>
+
+    {% for i in "x"|rjust:"10" %} {# dirty way to do a for loop #}
+    {% captureas menu_id %}menu-2-{{ forloop.counter }}{% endcaptureas %}
+    <div class="listView-checkbox">{% checkbox forloop.counter id_prefix="selection2-" name="selection2" %}</div>
+
+    {# To make an always-expanded listview, just add the visible class to the secondary info  #}
+    <div class="styleguideExample-title">{% lorem 4 w random %}<div class="listView-secondary visible">Some extra info</div></div>
+    <div class="styleguideExample-language">{% cycle "English" "French" "Spanish" "Japanese" %}<div class="listView-secondary visible">Some extra info</div></div>
+    <div class="listView-actions">
+      {% dropdown-button-icon menu_id "listView-action" %}
+      {% dropdown menu_id %}
+      {% dropdown-item _('Edit') "profiles:dashboard" separator=True %}
+      {% dropdown-item _('Delete') "profiles:dashboard" %}
+      {% enddropdown %}
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+{% endblock %}

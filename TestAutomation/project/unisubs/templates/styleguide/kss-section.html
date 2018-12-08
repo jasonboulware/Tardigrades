@@ -1,0 +1,23 @@
+{% extends "styleguide/base.html" %}
+{% block content %}
+{{ section.description|safe }}
+{% for example in section.examples %}
+<h2>Example:</h2>
+<div class="styleGuide-exampleBox">
+  <h4 class="styleGuide-exampleTitle">Example</h4>
+  <pre class="styleGuide-exampleSource">{{ example.source }}</pre>
+  <div class="styleGuide-examples">
+    {% for style in example.styles %}
+    <div class="styleGuide-example">
+      {% if style.name %}
+      <h3>{{ style.name }}{% if style.description %}<span class="styleGuide-exampleDescription">{{ style.description }}</span>{% endif %}</h3>
+      {% elif example.styles|length > 1 %}
+      <h3>Default style</h3>
+      {% endif %}
+      {{ style.html|safe }}
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endfor %}
+{% endblock %}

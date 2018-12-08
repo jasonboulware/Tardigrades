@@ -1,0 +1,20 @@
+{% load i18n teams_tags %}
+{% if is_welcome_page %} 
+    <!-- do not show any navlink for non-member team landing pages -->
+{% else %}
+<nav class="primarynav mainnav-nav wide">
+  <ul>
+    <li{% if team_nav == "dashboard" %} class="active"{% endif %}><a href="{% url "teams:dashboard" team.slug %}">{% trans "Dashboard" %}</a></li>
+    <li{% if team_nav == "videos" %} class="active"{% endif %}><a href="{{ team|team_video_page_default:request }}">{% trans "Videos" %}</a></li>
+    <li{% if team_nav == "member_directory" %} class="active"{% endif %}><a href="{% url "teams:members" team.slug %}">{% trans "Members" %}</a></li>
+    <li{% if team_nav == "activity" %} class="active"{% endif %}><a href="{% url "teams:activity" team.slug %}">{% trans "Activity" %}</a></li>
+    {% if team.resources_page_content %}<li{% if team_nav == "resources" %} class="active"{% endif %}><a href="{% url "teams:resources" team.slug %}">{% trans "Resources" %}</a></li>{% endif %}
+    {% if team|can_view_management_tab:request.user or team|can_view_project_or_language_management_tab:request.user%}
+    <li{% if team_nav == "management" %} class="active"{% endif %}><a href="{{ team|management_page_default:request.user }}">{% trans "Management" %}</a></li>
+    {% endif %}
+    {% if team|can_view_settings_tab:user %}
+    <li{% if team_nav == "settings" %} class="active"{% endif %}><a href="{% url "teams:settings_basic" slug=team.slug %}">{% trans "Settings" %}</a></li>
+    {% endif %}
+  </ul>
+</nav>
+{% endif %}

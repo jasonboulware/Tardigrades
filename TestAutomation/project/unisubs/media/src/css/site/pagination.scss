@@ -1,0 +1,22 @@
+.show-more-pagination {
+    padding-top: 20px;
+
+    text-align: center;
+
+    img.loading-icon {
+        display: none;
+    }
+}
+
+ul.paginator {
+    text-align: center;
+    li {
+        display: inline;
+        padding: 5px 10px;
+    }
+}
+
+.total-count {
+    margin-top: 10px;
+    text-align: center;
+}

@@ -1,0 +1,30 @@
+{% extends 'videos/email_base.html' %}
+
+{% load i18n localeurl_tags %}
+
+{% block content %}
+    <p style="font-size: 12px;">
+        {% blocktrans %}
+            {{ team_name }} is inviting you to join their subtitling team!
+        {% endblocktrans %}
+        {% if message %}
+            <br/>
+            <br/>
+            {{ message }}
+        {% endif %}
+        <br/>
+        <br/>
+        {% trans "Please click on " %}
+        <a href="{{ url_base }}{{ invite_url|rmlocale }}">{% trans "this link" %}</a>        
+        {% trans " to accept the invite and create an account." %}
+        <br/>
+        {% trans "If the above link is not working, please try copy-pasting the link below into your browser's address bar:" %}
+        <br/>
+        {{ url_base }}{{ invite_url|rmlocale }}
+        
+    </p>
+{% endblock %}
+
+{% block dont_send %}{% endblock %}
+
+{% block stop_notification %}{% endblock %}

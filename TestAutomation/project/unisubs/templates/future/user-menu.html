@@ -1,0 +1,26 @@
+{% load i18n amara_cache dropdown %}
+<ul>
+  <li>
+    {% dropdown-button user_menu_id "topnav-button user-menu amaranth bold" %}{{ request.user.username }}{% end-dropdown-button %}
+
+    {% dropdown user_menu_id %}
+    {% dropdown-item _('Dashboard') "profiles:dashboard" %}
+    {% dropdown-item _('Profile') "profiles:edit" %}
+    {% dropdown-item _('Videos') "profiles:videos" request.user.username %}
+    {% dropdown-item _('Messages') "messages:inbox" %}
+    {% dropdown-item _('Account') "profiles:account" %}
+    {% dropdown-item _('Subtitle video') "videos:create" %}
+    {% dropdown-item _('Logout') "logout" %}
+
+    {% cache-by-user futureui-top-panel %}
+    {% if request.user.teams.all %}
+    {% dropdown-item _('Your Teams') "teams:user_teams" separator=True %}
+    {% for team in request.user.teams.all %}
+    {% dropdown-item team "teams:dashboard" team.slug %}
+    {% endfor %}
+    {% endif %}
+    {% endcache %}
+
+    {% enddropdown %}
+  </li>
+</ul>

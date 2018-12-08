@@ -1,0 +1,29 @@
+{% load i18n teams_tags %}
+
+<ul>
+    <li {% if current_sub == "settings" %}class="current"{% endif %}>
+        <a href="{% url "teams:settings_basic" slug=team.slug %}">{% trans "Team Details" %}</a>
+    </li>
+
+    <li {% if current_sub == "messages" %}class="current"{% endif %}>
+        <a href="{% url "teams:settings_messages" slug=team.slug %}">{% trans "Messages" %}</a>
+    </li>
+
+    <li {% if current_sub == "workflows" %}class="current"{% endif %}>
+        <a href="{% url "teams:settings_workflows" slug=team.slug %}">{% trans "Workflows" %}</a>
+    </li>
+
+    {% for page in team|extra_settings_pages:request.user %}
+    <li{% if current_sub == page.name %} class="current" {% endif %}>
+        <a href="{{ page.url }}">{{ page.title }}</a>
+    </li>
+    {% endfor %}
+
+    <li {% if current_sub == "projects" %}class="current"{% endif %}>
+        <a href="{% url "teams:settings_projects" slug=team.slug %}">{% trans "Projects" %}</a>
+    </li>
+
+    <li {% if current_sub == "external-sites" %}class="current"{% endif %}>
+        <a href="{% url "teams:settings_externalsites" slug=team.slug %}">{% trans "Integrations" %}</a>
+    </li>
+</ul>

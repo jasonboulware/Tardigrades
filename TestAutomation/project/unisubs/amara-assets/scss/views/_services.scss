@@ -1,0 +1,47 @@
+.services_view {
+  
+}
+
+#how-it-works {
+  img {
+    margin: 30px auto;
+    width: 120px;
+  }
+}
+
+#success-stories {
+  img {
+    margin-bottom: 20px;
+  }
+  p {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  ul {
+    margin-bottom: 20px;
+  }
+}
+
+#get-started-services {
+  iframe {
+    // min-height: 740px;
+  }
+}
+
+// Media Queries
+
+@media(max-width: $screen-md-max) {
+
+}
+
+@media(max-width: $screen-sm-max) {
+  #get-started-services {
+    iframe {
+      min-height: 740px;
+    }
+  }
+}
+
+@media(max-width: $screen-xs-max) {
+
+}

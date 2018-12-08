@@ -1,0 +1,23 @@
+div.message {
+    padding: 20px;
+    border: 1px solid;
+    border-color: $light-gray;
+    background: $lightest-gray;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    font-size: $large-font-size;
+
+    &.success {
+        background: $success;
+        border-color: darken($success, 20);
+    }
+    &.warning {
+        background: $warning;
+        border-color: darken($warning, 20);
+    }
+    &.error {
+        background: $error-bg;
+        border-color: darken($error-bg, 20);
+    }
+}
+

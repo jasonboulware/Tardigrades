@@ -1,0 +1,16 @@
+#!/bin/sh
+
+
+if [ "$1" = "public" ]; then 
+  git submodule init babelsubs
+  git submodule init unilangs
+  git submodule init pykss
+  git submodule init amara-assets
+elif [ "$1" = "all" ] ; then
+  git submodule init
+else
+  echo "Usage: get-submodules [all|public]"
+  exit 1
+fi
+
+git submodule update

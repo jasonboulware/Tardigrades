@@ -1,0 +1,20 @@
+{# Used to search for TeamVideos on the Team Detail page #}
+{{ object }}
+{{ object.video.description }}
+{{ object.video.title }}
+{{ object.description }}
+
+{% for sl in object.video.newsubtitlelanguage_set.all %}
+    {{ sl.get_title }}
+    {{ sl.get_description }}
+    {% with sl.get_public_tip as tip %}
+        {% if tip %}
+            {% for line in tip.get_subtitles %}
+                {{ line.text }}
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+{% endfor %}
+
+{% for lp in object.searchable_language_pairs %}{{lp}} {% endfor %}
+{% for l in object.searchable_languages %}{{l}} {% endfor %}

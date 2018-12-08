@@ -1,0 +1,11 @@
+{% load i18n utils_tags %}
+<ul class="metrics">
+    {% for metric in metrics %}
+    <li>
+        {% if with_links %}<a href="{{ metric.url }}">{% else %}<div>{% endif %}
+            <span class="count">{{ metric.count }}</span>
+            {{ metric.label }}
+        {% if with_links %}</a>{% else %}</div>{% endif %}
+    </li>
+    {% endfor %}
+</ul>

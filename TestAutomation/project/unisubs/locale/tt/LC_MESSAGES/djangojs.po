@@ -1,0 +1,227 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: Amara\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-11-20 10:24-0600\n"
+"PO-Revision-Date: 2018-11-20 16:24+0000\n"
+"Last-Translator: bendk <ben@pculture.org>\n"
+"Language-Team: Tatar (http://www.transifex.com/universalsubtitles/universalsubtitles/language/tt/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: tt\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: media/src/js/subtitle-editor/durationpicker.js:31
+msgctxt "hours"
+msgid "h"
+msgstr ""
+
+#: media/src/js/subtitle-editor/durationpicker.js:37
+msgctxt "minutes"
+msgid "m"
+msgstr ""
+
+#: media/src/js/subtitle-editor/durationpicker.js:43
+msgctxt "seconds"
+msgid "s"
+msgstr ""
+
+#: media/src/js/subtitle-editor/durationpicker.js:49
+msgctxt "milliseconds"
+msgid "ms"
+msgstr ""
+
+#: media/src/js/subtitle-editor/shifttime.js:47
+#: media/src/js/subtitle-editor/shifttime.js:105
+msgid "An invalid time was entered."
+msgstr ""
+
+#: media/src/js/subtitle-editor/shifttime.js:50
+msgid ""
+"Shift subtitles forward in bulk by a set amount of time.  This feature is "
+"useful when you edit the video and insert a new segment after already "
+"creating subtitles."
+msgstr ""
+
+#: media/src/js/subtitle-editor/shifttime.js:53
+#: media/src/js/subtitle-editor/shifttime.js:111
+msgid "No subtitles to shift."
+msgstr ""
+
+#: media/src/js/subtitle-editor/shifttime.js:56
+msgid "Start time is after last subtitle."
+msgstr ""
+
+#: media/src/js/subtitle-editor/shifttime.js:60
+msgid "Shift subtitles starting at %(start_time)s forward by %(amount)s."
+msgstr ""
+
+#: media/src/js/subtitle-editor/shifttime.js:62
+msgid "Shift all subtitles forward by %(amount)s."
+msgstr ""
+
+#: media/src/js/subtitle-editor/shifttime.js:69
+msgid "Shift amount would move the last subtitle past the end of the video."
+msgstr ""
+
+#: media/src/js/subtitle-editor/shifttime.js:108
+msgid ""
+"Delete all subtitles in a time range, and shift subtitles afterwards back by"
+" the duration.  This feature is useful when you edit the video and delete a "
+"segment after already creating subtitles."
+msgstr ""
+
+#: media/src/js/subtitle-editor/shifttime.js:114
+msgid "Start time is after end time."
+msgstr ""
+
+#: media/src/js/subtitle-editor/shifttime.js:117
+msgid ""
+"Delete subtitles between %(start_time)s and %(end_time)s.  Shift subtitles "
+"after that back by %(amount)s."
+msgstr ""
+
+#: media/src/js/subtitle-editor/shifttime.js:125
+msgid "Warning: Start time exceeds the video duration."
+msgstr ""
+
+#: media/src/js/subtitle-editor/subtitles/models.js:618
+#: media/src/js/subtitle-editor/subtitles/models.js:636
+msgid "Time change"
+msgstr ""
+
+#: media/src/js/subtitle-editor/subtitles/models.js:645
+msgid "Clear timings"
+msgstr ""
+
+#: media/src/js/subtitle-editor/subtitles/models.js:652
+msgid "Clear text"
+msgstr ""
+
+#: media/src/js/subtitle-editor/subtitles/models.js:661
+msgid "Delete empty subtitles"
+msgstr ""
+
+#: media/src/js/subtitle-editor/subtitles/models.js:684
+msgid "Copy timings"
+msgstr ""
+
+#: media/src/js/subtitle-editor/subtitles/models.js:710
+msgid "Shift forward"
+msgstr ""
+
+#: media/src/js/subtitle-editor/subtitles/models.js:759
+msgid "Shift backward"
+msgstr ""
+
+#: media/src/js/subtitle-editor/subtitles/models.js:769
+msgid "Subtitle edit"
+msgstr ""
+
+#: media/src/js/subtitle-editor/subtitles/models.js:778
+msgid "Paragraph change"
+msgstr ""
+
+#: media/src/js/subtitle-editor/subtitles/models.js:787
+msgid "Position change"
+msgstr ""
+
+#: media/src/js/subtitle-editor/subtitles/models.js:837
+#: media/src/js/subtitle-editor/subtitles/models.js:848
+msgid "Insert subtitle"
+msgstr ""
+
+#: media/src/js/subtitle-editor/subtitles/models.js:876
+msgid "Split subtitle"
+msgstr ""
+
+#: media/src/js/subtitle-editor/subtitles/models.js:882
+msgid "Remove subtitle"
+msgstr ""
+
+#: media/src/js/subtitle-editor/subtitles/models.js:1027
+msgid "Undo: %(command)s"
+msgstr ""
+
+#: media/src/js/subtitle-editor/subtitles/models.js:1030
+msgid "Undo"
+msgstr ""
+
+#: media/src/js/subtitle-editor/subtitles/models.js:1036
+msgid "Redo: %(command)s"
+msgstr ""
+
+#: media/src/js/subtitle-editor/subtitles/models.js:1039
+msgid "Redo"
+msgstr ""
+
+#: media/src/js/subtitle-editor/subtitles/services.js:341
+msgid "milliseconds"
+msgstr ""
+
+#: media/src/js/subtitle-editor/subtitles/services.js:343
+#: media/src/js/subtitle-editor/subtitles/services.js:345
+msgid "seconds"
+msgstr ""
+
+#: media/src/js/subtitle-editor/subtitles/services.js:350
+msgid ""
+"Avoid more than %(count)s line per subtitle; split the subtitle into two."
+msgid_plural ""
+"Avoid more than %(count)s lines per subtitle; split the subtitle into two."
+msgstr[0] ""
+
+#: media/src/js/subtitle-editor/subtitles/services.js:355
+msgid ""
+"Briefly displayed subtitles are hard to read; the duration should be more "
+"than %(milliseconds)s."
+msgstr ""
+
+#: media/src/js/subtitle-editor/subtitles/services.js:359
+msgid ""
+"Reading rate shouldn't exceed %(count)s characters / sec; lengthen duration,"
+" reduce text or split the subtitle."
+msgstr ""
+
+#: media/src/js/subtitle-editor/subtitles/services.js:363
+msgid ""
+"Line length shouldn't exceed %(count)s characters; add a line break if "
+"necessary."
+msgstr ""
+
+#: media/src/js/subtitle-editor/subtitles/services.js:369
+msgid "Avoid more than %(count)s line per subtitle."
+msgid_plural "Avoid more than %(count)s lines per subtitle."
+msgstr[0] ""
+
+#: media/src/js/subtitle-editor/subtitles/services.js:373
+msgid "Subtitles should at least %(milliseconds)s."
+msgstr ""
+
+#: media/src/js/subtitle-editor/subtitles/services.js:376
+msgid "Split subtitles longer than %(milliseconds)s."
+msgstr ""
+
+#: media/src/js/subtitle-editor/subtitles/services.js:379
+msgid "Reading rate shouldn't exceed %(count)s characters / sec."
+msgstr ""
+
+#: media/src/js/subtitle-editor/subtitles/services.js:382
+msgid "Keep subtitle length to about %(count)s characters."
+msgstr ""
+
+#: media/src/js/site/team-videos.js:51
+msgid "1 video selected"
+msgid_plural "%(count)s videos selected"
+msgstr[0] ""
+
+#: amara-enterprise/media/js/site/collab.js:53
+msgid "1 collaboration selected"
+msgid_plural "%(count)s collaborations selected"
+msgstr[0] ""

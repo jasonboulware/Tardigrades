@@ -1,0 +1,76 @@
+{% load i18n forms assets modal %}
+{% startmodal "add-videos-dialog" _('Add Video') remove_on_close=True %}
+<ul class="nav nav-tabs modal-tabs">
+  <li{% if current_tab == 'add-form' %} class="active"{% endif %}><a href="#modal_tab_one" data-toggle="tab">{% trans "Add video URL" %}</a></li>
+  <li{% if current_tab == 'add-multiple' %} class="active"{% endif %}><a href="#modal_tab_two" data-toggle="tab">{% trans "Add multiple video URLs" %}</a></li>
+  {% if form_bulk %}
+  <li{% if current_tab == 'add-csv' %} class="active"{% endif %}><a href="#modal_tab_three" data-toggle="tab">{% trans "CSV upload" %}</a></li>
+  {% endif %}
+</ul>
+<div class="tab-content">
+  <div id="modal_tab_one" class="tab-pane {% if current_tab == 'add-form' %}active{% endif %}">
+    <form class="ajaxForm" action="{{ request.get_full_path }}" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="modal-content">
+        {% include "future/forms/non-field-errors.html" %}
+        <input type="hidden" name="form" value="add-form">
+        {% if form.include_all %}
+        {{ form.include_all|render_field }}
+        {% endif  %}
+        {{ form.video_url|render_field }}
+        {{ form.language|render_field }}
+        {% if form.fields.project.enabled %}
+        {{ form.project|render_field }}
+        {% endif %}
+      </div>
+      <div class="modal-footer">
+        <button class="button borderless modal-close">{% trans "Cancel" %}</button>
+        <button class="button cta">{% trans "Add" %}</button>
+      </div>
+    </form>
+  </div>
+  <div id="modal_tab_two" class="tab-pane {% if current_tab == 'add-multiple' %}active{% endif %}">
+    <form class="ajaxForm" action="{{ request.get_full_path }}" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="modal-content">
+        {% include "future/forms/non-field-errors.html" %}
+        <input type="hidden" name="form" value="add-multiple">
+        {% if form_multiple.include_all %}
+        {{ form_multiple.include_all|render_field }}
+        {% endif  %}
+        {{ form_multiple.video_urls|render_field }}
+        {{ form_multiple.language|render_field }}
+        {% if form_multiple.fields.project.enabled %}
+        {{ form_multiple.project|render_field }}
+        {% endif %}
+      </div>
+      <div class="modal-footer">
+        <button class="button borderless modal-close">{% trans "Cancel" %}</button>
+        <button class="button cta">{% trans "Add Multiple" %}</button>
+      </div>
+    </form>
+  </div>
+  {% if form_bulk %}
+  <div id="modal_tab_three" class="tab-pane {% if current_tab == 'add-csv' %}active{% endif %}">
+    <form class="ajaxForm" action="{{ request.get_full_path }}" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="modal-content">
+        <p>{% trans "Please use this " %}<a href="{% asset "img/template.csv" %}" download>{% trans "CSV Import Template" %}</a>{% trans " as the basis for your import. The Video URL field is mandatory, but all other fields can be left blank." %}</p>
+        <p>{% trans "A CSV file can be created with a text editor or using the export function of a spreadsheet editor." %}</p>
+        <p>{% trans "Upon completion, you will receive a summary by email." %}</p>
+          {% include "future/forms/non-field-errors.html" %}
+          <input type="hidden" name="form" value="add-csv">
+          {% if form_bulk.include_all %}
+          {{ form_bulk.include_all|render_field }}
+          {% endif  %}
+          {{ form_bulk.csv_file|render_field }}
+      </div>
+      <div class="modal-footer">
+        <button class="button borderless modal-close">{% trans "Cancel" %}</button>
+        <button class="button cta">{% trans "Add" %}</button>
+      </div>
+    </form>
+  </div>
+  {% endif %}
+</div>
+{% endmodal %}

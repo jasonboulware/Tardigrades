@@ -1,0 +1,57 @@
+.volunteer_view {
+
+}
+#find-team {
+  .grid {
+    .item { width: 50%; }
+  }
+  .team-profile {
+    display: flex;
+    align-items: flex-start;
+    padding: 20px;
+    h3 {
+      margin-top: 0;
+    }
+    .team-logo {
+      width: 25%;
+      margin: 0;
+    }
+    .team-details {
+      width: 70%;
+      margin: 0;
+      margin-left: auto;
+    }
+  }
+}
+
+// Media Queries
+
+
+@media(min-width: $screen-lg-min) {
+  .volunteer_view {
+    .intro {
+      height: 475px;
+    }
+  }
+}
+
+@media(max-width: $screen-md-max) {
+
+}
+
+@media(max-width: $screen-sm-max) {
+  #find-team {
+    .grid {
+      .item { width: 50%; }
+    }
+  }
+
+}
+
+@media(max-width: $screen-xs-max) {
+  #find-team {
+    .grid {
+      .item { width: 100%; }
+    }
+  }
+}

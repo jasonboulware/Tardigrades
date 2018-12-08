@@ -1,0 +1,478 @@
+{% load i18n %}
+<aside ng-controller="GuidelinesController" modal-dialog="guidelines" allow-close class="modal" role="dialog" id="guidelines-modal" tabindex="-1" aria-labeledby="guidelines-heading" dir="[[ workingSubtitles.language.dir ]]">
+    <ng-switch on="showTeamGuidelines()">
+    <h3 ng-switch-when="true">[[ teamName ]] Guidelines</h3>
+    <h3 id="guidelines-heading" ng-switch-when="false">{% trans "Amara Style Guidelines" %}</h3>
+    </ng-switch>
+    <div class="modal-content" ng-show="!teamGuidelines">
+        <table>
+            <tr>
+                <td>{% trans "Subtitle line length" %}</td>
+                <td>[[ guidelines.cpl ]]<br>[[ guidelines.lines ]]</td>
+            </tr>
+            <tr>
+                <td>{% trans "Minimum duration" %}</td>
+                <td>[[ guidelines.minDuration ]]</td>
+            </tr>
+            <tr>
+                <td>{% trans "Maximum duration" %}</td>
+                <td>[[ guidelines.maxDuration ]]</td>
+            </tr>
+            <tr>
+                <td>{% trans "Reading speed" %}</td>
+                <td>[[ guidelines.cps ]]</td>
+            </tr>
+            <tr>
+                <td>{% trans "Sounds" %}</td>
+                <td>{% trans "Describe meaningful sounds that are relevant to the plot." %}<br/>
+                    {% trans "ex: (water dripping)" %}</td>
+            </tr>
+            <tr>
+                <td>{% trans "Music" %}</td>
+                <td>{% trans "Describe relevant music which does not have relevant lyrics." %}<br/>
+                    {% trans "ex: ♪ (jazz music) ♪" %}</td>
+            </tr>
+            <tr>
+                <td>{% trans "Speaker Identification" %}</td>
+                <td>{% trans "Use parenthesis to indicate when someone is speaking off-screen." %}<br/>
+                    {% trans "ex: (Michael) Wait for me!" %}</td>
+            </tr>
+        </table>
+        <a class="expand-link" href="" ng-click="showAdvancedGuidelines = true" ng-init="showAdvancedGuidelines=false" ng-show="!showAdvancedGuidelines">{% trans "Show Advanced Guidelines" %} &#x25B6;</a>
+        <a class="expand-link" href="" ng-click="showAdvancedGuidelines = false" ng-show="showAdvancedGuidelines">{% trans "Hide Advanced Guidelines" %} &#x25BC;</a>
+        <div ng-show="showAdvancedGuidelines" id="advanced-guidelines">
+            <table>
+                <tr>
+                    <td>{% trans "Translate the whole idea" %}</td>
+                    <td>{% trans "Translations don't need to be word for word. Look at the context." %}<br/>
+                        {% trans "Make sure you are using the correct punctuation for the whole unit of text." %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>{% trans "Maximum timing offset" %}</td>
+                    <td>{% trans "Subtitles shouldn't start more than 0.5 seconds before or after the audio begins." %}</td>
+                </tr>
+                <tr>
+                    <td>{% trans "On-screen texts" %}</td>
+                    <td>{% trans "Translate the texts on the video that are relevant to the plot." %}</td>
+                </tr>
+                <tr>
+                    <td>{% trans "Use meaningful speech" %}</td>
+                    <td>{% trans "Exclude things like “um” “ah” and other disfluencies." %}</td>
+                </tr>
+                <tr>
+                    <td>{% trans "Indicate inaudible parts" %}</td>
+                    <td>{% trans "If the audio is inaudible, it should be marked as [inaudible]." %}</td>
+                </tr>
+                <tr>
+                    <td>{% trans "Lyrics" %}</td>
+                    <td>{% trans "Wrap relevant lyrics in musical notes." %}<br/>
+                        {% trans "ex ♪ Tell me dear Billy, ♪" %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>{% trans "Speaker identification" %}</td>
+                    <td>{% trans "Identify off-screen and unclear speakers in parentheses." %}<br/>
+                        {% trans "ex: (Michael) Wait for me!" %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>{% trans "Foreign language" %}</td>
+                    <td>{% trans "Identify relevant speech in foreign language. " %}<br/>
+                        {% trans "ex: (Russian): Thank you." %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>{% trans "Simultaneous dialogue" %}</td>
+                    <td>{% trans "Used exclusively when two speakers talk in the same subtitle. " %}<br/>
+                        {% trans "Each speaker should have one line, and both lines should have an hyphen. " %}<br/>
+                        {% trans "- Sir, you are no gentleman." %}<br/>
+                        {% trans "- Rhett Butler: And you, Miss, are no lady." %}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="modal-content" ng-show="teamGuidelines">
+        <div ng-show="teamTaskType() == 'subtitle'" ng-bind-html="teamGuidelines['subtitle']"></div>
+        <div ng-show="teamTaskType() == 'translate'" ng-bind-html="teamGuidelines['translate']"></div>
+        <div ng-show="teamTaskType() == 'review'" ng-bind-html="teamGuidelines['review']"></div>
+        <a class="expand-link" href="" ng-click="showAllTeamGuidelines = true"
+            ng-init="showAllTeamGuidelines=false" ng-show="!showAllTeamGuidelines">
+            {% trans "Show All Guidelines" %} &#x25B6;
+        </a>
+        <a class="expand-link" href="" ng-click="showAllTeamGuidelines = false"
+            ng-show="showAllTeamGuidelines">
+            {% trans "Hide All Guidelines" %} &#x25BC;
+        </a>
+        <div class="team-all-guidelines" ng-show="showAllTeamGuidelines" id="all-team-guidelines">
+            <h1>{% trans "Transcribing Guidelines" %}</h1>
+            <div ng-bind-html="teamGuidelines['subtitle']"></div>
+            <h1>{% trans "Translating Guidelines" %}</h1>
+            <div ng-bind-html="teamGuidelines['translate']"></div>
+            <h1>{% trans "Reviewing Guidelines" %}</h1>
+            <div ng-bind-html="teamGuidelines['review']"></div>
+        </div>
+    </div>
+    <footer class="buttons">
+        <button ng-click="dialogManager.onCloseClick($event)">
+            {% trans "Close" %}
+        </button>
+    </footer>
+</aside>
+<aside modal-dialog="more-controls" allow-close class="modal" role="dialog" id="more-controls-modal" tabindex="-1" aria-labeledby="more-controls-heading" dir="[[ workingSubtitles.language.dir ]]">
+    <h3 id="more-controls-heading">{% trans "Keyboard Shortcuts" %}</h3>
+    <div class="modal-content">
+        <table>
+            <thead>
+                <tr>
+                    <th>{% trans "Action" %}</th>
+                    <th>{% trans "Windows / Linux" %}</th>
+                    <th>{% trans "OS X" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td> {% trans "Play / Pause video" %}</td>
+                <td> {% trans "Tab" %}</td>
+                <td> {% trans "Tab" %}</td>
+            </tr>
+            <tr>
+                <td> {% trans "Skip back 2 seconds" %}</td>
+                <td> {% trans "Shift + Tab" %}</td>
+                <td> {% trans "Shift + Tab" %}</td>
+            </tr>
+            <tr>
+                <td> {% trans "Skip back 4 seconds" %}</td>
+                <td> {% trans "Ctrl + Shift + ," %}</td>
+                <td> {% trans "CMD + Shift + ," %}</td>
+            </tr>
+            <tr>
+                <td> {% trans "Skip forward 4 seconds" %}</td>
+                <td> {% trans "Ctrl + Shift + ." %}</td>
+                <td> {% trans "CMD + Shift + ." %}</td>
+            </tr>
+            <tr>
+                <td> {% trans "Navigate to the next subtitle or insert one at the end" %}</td>
+                <td> {% trans "ENTER" %}</td>
+                <td> {% trans "ENTER" %}</td>
+            </tr>
+            <tr>
+                <td> {% trans "Insert line break" %}</td>
+                <td> {% trans "Shift + ENTER" %}</td>
+                <td> {% trans "Shift + ENTER" %}</td>
+            </tr>
+            <tr>
+                <td> {% trans "Exit edit mode of current subtitle" %}</td>
+                <td> {% trans "ESC" %}</td>
+                <td> {% trans "ESC" %}</td>
+            </tr>
+            <tr>
+              <td> {% trans "Split subtitle at cursor" %}</td>
+              <td> {% trans "Ctrl + ENTER" %}</td>
+              <td> {% trans "CMD + ENTER" %}</td>
+            </tr>
+            <tr>
+              <td> {% trans "Insert subtitle (above)" %}</td>
+              <td> {% trans "Alt + i" %}</td>
+              <td> {% trans "CMD + i" %}</td>
+            </tr>
+            <tr>
+              <td> {% trans "Insert subtitle (below)" %}</td>
+              <td> {% trans "Alt + Shift + i" %}</td>
+              <td> {% trans "CMD + Shift + i" %}</td>
+            </tr>
+            <tr>
+              <td> {% trans "Delete current subtitle" %}</td>
+              <td> {% trans "Alt + Delete (or Backspace)" %}</td>
+              <td> {% trans "Option + Delete (or Backspace)" %}</td>
+            </tr>
+            <tr>
+              <td> {% trans "Navigate to the previous subtitle" %}</td>
+              <td> {% trans "Alt + UP Arrow" %}</td>
+              <td> {% trans "Option + UP Arrow" %}</td>
+            </tr>
+            <tr>
+              <td> {% trans "Navigate to the next subtitle" %}</td>
+              <td> {% trans "Alt + DOWN Arrow" %}</td>
+              <td> {% trans "Option + DOWN Arrow" %}</td>
+            </tr>
+            <tr>
+                <td> {% trans "Undo last action" %}</td>
+                <td> {% trans "CTRL + z" %}</td>
+                <td> {% trans "CMD + z" %}</td>
+            </tr>
+            <tr>
+                <td> {% trans "Redo last action" %}</td>
+                <td> {% trans "CTRL + y" %}</td>
+                <td> {% trans "CMD + Shift + z" %}</td>
+            </tr>
+            </tbody>
+        </table>
+        <a class="expand-link" href="" ng-click="showBrowserShortcuts = true" ng-init="showBrowserShortcuts=false" ng-show="!showBrowserShortcuts">{% trans "Show Browser Shortcuts" %} &#x25B6;</a>
+        <a class="expand-link" href="" ng-click="showBrowserShortcuts = false" ng-show="showBrowserShortcuts">{% trans "Hide Browser Shortcuts" %} &#x25BC;</a>
+        <div ng-show="showBrowserShortcuts" id="browser-shortcuts">
+            <h3> {% trans "Browser Defaults that should work" %}</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th> {% trans "Action" %}</th>
+                        <th> {% trans "Windows / Linux" %}</th>
+                        <th> {% trans "OS X" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td> {% trans "Jump to the next whole word" %}</td>
+                    <td> {% trans "CTRL + RIGHT Arrow" %}</td>
+                    <td> {% trans "Option + RIGHT Arrow" %}</td>
+                </tr>
+                <tr>
+                    <td> {% trans "Jump to the previous whole word" %}</td>
+                    <td> {% trans "CTRL + LEFT Arrow" %}</td>
+                    <td> {% trans "Option + LEFT Arrow" %}</td>
+                </tr>
+                <tr>
+                    <td> {% trans "Jump to the start of the subtitle" %}</td>
+                    <td> {% trans "Fn + RIGHT Arrow" %}</td>
+                    <td> {% trans "CMD + RIGHT Arrow" %}</td>
+                </tr>
+                <tr>
+                    <td> {% trans "Jump to the end of the subtitle" %}</td>
+                    <td> {% trans "Fn + LEFT Arrow" %}</td>
+                    <td> {% trans "CMD + LEFT Arrow" %}</td>
+                </tr>
+                <tr>
+                    <td> {% trans "Delete last complete word" %}</td>
+                    <td> {% trans "CTRL + Backspace" %}</td>
+                    <td> {% trans "CMD + Backspace" %}</td>
+                </tr>
+                </tbody>
+            </table>
+            <h3> {% trans "Proposed Shortcuts (not yet implemented)" %}</h3>
+            <p>See the <a target="_blank" href="http://support.amara.org/categories/6573/forums/74605/topics/78937">Keyboard shortcuts forum page</a> to offer your opinion.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th> {% trans "Action" %}</th>
+                        <th> {% trans "Windows / Linux" %}</th>
+                        <th> {% trans "OS X" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td> {% trans "Save a version" %}</td>
+                    <td> {% trans "CTRL + s" %}</td>
+                    <td> {% trans "CMD + s" %}</td>
+                </tr>
+                <tr>
+                    <td> {% trans "Italics formatting" %}</td>
+                    <td> {% trans "CTRL + i" %}</td>
+                    <td> {% trans "CMD + i" %}</td>
+                </tr>
+                <tr>
+                    <td> {% trans "Bold formatting" %}</td>
+                    <td> {% trans "CTRL + b" %}</td>
+                    <td> {% trans "CMD + b" %}</td>
+                </tr>
+                <tr>
+                    <td> {% trans "Timeline toggle" %}</td>
+                    <td> {% trans "CTRL + t" %}</td>
+                    <td> {% trans "CMD + t" %}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <footer class="buttons">
+        <button ng-click="dialogManager.onCloseClick($event)">
+            {% trans "Close" %}
+        </button>
+    </footer>
+</aside>
+<aside modal-dialog="metadata" allow-close id="set-title-modal" class="modal" tabindex="-1" role="dialog" aria-labeledby="set-title-heading" ng-controller="SubtitleMetadataController" dir="[[ workingSubtitles.language.dir ]]">
+    <form>
+        <h3 id="set-title-heading">{% trans "Edit title and description" %}</h3>
+        <label>{% trans "Title" %}</label>
+        <textarea rows="1" class="refarea" readonly ng-show="translating()">[[ referenceSubtitles.getTitle() ]]</textarea>
+        <textarea rows="1" placeholder="{% trans 'Enter Title' %}" fixsize-bind="currentSubtitles.title"></textarea>
+        <div ng-repeat="(key, value) in currentSubtitles.metadata" ng-if="key == 'speaker-name'">
+            <label>[[ key | metadataTypeName ]]</label>
+            <textarea rows="1" class="refarea" readonly ng-show="translating()">[[ referenceSubtitles.metadata[key] ]]</textarea>
+            <textarea rows="1" placeholder="Enter [[ key | metadataTypeName ]]" fixsize-bind="currentSubtitles.metadata[key]"></textarea>
+        </div>
+        <label>{% trans "Description" %}</label>
+        <textarea rows="4" class="refarea" readonly ng-show="translating()">[[ referenceSubtitles.getDescription() ]]</textarea>
+        <textarea rows="8" placeholder="{% trans 'Enter Description' %}" fixsize-bind="currentSubtitles.description"></textarea>
+        <div ng-repeat="(key, value) in currentSubtitles.metadata" ng-if="key != 'speaker-name'">
+            <label>[[ key | metadataTypeName ]]</label>
+            <textarea rows="1" placeholder="Enter [[ key | metadataTypeName ]]" fixsize-bind="currentSubtitles.metadata[key]"></textarea>
+        </div>
+        <footer class="buttons">
+            <button ng-click="update(currentSubtitles)">Done</button>
+            <button ng-click="reset()">Cancel</button>
+        </footer>
+    </form>
+</aside>
+<aside modal-dialog="playback-mode" allow-close id="playback-mode-modal" class="modal" role="dialog" tabindex="-1" aria-labeledby="playback-mode-heading" dir="[[ workingSubtitles.language.dir ]]">
+    <h3 id="playback-mode-heading">{% trans "Playback Mode" %}</h3>
+    <div class="modal-content">
+        <select ng-model="playbackMode" ng-options="mode.desc for mode in playbackModes"></select>
+    </div>
+    <footer class="buttons">
+        <button ng-click="dialogManager.onCloseClick($event)">
+            {% trans "Close" %}
+        </button>
+    </footer>
+</aside>
+
+{# include bold style too #}
+<link href='//fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+<div id="modal-overlay" ng-class="dialogManager.overlayCSSClass()"></div>
+<aside class="freeze-box" ng-class="dialogManager.freezeBoxCSSClass()">
+    <h1 ng-bind-html="dialogManager.freezeBoxText"></h1>
+</aside>
+<aside modal-dialog="generic" class="modal">
+    <h3>[[ dialogManager.generic.title ]]</h3>
+    <p ng-show="dialogManager.generic.text">[[ dialogManager.generic.text ]]</p>
+    <footer class="buttons">
+        <button ng-repeat="button in dialogManager.generic.buttons" ng-click="dialogManager.onButtonClicked(button, $event)" ng-class="button.cssClass">[[ button.text ]]</button>
+    </footer>
+</aside>
+{% if DEBUG %}
+<aside modal-dialog='debug' allow-close class="modal">
+    <h3>{% trans "Debugging Tools" %}</h3>
+    <p>
+    <label>
+        <input type="checkbox" ng-model="overrides.forceSaveError"> Force Error on Save
+    </label>
+    </p>
+    <p>
+    <button ng-click="saveAutoBackup()">Save auto-backup</button>
+    <button ng-click="showIdleModal()">Idle dialog</button>
+    <button ng-click="showResumeSessionErrorModal()">Resume Session Error Dialog</button>
+    </p>
+    <footer class="buttons">
+        <button ng-click="dialogManager.onCloseClick($event)">Close</button>
+    </footer>
+</aside>
+{% endif %}
+<div ng-controller="SaveErrorModalController">
+    <aside modal-dialog="save-error" class="modal">
+        <h3>{% trans "Error saving subtitles" %}</h3>
+        <ng-switch on="canUseBlobURL()">
+        <div ng-switch-when="true">
+            <p>{% trans "There was an error saving your subtitles. Save your subtitles using the download button below and upload them to the system later." %}</p>
+            <p>{% trans "To avoid data corruption, please do not open the or edit the subtitles in any text editor." %}</p>
+        </div>
+        <div ng-switch-when="false">
+            <p>{% trans "There was an error saving your subtitles.  Copy the subtitles above and save them to your computer as subtitle_backup.dfxp. You can upload them later." %}</p>
+            <textarea class="dfxp-string">[[ dfxpString ]]</textarea>
+        </div>
+        </ng-switch>
+        <footer class="buttons">
+            <button ng-if="canUseBlobURL()" ng-click="onDownload($event)">{% trans "Download Subtitles" %}</button>
+            <button ng-click="onClose($event)">{% trans "Close Editor" %}</button>
+        </footer>
+    </aside>
+
+    <aside modal-dialog="upload-subtitles" allow-close class="modal" tabindex="-1" role="dialog">
+        <h3>{% trans 'Upload Subtitles' %}</h3>
+        <p>
+        {% blocktrans %}
+        Uploading subtitles saves a new (incomplete) version that you can edit and save or complete when finished. Uploaded subtitles keep their existing timecodes. You can use the Copy timing option from the Tools menu if you want to apply timing from a reference language.
+        {% endblocktrans %}
+        </p>
+        <p>
+        {% blocktrans %}
+        Supported formats are: SRT, SSA, SBV, DFXP, TXT, and VTT. Only files ending with the correct extension, .srt, .ssa, .sbv, .txt, .vtt, .dfxp or .xml (for dfxp) are accepted.
+        {% endblocktrans %}
+        </p>
+        <p class="error" ng-show="uploadError">
+        {% trans "Upload failed. The file you uploaded might be invalid or an unsupported format." %}
+        </p>
+        <form method="post" id="upload-subtitles-form" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="video" value="{{ video.id }}" />
+            <div style="visibility: hidden">
+                {{ upload_subtitles_form.language_code }}
+            </div>
+            <div>
+                <input type="file" name="draft" id="subtitles-file-field" />
+            </div>
+            <footer class="buttons">
+                <button ng-click="submitUploadForm($event)" class="upload-subtitles-submit-button-" ng-disabled="uploading">
+                    <ng-switch on="uploading">
+                    <span ng-switch-when="true">
+                        {% trans "Uploading..." %}
+                    </span>
+                    <span ng-switch-default>
+                        {% trans "Upload" %}
+                    </span>
+                    </ng-switch>
+                </button>
+                <button ng-click="dialogManager.onCloseClick($event)">{% trans "Cancel" %}</button>
+            </footer>
+        </form>
+    </aside>
+    <aside modal-dialog="resume-error" class="modal">
+        <h3>{% trans "Error resuming session" %}</h3>
+        <ng-switch on="canUseBlobURL()">
+        <div ng-switch-when="true">
+            <p>{% trans "There was an error resuming your session. Save your subtitles using the download button below and upload them to the system later." %}</p>
+            <p>{% trans "To avoid data corruption, please do not open the or edit the subtitles in any text editor." %}</p>
+        </div>
+        <div ng-switch-when="false">
+            <p>{% trans "There was an error resuming your session.  Copy the subtitles above and save them to your computer as subtitle_backup.dfxp. You can upload them later." %}</p>
+            <textarea class="dfxp-string">[[ dfxpString ]]</textarea>
+        </div>
+        </ng-switch>
+        <footer class="buttons">
+            <button ng-if="canUseBlobURL()" ng-click="onDownload($event)">{% trans "Download Subtitles" %}</button>
+            <button ng-click="onClose($event)">{% trans "Close Editor" %}</button>
+        </footer>
+    </aside>
+    <aside modal-dialog="shift-forward" class="modal" ng-controller="ShiftForwardController">
+      <h3>{% trans "Shift subtitles forward" %}</h3>
+      <form>
+        <div class="formControl radioGroup">
+          <label class="radioGroup-choice"><input type="radio" ng-model="subsToShift" ng-change="validateForm()" value="all">{% trans "Shift all subtitles" %}</label>
+          <label class="radioGroup-choice"><input type="radio" ng-model="subsToShift" ng-change="validateForm()" value="after">{% trans "Shift subtitles starting from:" %}</label>
+          <div class="durationPicker" duration-picker ng-change="validateForm()" ng-model="startTime" ng-disable="subsToShift == 'all'"></div>
+        </div>
+        <div class="formControl">
+          <label>{% trans "Shift amount" %}</label>
+          <div class="durationPicker" ng-model="amount" ng-change="validateForm()" duration-picker></div>
+        </div>
+        <div class="min-lines-3 formHelp">
+          <p ng-bind="helpText" ng-class="helpTextError ? 'error' : ''"></p>
+          <p class="warningText" ng-if="helpTextWarning != ''" ng-bind="helpTextWarning"></p>
+        </div>
+        <footer class="buttons">
+          <button ng-click="onShiftClick($event)" ng-disabled="!dataValid">{% trans "Shift" %}</button>
+          <button ng-click="dialogManager.onCloseClick($event)">{% trans "Cancel" %}</button>
+        </footer>
+      </form>
+    </aside>
+    <aside modal-dialog="shift-backward" class="modal" ng-controller="ShiftBackwardController">
+      <h3>{% trans "Shift subtitles backward" %}</h3>
+      <form>
+        <div class="formControl">
+          <label>{% trans "Start time" %}</label>
+          <div class="durationPicker" ng-model="startTime" ng-change="validateForm()" duration-picker></div>
+        </div>
+        <div class="formControl">
+          <label>{% trans "End time" %}</label>
+          <div class="durationPicker" ng-model="endTime" ng-change="validateForm()" duration-picker></div>
+        </div>
+        <div class="min-lines-3 formHelp">
+          <p ng-bind="helpText" ng-class="helpTextError ? 'error' : ''"></p>
+          <p class="warningText" ng-if="helpTextWarning != ''" ng-bind="helpTextWarning"></p>
+        </div>
+        <footer class="buttons">
+          <button ng-click="onShiftClick($event)" ng-disabled="!dataValid">{% trans "Shift" %}</button>
+          <button ng-click="dialogManager.onCloseClick($event)">{% trans "Cancel" %}</button>
+        </footer>
+      </form>
+    </aside>
+</div>

@@ -1,0 +1,17 @@
+{# it's probably a terrible idea to render JSON by hand... #}
+{
+    "section": "{{ section.section }}",
+    "filename": "{{ section.filename }}",
+    "description": "{{ section.description }}",
+    "modifiers": [
+        {% for modifier in section.modifiers %}
+            ["{{ modifier.name }}","{{ modifier.description }}"]{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ],
+    "example_html": "{{ section.example|escapejs }}",
+    "modifier_examples": [
+        {% for modifier in section.modifiers %}
+            ["{{ modifier.name }}","{{ modifier.example|escapejs }}"]{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ]
+}

@@ -1,0 +1,10 @@
+{% load i18n localeurl_tags %}
+Hi {{ user }}, </br>
+
+{{ applicant }} has applied to join the {{ team.name }} team, and has included the following message:
+
+{{ note|linebreaks }}
+
+<br/>
+<a href="{{url_base}}{% url "teams:approve_application" slug=team.slug application_pk=application.pk %}">Approve</a> or 
+<a href="{{url_base}}{% url "teams:deny_application" slug=team.slug application_pk=application.pk %}">deny</a> this request.

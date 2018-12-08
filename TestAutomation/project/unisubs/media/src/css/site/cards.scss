@@ -1,0 +1,141 @@
+ul.card-list {
+    > li {
+        @extend %clearfix;
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+        border-bottom: 1px solid $light-gray;
+        width: 100%;
+
+        @include not-small-screen {
+            // We want to absolutely position the actions div
+            position: relative;
+        }
+    }
+
+    h4 {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    .thumb {
+        float: left;
+        margin-right: 10px;
+    }
+
+    img.thumb, .thumb img {
+        height: $line-height * 3;
+    }
+
+    @include not-small-screen {
+        .actions {
+            position: absolute;
+            top: 32px;
+            right: 0;
+            width: 200px;
+            padding: 0;
+            margin: 0;
+        }
+    }
+    ul.actions {
+        font-size: $small-font-size;
+        text-align: right;
+    }
+    form {
+        margin: 0;
+        padding: 0;
+        button {
+            width: 100%;
+            float: none;
+        }
+    }
+    table {
+        margin-bottom: 0;
+        width: auto;
+        @include not-small-screen {
+            // Our layout depends on using absolutely positioning the actions
+            // div. Reserve space for it here
+            padding-right: 220px;
+        }
+    }
+}
+
+ul.video-card-list {
+    @extend %clearfix;
+
+    > li {
+        float: left;
+        width: 50%;
+        margin-bottom: 30px;
+
+        &:nth-of-type(odd) {
+            padding-right: 20px;
+        }
+        &:nth-of-type(even) {
+            padding-left: 20px;
+        }
+
+    }
+
+    /* We have a couple of tricky requirements:
+     *
+     * - The aspect ratio should be 16:9, but we aren't sure if the thumbnail
+     *   image could have a different ratio
+     * - We want the image to scale as the screen is resized
+     * - The title (<h4>) should be overlayed on the image
+     *
+     * We accomplish this by sizing the wrapper using a percentage padding-top.
+     * Because the percentage gets calculated using the container width, this
+     * gives us a 16:9 ratio.  The we absolutely position everything on the
+     * wrapper
+     */
+    .wrapper {
+        display: block;
+        position: relative;
+        width: 100%;
+        padding-top: 56.25%;
+        background: $black;
+        overflow: hidden;
+        cursor: pointer;
+        &:before {
+            content: ' ';
+            position: absolute;
+            background: rgba(0, 0, 0, 0.8);
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 60px;
+            z-index: 1;
+        }
+    }
+
+    .title {
+        position: absolute;
+        color: $lighter-gray;
+        padding: 0 20px;
+        max-height: 44px;
+        overflow: hidden;
+        bottom: 8px;
+        left: 0;
+        right: 0;
+        z-index: 2;
+    }
+
+    img {
+        position: absolute;
+        width: 100%;
+        left: 0;
+        right: 0;
+        top: 0;
+        z-index: 0;
+    }
+
+    ul.actions {
+        text-align: right;
+
+        li {
+            display: inline;
+            padding-left: 10px;
+        }
+    }
+}

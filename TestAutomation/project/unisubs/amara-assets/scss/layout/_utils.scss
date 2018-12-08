@@ -1,0 +1,43 @@
+// Text center
+//
+// Use `.text-center` to center text inside a container
+// 
+// Example:
+// <p class="text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+// Styleguide textCenter
+
+// Block center
+//
+// Use `.blocks-center` to center a set of child block-level elements
+// 
+// Example:
+// <div class="block-center">
+//   <h2>Lorem ipsum</h2>
+//   <ul>
+//      <li>dolor sit amet, consectetur adipiscing elit</li>
+//      <li>Nulla viverra iaculis tellus, sed euismod magna dignissim</li>
+//   </ul>
+// </div>
+//
+// Styleguide blockCenter
+
+// Width 100%
+//
+// Use `.width-100` to apply 100% width to an element
+//
+// Example:
+// <div style="width:300px;border:1px solid black">
+//   <span class="width-100" style="display:inline-block;background:lime">Width 100%</span>
+// </div>
+//
+// Styleguide width100
+
+.block-center {
+  display: grid;
+  justify-content: center;
+}
+
+.width-100 {
+  width: 100%;
+}
+

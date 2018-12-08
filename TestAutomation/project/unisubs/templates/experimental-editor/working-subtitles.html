@@ -1,0 +1,71 @@
+{% load i18n %}
+<div class="workspace-tools group toolbar">
+    <div class="subtitles-language heading">
+        {% blocktrans with language.get_language_code_display as language %}
+        Editing {{ language }}&hellip;
+        {% endblocktrans %}
+    </div>
+    <div class="toolbox" ng-controller="ToolbarController">
+        <div class="toolbox-inside">
+            <button class="toolIcon button-subs" href="#" ng-click="onSubtitleToolIconClicked($event)" title="{% trans 'Subtitle tools' %}" aria-label="Tools"><span class="clippedAndHidden">Tools</span></button>
+            <button class="timingIcon button-timing" href="#" ng-click="onTimingToolIconClicked($event)" title="{% trans 'Timing tools' %}" aria-label="Tools"><span class="clippedAndHidden">Tools</span></button>
+            <!-- The "helper_margin" is invisible and adds an extra 45px of hover-area on the left to keep the "toolbox-menu" open -->
+            <div class="helper_margin"></div>
+            <ul class="toolbox-menu-subs hidden">
+                <li><a href="#" class="clear-empty-subtitles" ng-click="showDeleteEmptySubtitlesModal($event)" title="Delete empty subtitles">{% trans "Delete empty subtitles" %}</a></li>
+                <li><a href="#" class="clear-text" ng-click="onClearTextClicked($event)" title="Clear text of all subtitles">{% trans "Clear text" %}</a></li>
+                <li><a href="#" class="revert-saved" ng-click="showResetModal($event)" title="Revert to last saved version">{% trans "Revert to last saved version" %}</a></li>
+                <li class="upload-subtitles-choice"><a href="#" class="upload-subtitles" ng-click="showUploadSubtitlesModal($event)" title="Upload subtitles">{% trans "Upload subtitles" %}</a></li>
+                <li><a href="#" ng-click="toggleWarningsShown()" class="show-warnings">
+                    <span ng-show="warningsShown">{% trans "Hide" %}</span>
+                    <span ng-show="!warningsShown">{% trans "Show" %}</span>
+                    {% trans "Warnings" %}
+                </a></li>
+                <li><a href="#" class="show-tutorial" ng-click="showTutorial($event)" title="Show Tutorial">{% trans "Show Tutorial" %}</a></li>
+                <li><a class="undo" ng-class="{disabled: !canUndo()}" href="#" ng-click="onUndoClicked($event)">[[ undoText() ]]</a></li>
+                <li><a class="redo" ng-class="{disabled: !canRedo()}" href="#" ng-click="onRedoClicked($event)">[[ redoText() ]]</a></li>
+            </ul>
+            <ul class="toolbox-menu-timing hidden">
+                <li ng-show="copyTimingEnabled()"><a href="#" class="copyover" ng-click="onCopyTimingClicked($event)" title="Copy timing and paragraphs from reference language">{% trans "Copy Timing" %}</a></li>
+                <li><a href="#" ng-click="toggleTimelineShown()" class="show-timeline">
+                    <span ng-show="timelineShown">{% trans "Hide timeline" %}</span>
+                    <span ng-show="!timelineShown">{% trans "Show timeline" %}</span>
+                </a></li>
+                <li><a href="#" class="clear-timing" ng-click="onClearTimingsClicked($event)" title="Clear timing of all subtitles">{% trans "Clear timing" %}</a></li>
+		<li><a href="#" ng-click="showShiftForwardModal($event)" class="shift-forward">{% trans "Shift subs forward" %}</a></li>
+		<li><a href="#" ng-click="showShiftBackwardModal($event)" class="shift-backward">{% trans "Shift subs backward" %}</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="subtitles-wrapper"
+    ng-controller="WorkingSubtitlesController"
+    working-subtitles>
+    {% include "./info-tray.html" with class="info-tray primary" subtitle="selectedSubtitle"%}
+    {% include "./info-tray.html" with class="info-tray secondary" subtitle="secondarySubtitle"%}
+
+    <div class="working subtitles" subtitle-scroller="working-subtitle-set" />
+        <ul class="subtitle-list"
+            subtitle-repeat="workingSubtitles.subtitleList"
+            dir="[[ workingSubtitles.language.dir ]]"
+            id="working-subtitle-set"></ul>
+
+        <div ng-switch="bottomState()">
+            <a class="end"
+                id="add-sub-at-end"
+                href="#"
+                ng-switch-when="add-button"
+                ng-click="newSubtitleClicked($event)">+ New subtitle</a>
+            <span ng-switch-when="edit-help" class="end">
+                Press ENTER to save subtitle and move to next.<br />
+            </span>
+            <a class="end"
+                id="add-sub-at-end"
+                href="#"
+                ng-switch-when="type-shortcuts-help" 
+                ng-click="newSubtitleClicked($event)">
+                Press ENTER to add a new subtitle
+            </a>
+        </div>
+    </div>
+</div>

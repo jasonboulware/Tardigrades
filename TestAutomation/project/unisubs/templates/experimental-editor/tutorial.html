@@ -1,0 +1,62 @@
+{% load i18n %}
+<div class="banner" ng-show="showHideNextTime">
+  <h1>{% trans "New to Amara? Here are some pointers." %}</h1>
+  <h2>{% trans "Click to hide.  Reopen anytime from the tools menu " %}(<img width="12px" height="12px" src="{{ STATIC_URL }}images/subtitle-editor/glyphicons_halflings_135_wrench.png"></img> &gt; {% trans "Show tutorial" %}).</h2>
+  <h2 ng-click="handleBadgeMouseClick($event)">
+    <label>{% trans "Please go away." %}
+      <input type="checkbox" ng-model="hideTutorialNextTime"></label>
+  </h2>
+</div>
+<div class="bubble tut-play" ng-show="isTyping() || isTranslatingSyncing()">
+  <h1>{% trans "1. Play the video" %}</h1>
+  <h2>{% trans "Use the tab key to play and pause the video." %}</h2>
+</div>
+<div class="bubble typing" ng-show="isTyping()">
+  <h1>{% trans "2. Type what you hear" %}</h1>
+  <h2>{% trans "Once you fill a line, hit enter." %}</h2>
+  <h2>{% trans "Don't worry about the timing." %}</h2>
+</div>
+<div class="bubble done" ng-show="isTyping()">
+  <h1>{% trans "3. Done typing?" %}</h1>
+  <h2>{% trans "Click to start syncing your subtitles." %}</h2>
+</div>
+<div class="bubble subtitlessync" ng-show="isSyncing() ">
+  <h1>{% trans "1. Tap the Down arrow to start" %}</h1>
+  <h2>{% trans "Press down again to start each subtitle." %} </h2>
+  <h2>{% trans "Don't worry about small mistakes." %} </h2>
+</div>
+<div class="bubble synctools" ng-show="isSyncing()">
+  <h1>{% trans "2. Need to start over?" %}</h1>
+  <h2>{% trans "From the tools menu " %} 
+       <img width="12px" height="12px" src="{{ STATIC_URL }}images/subtitle-editor/glyphicons_halflings_135_wrench.png"></img>
+      {% trans " choose clear timing." %}</h2>
+</div>
+<div class="bubble tut-sync-3" ng-show="isSyncing() || isTranslatingSyncing()">
+  <h1>{% trans "3. Review and correct" %}</h1>
+  <h2>{% trans "Click when all subtitles are synced." %}</h2>
+</div>
+<div class="bubble tut-review-1" ng-show="isReviewing() || isTranslatingReviewing()">
+  <h1>{% trans "1. Review the guidelines" %} </h1>
+  <h2>{% trans "They include tips for improving subtitles." %}</h2>
+</div>
+<div class="bubble tut-review-2" ng-show="isReviewing() || isTranslatingSyncing() || isTranslatingReviewing()">
+  <h1>{% trans "2. Check the timing" %}</h1>
+  <h2>{% trans "Drag the edges or slide the bubble to adjust the times." %}</h2>
+</div>
+<div class="bubble tut-review-3" ng-show="isReviewing() || isTranslatingReviewing()">
+  <h1>{% trans "3. Submit your work" %}</h1>
+  <h2>{% trans "Or choose Save Draft (above) to finish later." %}</h2>
+</div>
+<div class="bubble tut-trans-type-ref" ng-show="isTranslatingTyping()">
+  <h1>{% trans "1. Select a reference language" %}</h1>
+  <h2>{% trans "If you change the reference language, use " %}
+      <img width="12px" height="12px" src="{{ STATIC_URL }}images/subtitle-editor/glyphicons_halflings_135_wrench.png"></img> &gt; {% trans "Copy Timings" %} {% trans "to  update the translation timing." %}</h2>
+</div>
+<div class="bubble tut-trans-type-2" ng-show="isTranslatingTyping()">
+  <h1>{% trans "2. Type the translation" %}</h1>
+  <h2>{% trans "Don't leave any blanks." %} </h2> 
+</div>
+<div class="bubble tut-trans-type-3" ng-show="isTranslatingTyping()">
+  <h1>{% trans "3. Done translating?" %}</h1>
+  <h2>{% trans "Click to adjust the timing." %}</h2>
+</div>

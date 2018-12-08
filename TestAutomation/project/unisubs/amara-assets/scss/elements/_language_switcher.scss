@@ -1,0 +1,16 @@
+@include respond-to(tablet) {
+  .languageSwitcher_list {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+  }
+}
+@include respond-to(laptop, 0) {
+  .languageSwitcher_list {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+  }
+}
+
+.languageSwitcher-item {
+  font-weight: normal;
+}

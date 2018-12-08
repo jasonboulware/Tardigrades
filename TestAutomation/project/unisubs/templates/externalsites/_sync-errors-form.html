@@ -1,0 +1,32 @@
+{% load i18n sync_items_tags teams_tags %}
+
+<form class="resync" method="POST" action=".">
+  {% csrf_token %}
+  {% if not nobulk %}
+  <input type="checkbox" class="bulk-select" name="bulk"><a href="" class="bulk-select">{% trans "Select/Deselect all" %}</a>
+  {% endif %}
+  <table border="1" class="simple-list resync_table listing">
+    <tr>
+      <th>{% trans 'Resync' %}</th>
+      <th>{% trans 'Account Type' %}</th>
+      <th>{% trans 'Video' %}</th>
+      <th>{% trans 'Language' %}</th>
+      <th>{% trans 'Error' %} <span class="help-link">(<a target="blank" href="http://support.amara.org/support/solutions/articles/208290-how-to-check-why-subtitles-failed-to-sync-to-your-video">?</a>)</span></th>
+    </tr>
+    {% for fitem in form %}
+    <tr>
+      <td class="box">
+	{{ fitem }}
+      </td>
+      {% with fitem.label|get_fields as fields %}
+      {% for item in fields %}
+      <td>
+	{{ item }}
+      </td>
+      {% endfor %}
+      {% endwith %}
+    </tr>
+    {% endfor %}
+  </table>
+  <input type=submit value="{% trans 'Resync selected items' %}">
+</form>

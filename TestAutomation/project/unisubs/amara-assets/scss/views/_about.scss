@@ -1,0 +1,53 @@
+#our-mission {
+  .illustration {
+
+  }
+}
+
+#amara-community, #core-team {
+  img {
+    margin: 20px auto;
+  }
+}
+
+#core-team {
+  h3 {
+    margin-bottom: 0;
+  }
+  h4 {
+    margin-top: 5px;
+  }
+  p {
+    margin-bottom: 20px;
+  }
+  .member-name {}
+  .member-title {}
+  .member-bio { padding: 0 20px; margin-bottom: 10px; }
+  .member-image {}
+  .member-email {}
+}
+
+#awards {
+  img {
+    margin: 30px auto;
+  }
+}
+
+// Media Queries
+
+@media(max-width: $screen-md-max) {
+
+}
+
+@media(max-width: $screen-sm-max) {
+
+}
+
+@media(max-width: $screen-xs-max) {
+  #our-mission {
+    .illustration {
+      margin-top: 20px;
+    }
+  }
+
+}

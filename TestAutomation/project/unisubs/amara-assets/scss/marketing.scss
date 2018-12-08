@@ -1,0 +1,75 @@
+@charset "utf-8";
+
+@import "variables";
+
+// 3rd party
+@import "bootstrap";
+@import "~select2/dist/css/select2";
+@import "fontawesome";
+
+@import "functions";
+@import "mixins";
+@import "utilities";
+@import "animations";
+
+@import "base/global";
+@import "base/typography";
+@import "base/font_icons";
+@import 'base/colors';
+
+// Import layout / global styles
+@import 'layout/base';
+@import "layout/page_header";
+@import "layout/page_content";
+@import "layout/page_footer";
+@import "layout/utils";
+
+// External Libraries
+@import "libs/venobox";
+
+// Import additional elements or project specific styles
+@import "elements/searchbar";
+@import "elements/navigation";
+@import "elements/tabs";
+@import "elements/illustrations";
+@import "elements/canvas";
+@import "elements/slider";
+@import "elements/blockquotes";
+@import "elements/dialogs";
+@import "elements/buttons";
+@import "elements/forms";
+@import "elements/video_card";
+@import "elements/login";
+@import "elements/alerts";
+@import "elements/sitemap";
+@import "elements/consolidate_header";
+@import "elements/language_switcher";
+@import 'elements/select';
+@import 'elements/pricing-table';
+@import 'elements/dropdowns';
+
+// Views
+@import "views/home";
+@import "views/platform";
+@import "views/services";
+@import "views/about";
+@import "views/volunteer";
+@import "views/recruitment";
+
+// TODO - Refactor these styles into partials
+
+// for internal pages with an intro section
+.intro {
+  h1 { 
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  h2 {
+    margin-top: 10px;
+  }
+  p {
+    margin-top: 35px;
+    margin-bottom: 30px;
+  }
+}
+

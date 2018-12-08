@@ -1,0 +1,59 @@
+.platform_view {
+  
+}
+
+
+#subtitling-solutions {
+  .img-responsive {
+    margin: 20px auto;
+  }
+}
+
+#get-started {
+  padding-bottom: 0;
+}
+
+#how-to-use {
+  i {
+    font-size: 40px;
+  }
+}
+
+#enterprise-platform,
+#free-platform {
+  .grid {
+    margin: 30px 0;
+    justify-content: flex-start;
+    .item {
+      width: 80px;
+      margin-right: 20px;
+      text-align: center;
+    }
+  }
+}
+
+.subtitlingPlatform-pricingTable {
+  background-color: $white;
+  padding: 20px;
+
+  @include respond-to(laptop, 0) {
+    padding: 20px 40px;
+  }
+  @include respond-to(desktop) {
+    padding: 20px 80px;
+  }
+}
+
+// Media Queries
+
+@media(max-width: $screen-md-max) {
+
+}
+
+@media(max-width: $screen-sm-max) {
+
+}
+
+@media(max-width: $screen-xs-max) {
+
+}

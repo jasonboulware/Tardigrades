@@ -1,0 +1,35 @@
+#footer {
+    background-color: $off-white;
+    padding: 56px 0;
+    border-top: 1px solid $light-gray;
+
+    .terms {
+        float: left;
+        ul {
+            margin: 12px 0 0 5px;
+        }
+        li {
+            display: inline;
+            margin-right: 20px;
+        }
+        a {
+            color: $green;
+        }
+    }
+
+    .nav {
+        float: right;
+        color: $darkish-gray;
+
+        ul {
+            float: left;
+            margin-left: 55px;
+        }
+        li {
+            padding-bottom: 5px;
+        }
+        a {
+            color: inherit;
+        }
+    }
+}

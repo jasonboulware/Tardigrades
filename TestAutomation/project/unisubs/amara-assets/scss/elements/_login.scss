@@ -1,0 +1,21 @@
+#loginDialog {
+  .modal-content {
+    border: none;
+    border-radius: 0;
+    padding: 20px;
+  }
+  ul {
+    width: 100%;
+    text-align: center;
+    margin: 25px auto;
+    li {
+      float: left;
+      a {
+        padding: 15px;
+      }
+    }
+  }
+  form {
+    margin: 20px 0;
+  }
+}

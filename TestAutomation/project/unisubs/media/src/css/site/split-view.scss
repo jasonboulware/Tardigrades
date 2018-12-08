@@ -1,0 +1,66 @@
+/*
+ * Split-view splits the content into a sidebar and main area, for example
+ * on the videos page
+ */
+
+.split-view {
+    display: flex;
+    margin-bottom: 40px;
+    width: 100%;
+
+    > .sidebar {
+        width: 300px;
+        min-width: 300px;
+        border-right: 1px solid $lighter-gray;
+        padding-right: 20px;
+        margin-right: 20px;
+        font-size: $small-font-size;
+
+        @include medium-screen {
+            width: 200px;
+            min-width: 200px;
+        }
+
+        @include small-screen {
+            display: none;
+        }
+
+        > .section {
+            overflow: hidden;
+        }
+    }
+
+    > .main {
+        /* Give the main section a definite size constraint to avoid overflowing content (see http://stackoverflow.com/questions/27472595/firefox-34-ignoring-max-width-for-flexbox) */
+        min-width: 0;
+        flex-grow: 1;
+    }
+}
+
+.filters {
+    /* Filters form that's typically put in the sidebar */
+
+    font-size: $small-font-size;
+
+    form, fieldset {
+        padding: 0;
+    }
+
+    .filter {
+        margin-bottom: 10px;
+    }
+
+
+    select, input {
+        width: 100%;
+        padding: 0 4px;
+        font-size: inherit;
+    }
+
+    .actions {
+        padding-top: 10px;
+        button, a.button {
+            @include small-button;
+        }
+    }
+}

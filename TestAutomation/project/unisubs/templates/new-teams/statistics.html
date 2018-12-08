@@ -1,0 +1,64 @@
+{% extends "new-teams/base.html" %}
+
+{% load i18n media_bundle %}
+
+{% block title %}{{ team }} | Amara{% endblock %}
+{% block content %}
+
+{% include "new-teams/_activity-tabs.html" %}
+
+<h1>
+{% if tab == "videosstats" %}
+{% blocktrans %}Video Statistics for {{ team }}{% endblocktrans %}
+{% elif tab == "teamstats" %}
+{% blocktrans %}Team Statistics for {{ team }}{% endblocktrans %}
+{% endif %}
+<p>Last updated on {{ computed_on }}</p>
+</h1>
+
+<div class="group">
+  <div class="stat-graph">
+    <h4>{{ summary }}</h4>
+    <object type="image/svg+xml" data="data:image/svg+xml;base64,{{ graph }}"></object>
+  </div>
+  <div class="stat-graph">
+    <h4>{{ summary_recent }}</h4>
+    <object type="image/svg+xml" data="data:image/svg+xml;base64,{{ graph_recent }}"></object>
+  </div>
+</div>
+
+{% if summary_table %}
+<table class="team-stats">
+  {% for raw in summary_table %}
+  <tr {% if not forloop.first %} class="secondary"{% endif %}>
+    {% for cell in raw %}
+    {% if cell.header %}
+    <th>{{ cell }}</th>
+    {% else %}
+    <td>{{ cell }}</td>
+    {% endif %}
+    {% endfor %}
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}
+
+{% if graph_additional or graph_additional_recent %}
+<div class="group">
+  {% if graph_additional %}
+  <div class="stat-graph">
+    <h4>{{ summary_additional }}</h4>
+    <object type="image/svg+xml" data="data:image/svg+xml;base64,{{ graph_additional }}"></object>
+  </div>
+  {% endif %}
+
+  {% if graph_additional_recent %}
+  <div class="stat-graph">
+    <h4>{{ summary_additional_recent }}</h4>
+    <object type="image/svg+xml" data="data:image/svg+xml;base64,{{ graph_additional_recent }}"></object>
+  </div>
+  {% endif %}
+</div>
+{% endif %}
+
+{% endblock %}

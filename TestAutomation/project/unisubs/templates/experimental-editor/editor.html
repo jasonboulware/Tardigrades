@@ -1,0 +1,67 @@
+{% load i18n media_bundle %}
+<!DOCTYPE html>
+<html ng-app="amara.SubtitleEditor"
+    subtitle-editor
+    ng-controller="AppController"
+    lang="{{ language.language_code }}"
+    ng-mousedown="handleAppMouseDown($event)">
+<head>
+    {% include "gtm-head.html" %}
+    <meta charset="utf-8" />
+    <title>
+        {% blocktrans with language.get_language_code_display as language %}
+            Editing {{ language }} subtitles for &ldquo;{{ video }}&rdquo; - Amara
+        {% endblocktrans %}
+    </title>
+
+    {% media_bundle "editor.css" %}
+    {% js_i18n_catalog %}
+
+    <script type="text/javascript">
+        var editorData = {{ editor_data|safe }};
+        window.Amara = window.Amara || {};
+        window.Amara.conf = window.Amara.conf || {};
+        window.Amara.conf.STATIC_ROOT_URL = '{{ STATIC_URL }}';
+    </script>
+    <link rel="stylesheet" ng-repeat="customCSS in customCSSs" ng-href="[[ customCSS.href ]]">
+    <!--[if IE]>
+        <style type="text/css">
+            .group {
+                display: block;
+                zoom: 1;
+            }
+        </style>
+    <![endif]-->
+
+    <!--[if lt IE 9]>
+        <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+</head>
+<body ng-class="{ 'timeline-shown': timelineShown, 'loading-finished': loadingFinished, 'tutorial-shown': tutorialShown }">
+{% include "gtm-body.html" %}
+<aside class="freeze-box" id="loading"><h1>{% trans "Loading subtitle editor&hellip;" %}</h1></aside>
+<aside class="overlay ng-cloak" ng-click="onTutorialOverlayClick($event);" id="tutorial" ng-cloak>
+  {% include './tutorial.html' %}
+</aside>
+<div class="page ng-cloak" ng-cloak>
+    {% include './header.html' %}
+
+    {% include './help.html' %}
+    {% include './video.html' %}
+    {% include './workflow.html' %}
+
+    {% include './timeline.html' %}
+
+    <div class="subtitle-area edit-area reference">
+        {% include './reference-subtitles.html' %}
+    </div>
+    <div class="subtitle-area edit-area work">
+        {% include './working-subtitles.html' %}
+    </div>
+    {% include './notes.html' %}
+</div>
+{% include './dialogs.html' %}
+{% media_bundle "editor.js" %}
+</body>
+</html>

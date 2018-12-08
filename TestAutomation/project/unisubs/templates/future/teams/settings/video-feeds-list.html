@@ -1,0 +1,43 @@
+{% load i18n %}
+
+{% if feeds %}
+<!-- added some padding since this listView does not use any column header -->
+<div class="listView videoFeedsList" style="margin-top: 15px">
+  {% for feed in feeds %}
+    <div class="videoFeedsList-title">
+      <a href="{{ feed }}">
+        {{feed}}
+      </a>
+      <div class="listView-secondary visible">
+        <span>{% trans 'Imported videos: ' %}{{ feed.count_imported_videos }}</span><br>
+        <span>{% trans 'Last import date: ' %}{{ feed.last_update }}</span>
+      </div>
+    </div>
+    <div class="listView-actions">
+      <!-- quick hack to align this button -->
+      <form method="post" action="" style="display:inline">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="import">
+        <input type="hidden" name="feed" value="{{ feed.id }}">
+        <button name="import" class="listView-action videoFeedsList-import">
+          <span data-toggle="tooltip" data-placement="top" title="{% trans 'Import videos' %}">
+              <span class="fa fa-cloud-download-alt"></span>
+          </span>        
+        </button>
+      </form>     
+
+      <button class="listView-action ajaxLink"
+              data-href="{% url 'teams:settings_feeds' team.slug %}?action=remove&pk={{ feed.pk }}">
+        <span class="fa fa-trash"></span>
+      </button>
+    </div>
+  {% endfor %}  
+</div>
+
+{% else %}
+
+<div class="zero-state">
+  {% trans 'No video feeds' %}
+</div>
+
+{% endif %}

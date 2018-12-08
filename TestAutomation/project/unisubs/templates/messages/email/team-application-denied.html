@@ -1,0 +1,11 @@
+{% extends "videos/email_base.html" %}
+
+{% load i18n localeurl_tags %}
+
+{% block content %}
+
+Hi {{ user }},<br/>
+
+Your application to join the {{ team.name }} team has been declined. 
+{% endblock %}
+{% block dont_send %}{% endblock %}

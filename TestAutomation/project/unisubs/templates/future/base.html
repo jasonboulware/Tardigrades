@@ -1,0 +1,75 @@
+{% load i18n assets media_bundle announcement_tags messages_tags assets modal dropdown captureas %}
+<!DOCTYPE html>
+<html>
+  <head>
+    {% include "gtm-head.html" %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% trans 'Amara: Caption, Subtitle and Translate Video' %}{% endblock %}</title>
+    <meta name="description" content='{% trans "Amara's award-winning technology enables you to caption and subtitle any video for free. For larger subtitling projects the platform makes it easy to manage teams of translators. And you can always purchase high-quality captions or translations from our passionate team of professional linguists. Amara can help make your videos accessible to the world!" %}'>
+    <meta property="og:title" content="{% trans 'Amara: Caption, Subtitle and Translate Video' %}">
+    <meta property="og:description" content='{% trans "Amara's award-winning technology enables you to caption and subtitle any video for free. For larger subtitling projects the platform makes it easy to manage teams of translators. And you can always purchase high-quality captions or translations from our passionate team of professional linguists. Amara can help make your videos accessible to the world!" %}'>
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://amara.org/">
+    <meta property="og:image" content="{% asset "img/og-image.jpg" %}">
+    <meta property="og:image:width" content="1400">
+    <meta property="og:image:height" content="600">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@AmaraSubs">
+    <meta name="twitter:creator" content="@AmaraSubs">
+    <meta name="twitter:title" content="{% trans 'Amara: Caption, Subtitle and Translate Video' %}">
+    <meta name="twitter:description" content="{% trans 'Make video accessible to the world with Amara!' %}">
+    <meta name="twitter:image" content="{% asset 'img/og-image.jpg' %}">
+    <meta name="twitter:image:alt" content="{% trans 'Colorful Amara logo and the following text: Working to Build a More Open, Collaborative World' %}">
+    {% if HOSTNAME != 'amara.org' %}<meta name="robots" content="noindex, nofollow"/>{% endif %}
+    <link rel="apple-touch-icon" sizes="180x180" href="{% asset "img/apple-touch-icon.png" %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% asset "img/favicon-16x16.png" %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% asset "img/favicon-32x32.png" %}">
+    {% block css %}<link rel="stylesheet" href="{% asset "css/application.css" %}">{% endblock css %}
+    <script src="{% asset "js/head.js" %}"></script>
+    {% js_i18n_catalog %}
+    {% js_language_data %}
+    {% block head-extra %}{% endblock %}
+    <script>var userLanguages = [{% for language in user.get_languages %}"{{language }}"{% if not forloop.last %},{% endif %}{% endfor %}];</script>
+  </head>
+  <body{% block body-extra %}{% endblock %}>
+    {% include "gtm-body.html" %}
+    <a id="top"></a>
+    {% block header %}{% include "future/header.html" %}{% endblock %}
+    {% futureui_announcement %}
+    {% futureui_messages %}
+    <main id="page-content">
+      {% if messages %}
+      <div id="messages" class="container">
+        <div class="content">
+          {% for message in messages %}
+              <div class="alert alert-dismissible{% if message.tags %} alert-{{ message.tags }}{% endif %}">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                {{ message|safe }}
+              </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+      {% block content %}{% endblock %}
+    </main>
+    {% captureas staff_controls %}
+    {% if user.is_staff %}
+    {% dropdown-button "staff-controls" "button teal" %}{% trans "Staff controls" %}{% end-dropdown-button %}
+    {% dropdown "staff-controls" labelled_by="dropdown-menu-button" %}
+    {% dropdown-item _('Dashboard') "staff:index" %}
+    {% dropdown-item _('Site Admin') "admin:index" %}
+    {% dropdown-item _('Github') "//github.com/pculture/unisubs/commit/"|add:LAST_COMMIT_GUID raw_url=True %}
+    {% dropdown-item _('Impersonate') "auth:login_trap" %}
+    {% block page-controls %}{% endblock %}
+    {% enddropdown %}
+    {% endif %}
+    {% endcaptureas %}
+    {% block footer %}{% include "future/footer.html" %}{% endblock %}
+
+    {% block main_js %}<script src="{% asset "js/application.js" %}"></script>{% endblock %}
+    {% block bottom %}{% endblock %}
+  </body>
+</html>

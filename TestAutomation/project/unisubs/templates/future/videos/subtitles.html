@@ -1,0 +1,217 @@
+{% extends "future/base.html" %}
+{% load i18n new_subtitles_tags ui dropdown query_string videos_tags %}
+
+{% block head-extra %}
+{% include "future/videos/embed-script.html" %}
+{% endblock %}
+
+{% block header %}{% if header %}{{ header }}{% else %}{{ block.super }}{% endif %}{% endblock %}
+
+{% block content %}
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-8">
+        <div class="content">
+          <p><a href="{{video.get_absolute_url}}{% query_string %}">{% trans "Return to Video" %}</a></p>
+          {% include "future/videos/embed.html" with width=848 subtitle_language=subtitle_language %}
+          {% if subtitle_version and subtitle_language and subtitle_language.get_title %}
+          <h2{% if subtitle_language.is_rtl %} class="is-rtl"{% endif %}>
+            <bdi>{{ subtitle_language.title_display }}</bdi>
+          </h2>
+          {% else %}
+          <h2>{{ video.title_display }}</h2>
+          {% endif %}
+          <ul class="nav nav-tabs">
+            <li class="active"><a href="#subtitles_list" data-toggle="tab" aria-expanded="true">{% trans "Subtitles" %}</a></li>
+            <li><a href="#subtitles_info" data-toggle="tab" aria-expanded="false">{% trans "Subtitles info" %}</a></li>
+            <li><a href="#subtitles_activity" data-toggle="tab">{% trans "Activity" %}</a></li>
+            {% if comments %}
+            <li><a href="#subtitles_comments" data-toggle="tab">{% trans "Comments" %}</a></li>
+            {% endif %}
+            {% if show_notes %}
+            <li><a href="#subtitles_notes" data-toggle="tab">{% trans "Subtitle Notes" %}</a></li>
+            {% endif %}
+            {% if show_sync_history %}
+            <li><a href="#subtitles_sync_history" class="ajaxLink" role="button" data-nav="true" data-toggle="tab" data-href="{% query_string update-sync-history=1 %}">{% trans "Sync History" %}</a></li>
+            {% endif %}
+          </ul>
+          <div class="tab-content">
+            <div id="subtitles_list" class="tab-pane active">
+              <nav class="tab-actions">
+                {% if show_rollback %}
+                <a {% if can_edit %}class="button small ajaxLink" data-href="{% query_string form=rollback %}"{% else %}class="button small disabled"{% endif %}>{% blocktrans with number=subtitle_version.version_number  %}Rollback to version {{ number }}{% endblocktrans %}</a>
+                {% else %}
+                <a {% if can_edit %}class="button small" href="{{ subtitle_language.editor_url }}{% query_string %}"{% else %}class="button small disabled"{% endif %}>{% trans "Edit subtitles" %}</a>
+                {% endif %}
+                <span>{% trans "Follow" %}</span>
+                <form action="{% url "api:language-follow" video.video_id subtitle_language.language_code %}" class="ajaxForm updateOnChange" method="post">
+                  {% csrf_token %}
+                  <label class="switch inline switchFollow">
+                    <input class="switch-input" name="follow" type="checkbox" {% if subtitle_language|is_follower:user %}checked{% endif %}>
+                    <div class="switch-container inline">
+                      <div class="switch-slider inline">
+                        <span class="switch-onText inline">{% trans "ON" %}</span>
+                        <span class="switch-offText inline">{% trans "OFF" %}</span>
+                      </div>
+                    </div>
+                  </label>
+                </form>
+              </nav>
+              {% if subtitle_version and subtitle_version.has_subtitles %}
+              {{ subtitle_version|render_subtitles }}
+              {% else %}
+              <div class="zero-state">{% trans "No subtitles available." %}</div>
+              {% endif %}
+            </div>
+            <div id="subtitles_info" class="tab-pane">
+              {% include "future/videos/tabs/info.html" %}
+            </div>
+            <div id="subtitles_activity" class="tab-pane">
+              {% include "future/videos/tabs/activity.html" with count=activity_count show_more=show_more %}
+            </div>
+            {% if comments %}
+            <div id="subtitles_comments" class="tab-pane">
+              {% include "future/videos/tabs/comments.html" %}
+            </div>
+            {% endif %}
+            {% if show_notes %}
+            <div id="subtitles_notes" class="tab-pane">
+              {% include "future/videos/tabs/notes.html" %}
+            </div>
+            {% endif %}
+            {% if show_sync_history %}
+            <div id="subtitles_sync_history" class="tab-pane">
+              {% include "future/videos/tabs/sync-history.html" %}
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xs-12 col-sm-4">
+        <div class="content">
+          <section class="videoSubtitles-progress">
+            <header>
+              <h1>{% blocktrans with language=subtitle_language.get_language_code_display %}{{ language }} subtitles{% endblocktrans %}</h1>
+              {% if subtitle_version and subtitle_version.has_subtitles %}
+              <div class="header-actions dropdown small">
+                {% dropdown-button "download-button" "" %}{% trans "Download" %}<span class="caret"></span>{% end-dropdown-button %}
+                {% dropdown "download-button" %}
+                {% for format_name in downloadable_formats %}
+                {% subtitle_download_url subtitle_version format_name as download_url %}
+                {% dropdown-item format_name|upper download_url raw_url=True %}
+                {% endfor %}
+                {% enddropdown %}
+              </div>
+              {% endif %}
+            </header>
+            {% if steps %}
+            <ol>
+              {% for step in steps %}
+              <li{% if step.current %} class="current"{% endif %}>
+                <span class="col-xs-6">{{ step.label }}</span>
+                <span class="col-xs-6">
+                  {% if step.member %}
+                  {% include "future/teams/icon-link-member.html" with member=step.member %}
+                  {% elif step.user %}
+                  {% include "future/users/icon-link.html" with user=step.user %}
+                  {% elif step.team %}
+                  {% include "future/teams/icon-link.html" with team=step.team %}
+                  {% else %}
+                  <i class="icon {{ step.icon}}"></i>
+                  {% endif %}
+                  {{ step.status }}
+                </span>
+              </li>
+              {% endfor %}
+            </ol>
+            {% else %}
+            <div class="subtitleStatus">
+              {% if subtitle_language.subtitles_complete %}
+              <i class="icon icon-complete"></i> {% trans "Subtitles complete" %}
+              {% else %}
+              <i class="icon icon-incomplete"></i> {% trans "Subtitles in progress" %}
+              {% endif %}
+            </div>
+            {% endif %}
+            {% if cta %}
+              {% if no_languages_yet %}
+                {% include "future/teams/set-languages.html" with custom_text=_('Select the languages you can caption or translate to begin working on these subtitles') %}
+              {% else %}
+                <div class="videoSubtitles-cta">{{ cta.as_block }}</div>
+              {% endif %}
+            {% endif %}
+            {% if due_date %}<div>{{ due_date }}</div>{% endif %}
+          </section>
+          {% if all_subtitle_versions %}
+          <section class="videoSubtitles-revisions">
+            <header>
+              <h3>{% trans "Revisions" %}</h3>
+              <div class="header-actions"><a href="#" class="videoSubtitles-compare disabled text" data-url-template="{% url "videos:diffing" "111" "222" %}" title="{% trans "Compare revisions" %}">{% trans "Compare revisions" %}</a></div>
+            </header>
+            <ul>
+              {% for revision in all_subtitle_versions %}
+              <li class="row condensed hangingLink{% if revision == subtitle_version %} currentRevision{% endif %}">
+                {% if enabled_compare %}
+                <div class="col-xs-1">
+                  <div class="checkbox">
+                    <input type="checkbox" id="revision-{{revision.id}}" data-id="{{ revision.id }}">
+                    <label for="revision-{{ revision.id }}"><span class="checkbox-icon"></span></label>
+                  </div>
+                </div>
+                <div class="col-xs-6">
+                {% else %}
+                <div class="col-xs-7">
+                {% endif %}
+                <a class="text" href="{{ revision.get_absolute_url }}{% query_string %}">
+                  {% if revision.is_private %}<em class="italic">{% else %}<strong>{% endif %}
+                      {% blocktrans with number=revision.version_number %}Revision {{ number }}{% endblocktrans %}
+                  {% if revision.is_private %}</em>{% else %}</strong>{% endif %}
+                </a>
+                  <br>
+                  {{ revision.author }}
+                </div>
+                <div class="col-xs-5 end-xs">
+                  <strong>{{ revision.get_origin_display }}</strong>
+                  <br>
+                  {{ revision.created|datetime }}
+                </div>
+                {% if enable_edit_in_admin %}
+                <a class="hangingLink-link" href="{% url "admin:subtitles_subtitleversion_change" revision.id %}" target="_blank"><i class="icon icon-edit"></i></a>
+                {% endif %}
+              </li>
+              {%  endfor %}
+            </ul>
+            {% if has_private_version %}
+            <p><em class="italic">{% trans "Private revisions are in italics." %}</em></p>
+            {% endif %}
+            {% if enable_change_language %}
+            <p class="text-right"><a class="ajaxLink" data-href="{% query_string form=language %}">{%trans "Change subtitle language" %}</a></p>
+            {% endif %}
+            {% if enable_delete_subtitles %}
+            <p class="text-right"><a class="ajaxLink" data-href="{% query_string form=delete %}">{% trans "Delete subtitles" %}</a></p>
+            {% endif %}
+            </section>
+          {% else %}
+          <section class="videoSubtitles-revisions">
+              <div class="zero-state">{% trans "No revisions available." %}</div>
+          </section>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+{% block page-controls %}
+  {% if perms.subtitles.edit_subtitlelanguage %}
+  {% dropdown-item _('Edit SubtitleLanguage') "admin:subtitles_subtitlelanguage_change" subtitle_language.pk %}
+  {% endif %}
+  {% if subtitle_version and perms.subtitles.edit_subtitleversion %}
+  {% dropdown-item _('Edit SubtitleVersion') "admin:subtitles_subtitleversion_change" subtitle_version.pk %}
+  {% endif %}
+  {% for link in extra_page_controls %}
+  {% dropdown-item link.label link.url raw_url=True %}
+  {% endfor %}
+{% endblock %}

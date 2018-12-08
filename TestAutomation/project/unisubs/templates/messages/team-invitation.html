@@ -1,0 +1,12 @@
+{% load i18n localeurl_tags %}
+<p>{% blocktrans %}Hi {{ user }},{% endblocktrans %}</p>
+
+<p>{% blocktrans %}You have been invited as a {{ role }} for the {{ team }} team.{% endblocktrans %}</p>
+{% if custom_message %}<p>{{ custom_message|safe }}</p>{% endif %}
+{% if note %}<p>{{ note }}</p>{% endif %}
+
+{% universal_url "teams:accept_invite" invite_pk=invite.pk as accept_link %}
+<p>{% blocktrans %}<a href="{{ accept_link}}">Accept this invitation and join the team</a>{% endblocktrans %}</p>
+
+{% universal_url "teams:deny_invite" invite_pk=invite.pk as decline_link %}
+<p>{% blocktrans %}<a href="{{ decline_link }}">Decline this invitation</a>{% endblocktrans %}</p>

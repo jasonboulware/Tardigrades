@@ -1,0 +1,124 @@
+{% load i18n media_bundle announcement_tags messages_tags auth_tags profiles_tags assets %}
+
+<!DOCTYPE html>
+<html {% if LANGUAGE_BIDI %}dir="rtl"{% endif %} {% block html_attrs %}{% endblock %}>
+
+<head>
+  {% include "gtm-head.html" %}
+  <title>{% block title %}Amara - {% trans 'Caption, translate, subtitle and transcribe video.' %}{% endblock %}</title>
+  <link href='//fonts.googleapis.com/css?family=Merriweather:700' rel='stylesheet' type='text/css'>
+  <link href='//fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Amara is home to the world's largest subtitling community and is a complete solution for captions, subtitles, and translations. Amara makes captioning &amp; translation easier, faster, more affordable.">
+  <meta name="keywords" content="subtitles, captions, transcripts, translation, film, crowdsourcing, Amara, Universal Subtitles">
+  <meta name="application-name" content="Amara - Buy captions, video translations, transcriptions, and crowd subtitling" />
+  <meta name="msapplication-tooltip" content="A platform for collaborative subtitles!" />
+  <meta name="title" content="Crowd Subtitles | Amara - Buy captions, video translations, transcriptions, and crowd subtitling" />
+  {% if HOSTNAME != 'amara.org' %}<meta name="robots" content="noindex, nofollow"/>{% endif %}
+  {% block opengraph-head %}
+    <meta property="fb:admins" content="539835590"/>
+  {% endblock  %}
+
+  <link rel="apple-touch-icon" sizes="180x180" href="{% asset "img/apple-touch-icon.png" %}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{% asset "img/favicon-16x16.png" %}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{% asset "img/favicon-32x32.png" %}">
+
+  <!--[if IE]>
+      <style type="text/css"> .group { display: block; zoom: 1; } </style>
+  <![endif]-->
+  <!--[if gte IE 8]>
+      {% media_bundle "ie8.css" %}
+  <![endif]-->
+  <!--[if lt IE 9]>
+      <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  {% media_bundle "new-base.css" %}
+  {% media_bundle "new-site.js" %}
+  {% js_i18n_catalog %}
+
+  {% block scripts %}{% endblock %}
+</head>
+
+<body>
+{% include "gtm-body.html" %}
+    {% new_announcement %}
+    {% if user.is_authenticated %}
+        {% messages %}
+    {% endif %}
+
+<div id="header">
+  {% block header %}{% include "new-header.html" %}{% endblock %}
+  {% if breadcrumbs %}
+  <ul class="breadcrumbs">
+    {% for breadcrumb in breadcrumbs %}
+    {% if breadcrumb.url %}
+    <li><a href="{{ breadcrumb.url }}">{{ breadcrumb.label }}</a></li>
+    {% else %}
+    <li>{{ breadcrumb.label }}</li>
+    {% endif %}
+    {% endfor %}
+  </ul>
+  {% endif %}
+</div>
+<div id="main-content"><div class="content">
+    {% for message in messages %}
+    <div class="message {% if message.tags %}{{ message.tags }}{% endif %}">{{ message|safe }}</div>
+    {% endfor %}
+    {% block content %}{% endblock %}
+</div></div>
+
+<div id="footer">
+  <div class="content group">
+    <div class="terms">
+      <a href="//amara.org"><img src="{{ STATIC_URL }}images/amara-logotype.png" alt="Amara's green circle logotype" /></a>
+      <ul>
+        <li><a href="//blog.amara.org/tos/">{% trans 'Terms' %}</a></li>
+        <li><a href="//pculture.org/pcf/privacy/">{% trans 'Privacy' %}</a></li>
+        <li><a href="/security">{% trans 'Security' %}</a></li>
+      </ul>
+    </div>
+
+    <div class="nav group">
+      <ul>
+        <li><strong>Amara</strong></li>
+        <li><a href="/recruitment/">{% trans 'Jobs' %}</a></li>
+        <li><a href="http://blog.amara.org/">{% trans 'Blog' %}</a></li>
+        <li><a href="http://support.amara.org/solution/categories/13504">{% trans 'Help' %}</a></li>
+        <li><a href="http://support.amara.org/support/solutions/articles/35517--i-have-a-non-technical-question-about">{% trans 'Contact' %}</a></li>
+      </ul>
+      <ul>
+        <li><strong>{% trans 'Videos' %}</strong></li>
+        <li><a href="{% url "search:index" %}">{% trans 'Search' %}</a></li>
+        <li><a href="{% url "videos:watch_page" %}">{% trans 'Browse' %}</a></li>
+        <li><a href="{% url "videos:featured_videos" %}">{% trans 'Featured' %}</a></li>
+      </ul>
+      <ul>
+        <li><strong>{% trans 'More' %}</strong></li>
+        <li><a href="//twitter.com/AmaraSubs/">Twitter</a></li>
+        <li><a href="//facebook.com/Amara.Community">Facebook</a></li>
+      </ul>
+      {% if user.is_staff %}
+      <ul>
+        <li><strong>{% trans 'Admin' %}</strong></li>
+        <li><a target="_blank" href="{% url "admin:index" %}">{% trans 'Site Admin' %}</a></li>
+        <li><a href="//github.com/pculture/unisubs/commit/{{ LAST_COMMIT_GUID }}" title="{{ LAST_COMMIT_GUID }}">Github</a></li>
+        {% if user.is_superuser %}
+        <li><a target="_blank" href="{% url "auth:login_trap" %}">{% trans 'Impersonate' %}</a></li>
+        <li><a target="_blank" href="{% url "billing" %}">{% trans 'Billing' %}</a></li>
+        {% endif %}
+      </ul>
+      {% block page-controls %}{% endblock %}
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% block bottom %}{% endblock %}
+{% block bottom_scripts %}{% endblock %}
+</body>
+</html>

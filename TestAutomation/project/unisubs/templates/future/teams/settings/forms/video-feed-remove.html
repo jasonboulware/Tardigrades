@@ -1,0 +1,27 @@
+{% load i18n modal captureas %}
+
+{% captureas title_remove_modal %}
+  {% trans 'Remove video feed' %}
+{% endcaptureas %}
+
+{% startmodal "remove-feed" title_remove_modal %}
+
+<form method="POST" action="">
+    <div class="modal-content">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="delete">
+        <input type="hidden" name="feed" value="{{ feed.pk }}">
+        <p>
+          Video feed: <a href="{{ feed.url }}">{{ feed.url }}</a>
+        </p>
+        <p>
+          {% trans 'Are you sure you want to remove this video feed?' %}
+        </p>
+    </div>
+    <div class="modal-footer">
+      <button class="button borderless modal-close">Cancel</button>
+      <button class="button cta" type="submit">Remove</button>
+    </div>
+</form>
+
+{% endmodal %}

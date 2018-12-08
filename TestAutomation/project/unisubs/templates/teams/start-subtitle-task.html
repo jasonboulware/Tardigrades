@@ -1,0 +1,36 @@
+{% extends "teams/base.html" %}
+
+{% load i18n %}
+
+{% block html_attrs %}id="team_start_subtitle_task"{% endblock %}
+
+{% block title %}
+    {% trans 'Starting Task' %} - {{ team }} | Amara
+{% endblock %}
+
+{% block view_content %}
+    <div class="view grid_8 omega">
+        {% with "tasks" as current %}
+            {% include 'teams/_tabs.html' %}
+        {% endwith %}
+
+        <form method="POST" action="">
+            {% csrf_token %}
+
+                <fieldset>
+                    <legend>{% trans 'Perform Task' %}</legend>
+
+                    {% if form.needs_primary_audio_language %}
+                        {% include "_form_field.html" with field=form.primary_audio_language_code %}
+                    {% endif %}
+                    {% include "_form_field.html" with field=form.subtitle_language_code %}
+                </fieldset>
+
+            <div class="submit">
+                <input type="submit" class="submit" value="{% trans 'Start Subtitling' %}" />
+            </div>
+        </form>
+    </div>
+
+{% endblock %}
+

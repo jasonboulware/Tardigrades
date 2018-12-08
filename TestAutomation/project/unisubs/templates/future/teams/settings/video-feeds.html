@@ -1,0 +1,19 @@
+{% extends "future/teams/settings/base.html" %}
+{% load i18n forms %}
+
+{% block settings_form %}
+<div class="contentHeader">
+  <div class="contentHeader-title">{% trans "RSS Video Feeds" %}</div>
+  {{ filters_form.q }}
+  <button data-target="#add-video-feed" class="contentHeader-addButton modal-show">
+    <span class="fa fa-plus"></span>
+    <span class="contentHeader-addButtonText">{% trans "Add video feed" %}</span>
+  </button>
+</div>
+
+<div id='video-feeds-list'>
+    {% include 'future/teams/settings/video-feeds-list.html' %}
+</div>
+{% include 'future/teams/settings/forms/video-feed-add.html' %}
+
+{% endblock %}

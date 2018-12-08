@@ -1,0 +1,17 @@
+{% load i18n forms modal captureas %}
+{% captureas title %}{% trans "Add Project" %}{% endcaptureas %}
+{% startmodal "add-project-dialog" title %}
+<form class="ajaxForm" method="POST" action="{{ request.get_full_path }}" enctype="multipart/form-data">
+  <h4 class="modal-header">{% trans "New Project" %}</h4>
+  <div class="modal-content">
+    {% csrf_token %}
+    {% include "future/forms/non-field-errors.html" %}
+    {{ form.name|render_field }}
+    {{ form.description|render_field }}
+  </div>
+  <div class="modal-footer">
+    <button class="button cta-reverse modal-close">{% trans "Cancel" %}</button>
+    <button class="button cta" type="submit">{% trans "Add" %}</button>
+  </div>
+</form>
+{% endmodal %}

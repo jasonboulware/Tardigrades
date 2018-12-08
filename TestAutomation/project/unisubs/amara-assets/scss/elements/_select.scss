@@ -1,0 +1,269 @@
+// Selects
+//
+// Selects are used to pick an option from a list of choices.  There are 3 basic cases:
+//
+//   - Static list of choices.  For these just create a normal HTML select option
+//   - Dynamic list of choices.  Use the data-ajax attribute to specify a URL
+//     fetch options from based on the current search query.
+//   - Language choices.  Use the data-language-options to display a list of
+//     language choices.  Include a space separated list with any number of these choice types:
+//     "null", "my", "popular", "all", 
+//
+// You can customize the list using attributes on the select element:
+//
+//  - Use the data-placeholder attribute to change the text when nothing is selected.  Make sure to include a blank option if you do this.
+//  - Use the disabled attribute to disable changing the selection
+//  - Use the multiple attribute to allow multiple selection
+//  - Use the data-extra-optoins to include extra options that get displayed
+//    specially.  These options are always available for ajax selects.
+//  - Once the user selects an option, will get an extra option to clear the
+//    select.  If you want to disable this, don't include a blank choice in the
+//    list of options.  For ajax selects, use the data-clear="false" attribute
+//  - Selects with many options will get a searchbox to filter out the choices.  Ajax and language selects always have this searchbox.
+//  - Use the selectFilter class to render select for filters
+//
+//
+// Example:
+//   <select class="select" data-placeholder="Select an option">
+//     <option></option>
+//     <option>Option 1</option>
+//     <option>Option 2</option>
+//   </select>
+//
+// Example:
+//   <select multiple class="select" data-placeholder="Multiple select">
+//     <option></option>
+//     <option>Option 1</option>
+//     <option>Option 2</option>
+//     <option>Option 3</option>
+//     <option>Option 4</option>
+//     <option>Option 5</option>
+//     <option>Option 6</option>
+//     <option>Option 7</option>
+//     <option>Option 8</option>
+//   </select>
+//
+// Example:
+//   <select class="select selectFilter" data-placeholder="Filter videos">
+//     <option></option>
+//     <option>English</option>
+//     <option>Non-english</option>
+//   </select>
+//
+// Example:
+//   <select class="select" data-extra-options='[["extra1", "Extra option"], ["extra2","Extra option #2"]]'>
+//     <option selected>Option 1</option>
+//     <option>Option 2</option>
+//   </select>
+//
+// Example:
+//   <select name="" id="" class="select" data-language-options="null popular any" data-placeholder="Select Language"></select>
+//
+// Example:
+//   <select name="" id="" class="select" data-ajax="member-search" data-placeholder="Search members" data-clear="false" data-extra-options='[["unassign", "Unassign"]]'></select>
+//
+// Example:
+//   <select class="select" disabled>
+//     <option></option>
+//     <option selected>Option 1</option>
+//     <option>Option 2</option>
+//   </select>
+//
+// Styleguide selects
+
+select.select {
+  // Style for our select before we replace it with the select2 box.  The goal
+  // here is to have the transition be as smooth as possible
+  visibility: hidden;
+  height: 32px;
+}
+
+.select2-container.select2-container--amara {
+  width: 100% !important;
+  position: relative;
+
+  .select2-selection {
+    padding: 10px 40px 10px 8px;
+    outline: 0; // We create our own focus ring below
+    border: 1px solid light($gray);
+    min-height: 39px;
+    line-height: 19px;
+    background-color: #fff;
+  }
+
+  .select2-selection--multiple {
+    padding: 3px 40px 3px 8px;
+  }
+
+  &.selectFilter .select2-selection {
+    font-size: $font-size-small;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: 6px 40px 6px 8px;
+    min-height: 31px;
+  }
+
+  &.select2-container--disabled .select2-selection {
+    cursor: not-allowed;
+  }
+
+  .select2-selection__rendered {
+    display: block;
+    color: $charcoal;
+    padding: 0;
+    margin: 0;
+  }
+
+  .select2-selection__rendered__multiple {
+    /* we fix the height of this to handle multiple select rendering in just a single line
+     * this works because selections are 31px tall
+     *
+     * when changing the heights of the selections (and therefore the containers as well), please update
+     * scripts/shared/select/main.js:handleDropdownMultiple(select, options)
+     * since there is code there that sets the height of the .select2-selection__rendered 
+     * back to 31px when the dropdown is closed
+     */
+    height: 31px;
+    overflow: hidden;
+  }
+
+  .select2-selection__placeholder {
+    color: $gray;
+  }
+  .select2-selection--multiple .select2-selection__placeholder {
+    margin-top: 7px;
+  }
+
+  .select2-selection__choice {
+    float: left;
+    color: $charcoal;
+    background: $snow;
+    border: 1px solid light($gray);
+    list-style-type: none;
+    margin: 3px 6px 3px 0;
+    padding: 2px 8px;
+  }
+  .select2-selection__choice__remove {
+    float: right;
+    margin-left: 13px;
+    color: $gray;
+  }
+  .select2-selection__choice__count {
+    float: right;
+    padding-left: 5px;
+    padding-top: 7px;
+    height: 31px;
+    color: $gray;
+    visibility: hidden;
+  }
+  .select2-selection__choice__overflow {
+    display: none;
+  }
+
+  .select2-dropdown {
+    border: 1px solid light($gray);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.175);
+  }
+  .select2-dropdown--below {
+    border-top: 0;
+  }
+  .select2-dropdown--above {
+    border-bottom: 0;
+  }
+
+  .select2-search--dropdown {
+    padding: 4px 0px;
+  }
+  .select2-search__field {
+    padding: 4px 8px;
+    color: $charcoal;
+    border: none;
+    border-bottom: 1px solid light($gray);
+  }
+  .select2-results > .select2-results__options {
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  .select2-results__option {
+    display: block;
+    padding: 6px 18px;
+  }
+  .select2-results__option--highlighted {
+    background: $teal;
+    color: white;
+  }
+  .select2-results__option[aria-selected=true] {
+    border-left: 3px solid $teal;
+    padding-left: 15px;
+  }
+  .select2-results__option .avatar {
+      margin-right: 20px;
+  }
+  .select2-results__option--border {
+      border-top: 1px solid light($gray)
+  }
+
+  // arrow handling
+
+  .select2-selection__arrow {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: $snow;
+    padding: 0 5px;
+    pointer-events: none;
+    border: 1px solid light($gray);
+  }
+
+  .select2-selection__arrow b {
+    font-family: 'amara' !important;
+    display: inline-block;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 37px;
+    vertical-align: middle;
+    transform: rotate(90deg);
+    @include transition(0.2s);
+    &:after {
+      @extend .icon-arrow:before;
+      speak: none;
+    }
+  }
+  &.select2-container--open .select2-selection__arrow b {
+    transform: rotate(270deg);
+  }
+
+  &.selectFilter .select2-selection__arrow {
+    display: none;
+  }
+  &.selectFilter .select2-selection__rendered:after {
+    display: inline-block;
+    margin-left: 5px;
+    font-weight: 400;
+    font-family: 'amara' !important;
+    @extend .icon-arrow:before;
+    speak: none;
+    transform: rotate(90deg);
+    @include transition(0.2s);
+  }
+  &.selectFilter.select2-container--open .select2-selection__rendered:after {
+    transform: rotate(270deg);
+  }
+
+  // selection handling
+  &.select2-container--focus:not(.select2-container--open) {
+    .select2-selection {
+      // Match the focus style to our other fields
+      // TODO we should refactor this into a SASS mixin class
+      border: 1px solid #66afe9;
+      box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+    }
+    .select2-selection, .select2-selection__arrow {
+      border-right: 1px solid #66afe9;
+      border-top: 1px solid #66afe9;
+      border-bottom: 1px solid #66afe9;
+    }
+  }
+}

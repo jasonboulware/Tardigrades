@@ -1,0 +1,27 @@
+{% extends "future/teams/base.html" %}
+{% load i18n html %}
+
+{% block content %}
+<div class="container">
+  <h1>{% trans "Team stats" %}</h1>
+  <table class="table">
+    <tr>
+      <th>Name</th>
+      <th>Today</th>
+      <th>Yesterday</th>
+      <th>Last Week</th>
+      <th>Last Month</th>
+    </tr>
+    {% for name, counts in stats.items %}
+    <tr>
+      <td>{{ name  }}</td>
+      <td>{{ counts.today }}</td>
+      <td>{{ counts.yesterday }}</td>
+      <td>{{ counts.last_week }}</td>
+      <td>{{ counts.last_month }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}
+

@@ -1,0 +1,5 @@
+Behaviors
+=========
+
+.. automodule:: utils.behaviors
+

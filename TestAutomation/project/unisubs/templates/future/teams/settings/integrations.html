@@ -1,0 +1,44 @@
+{% extends "future/teams/settings/base.html" %}
+{% load i18n forms modal captureas dropdown %}
+
+{% block settings_form %}
+
+<!-- integrations account list -->
+<form>
+<div class="contentHeader">
+  <div class="contentHeader-title">{% trans 'Accounts' %}</div>
+  {{ filters_form.q }}
+  <button data-target="#add-account" class="contentHeader-addButton modal-show">
+    <span class="fa fa-plus"></span>
+    <span class="contentHeader-addButtonText">{% trans 'Add account' %}</span>
+  </button>
+</div>
+</form>
+<div id="integrations-list">
+{% include "future/teams/settings/integrations-list.html" %}
+</div>
+
+<!-- subtitle export history list -->
+<form>
+<div class="contentHeader">
+  <div class="contentHeader-title">{% trans 'Subtitle Export History' %}</div>
+  {{ sync_history_filters_form.q2 }}
+</div>
+<div class="filterBox">
+    {% filterbox-dropdown-button "sync-history-filters" _("Filter") %}
+    {% dropdown "sync-history-filters" %}
+    {% dropdown-js-item _('Export result') 'result' %}
+    {% enddropdown %}
+    <div class="filterBox-fields">
+      {% render_filter_field sync_history_filters_form.result %}
+    </div>
+  </div>
+</form>
+<div id="sync-history-list">
+{% include "future/teams/settings/sync-history-list.html" %}
+</div>
+
+<!-- modal code for adding integrations -->
+{% include "future/teams/settings/forms/integrations-add.html" %}
+
+{% endblock %}

@@ -1,0 +1,18 @@
+{% load i18n %}
+
+{% if notification_content %}
+<ul class="email-confirmation announce-banner">
+  <li>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="note">
+              {{ notification_content }}
+              <a href="{% url "auth:resend_confirmation_email" %}">{% trans "Resend confirmation email" %}</a>
+          </div>
+        </div> <!--/col-xs-12-->
+      </div> <!--/row-->
+    </div> <!--/container-->
+  </li>
+</ul>
+{% endif %}

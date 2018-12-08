@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block main_content %}
+<div id="error" class="grid_8 push_2">
+	<h1>{% trans "Sorry!" %} {{ error_msg }}</h1>
+	<p>{% trans "If you need assistance, please visit our support site at " %}<a href="http://support.universalsubtitles.org/" title="{% trans 'Get help' %}">http://support.universalsubtitles.org/</a></p>
+</div>
+{% endblock %}

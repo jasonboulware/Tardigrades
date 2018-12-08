@@ -1,0 +1,67 @@
+{% load i18n dropdown %}
+
+{% if page %}
+<div class="listView expandable syncHistoryList">
+  
+  <div class="listView-header syncHistoryList-title">{% trans 'Title' %}</div>
+  <div class="listView-header syncHistoryList-channel">{% trans 'Channel' %}</div>
+  <div class="listView-header syncHistoryList-platform">{% trans 'Platform' %}</div>
+  <div class="listView-header syncHistoryList-language">{% trans 'Language' %}</div>
+  <div class="listView-header syncHistoryList-date">{% trans 'Export Date' %}</div>
+  <div class="listView-header listView-actions"></div>
+  {% for sh in page %}
+    <div class="syncHistoryList-title">
+      <a href="{{ sh.video_url.video.get_absolute_url }}?team={{ team.slug }}">
+        {{sh.video_url.video.title}}
+      </a>
+    </div>
+    <div class="syncHistoryList-channel">{{sh.get_account.readable_account_name}}</div>
+    <div class="syncHistoryList-platform">{{sh.get_account.readable_account_type}}</div>
+    <div class="syncHistoryList-language">
+      <a href="{{ sh.language.get_absolute_url }}?team={{ team.slug }}">
+        {{sh.language.get_language_code_display}}
+      </a>
+    </div>
+    <div class="syncHistoryList-date">{{sh.datetime}}</div>
+    <div class="listView-actions">
+      {% if sh.result == 'S' %}
+        <span class="syncHistoryIconTooltip" data-toggle="tooltip" data-placement="top" title="{% trans 'Subtitle export successful' %}">
+          <span class="syncHistoryIcon fa fa-check text-lime"></span>
+        </span>
+      {% else %}
+        <span class="syncHistoryIconTooltip" data-toggle="tooltip" data-placement="top" title="{% trans 'Subtitle export failed. Expand to see details' %}">
+          <span class="syncHistoryIcon fa fa-exclamation-triangle text-amaranth"></span>
+        </span>
+      {% endif %}
+
+
+      <!-- we put the SyncHistory primary key in the button for simplicity -->
+      <button class="listView-action syncHistoryList-action-sync"
+              data-sl-pk="{{ sh.pk }}"
+              data-ajax-url="{% url 'externalsites:export-subtitles' %}">
+        <span class="syncHistoryIconTooltip" data-toggle="tooltip" data-placement="top" title="{% trans 'Export subtitles' %}">
+          <span class="fa fa-cloud-upload-alt"></span>
+        </span>
+      </button>
+    </div>
+    <div class="listView-secondaryRow">
+      {% trans 'Team: ' %}{{ sh.get_team }}
+      {% if sh.result == 'E' %}
+        {% trans 'Subtitle export error: ' %}{{ sh.details }}
+      {% endif %}
+    </div>
+  {% endfor %}  
+  
+</div>
+
+<div class="contentFooter">
+  {% include "content-footer-paginator.html" %}
+</div>
+
+{% else %}
+
+<div class="zero-state">
+  {% trans 'No subtitle export history' %}
+</div>
+
+{% endif %}

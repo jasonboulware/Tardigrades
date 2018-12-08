@@ -1,0 +1,31 @@
+{% load i18n subtitles_tags %}
+
+<div class="lang_menu">
+    {% if video %}
+    <div class="hd">
+
+        <span>
+          {% blocktrans count video.languages_count as number %}
+              {{ number }} language
+          {% plural %}
+              {{ number }} languages
+          {% endblocktrans %}
+        </span>
+    </div><!-- hd -->
+
+    <div class="bd clearfix">
+        {% for language in languages %}
+            {% with language.get_subtitle_count as lines_count %}
+                {% if lines_count %}
+                    <a href="{{ language.get_absolute_url }}" class="{% complete_color language %}">
+                        <span>{{ language.get_language_code_display }}</span>
+                    </a>
+                {% endif %}
+            {% endwith %}
+        {% endfor %}
+        {% if video.languages_count > 7 %}
+          <a href="{{ video.get_absolute_url }}#video-menu" class="more_link">→ View all</a>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>

@@ -1,0 +1,13 @@
+{% load i18n videos_tags %}
+<header class="dashboardHeader">
+  <h2>{% trans "Videos" %}</h2>
+</header>
+
+<div class="grid">
+  {% for dashboard_video in dashboard_videos %}
+  {% with video=dashboard_video.video %}
+  {% include "future/teams/simple/video_card.html" %}
+  {% endwith %}
+  {% endfor %}
+</div>
+

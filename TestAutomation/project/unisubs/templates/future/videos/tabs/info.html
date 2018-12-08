@@ -1,0 +1,59 @@
+{% load i18n videos_tags %}
+<dl>
+  <dt class="inline">{% trans "Title:" %}</dt>
+  <dd class="inline{% if subtitle_version and subtitle_language and subtitle_language.get_title and subtitle_language.is_rtl %} is-rtl{% endif %}">
+  {% if subtitle_language %}
+    <bdi>{{ subtitle_language.title_display }}</bdi>
+  {% else %}
+  {{ video.title_display }}
+  {% endif %}
+  </dd>
+
+ {% if subtitle_version.get_metadata_for_display %}
+    {% for entry in subtitle_version.get_metadata_for_display %}
+        <dt class="inline">{{ entry.label }}</dt>
+        <dd class="inline"><bdi>{{ entry.content }}</bdi></dd>
+    {% endfor %}
+ {% else %}
+    {% for entry in metadata %}
+        <dt class="inline">{{ entry.label }}</dt>
+        <dd class="inline">{{ entry.content }}</dd>
+    {% endfor %}
+ {% endif %}
+
+  {% if video.description or subtitle_version.description %}
+  <dt class="inline">{% trans "Description:" %}</dt>
+  <dd class="clamp inline">
+    <div class="clamp-lines clamp-xs-5"
+      {% if subtitle_version %}
+        {% if subtitle_language.is_rtl %} class="is-rtl"{% endif %}>
+        <bdi>{{ subtitle_version.description|linebreaks }}</bdi>
+      {% else %}
+        >{{ video.description|linebreaks }}
+    {% endif %}
+    </div>
+    {% include "future/clamp-toggle.html" %}
+  </dd>
+  {% endif %}
+
+  {% if video.primary_audio_language_code %}
+  <dt class="inline">{% trans "Video Language:" %}</dt>
+  <dd class="inline">{{ video.get_primary_audio_language_code_display }}</dd>
+  {% endif %}
+
+  {% if team_video %}
+  <dt class="inline">{% trans "Team:" %}</dt>
+  <dd class="inline">{% include "future/teams/team.html" with team=team_video.team %}</dd>
+
+  {% if not team_video.project.is_default_project %}
+  <dt class="inline">{% trans "Project:" %}</dt>
+  <dd class="inline">{{ team_video.project.name }}</dd>
+  {% endif %}
+
+  {% endif %}
+
+  {% if video.duration %}
+  <dt class="inline">{% trans "Duration:" %}</dt>
+  <dd class="inline">{{ video.duration|format_duration }}
+  {% endif %}
+</dl>

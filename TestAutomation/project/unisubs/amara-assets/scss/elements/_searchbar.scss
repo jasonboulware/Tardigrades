@@ -1,0 +1,30 @@
+// Searchbar
+//
+// Example:
+// <div class="form-group searchbar">
+//   <label class="sr-only">Search members</label>
+//   <input type="text" placeholder="Search members">
+// </div>
+//
+// Styleguide searchbar
+
+.searchbar {
+  position: relative;
+  input {
+    padding-right: 32px;
+  }
+  &:after {
+    font-family: 'amara' !important;
+    @extend .icon-search:before;
+    display: block;
+    position: absolute;
+    right: 16px;
+    top: 0;
+    speak: none;
+    text-transform: none;
+    font-size: 22px;
+    line-height: 22px;
+    padding-top: 9px;
+    color: $gray;
+  }
+}

@@ -1,0 +1,59 @@
+{% extends "messages/base.html" %}
+
+{% load paginator i18n %}
+
+{% block title %}
+    {% trans 'Messages - Sent' %} | Amara
+{% endblock %}
+
+{% block html_attrs %}id="messages_sent"{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script src="{% url "messages:rpc_api" %}" type="text/javascript"></script>       
+    <script type="text/javascript">
+        window.STATIC_URL = '{{ STATIC_URL }}';
+        window.DELETE_MESSAGE_CONFIRM = '{% trans 'Do you really wish to delete this message?' %}';
+        window.DELETE_MESSAGES_CONFIRM = '{% trans 'Do you really wish to delete these messages?' %}';
+    </script>
+{% endblock %}
+
+{% block view_content %}
+    <div class="tools">
+      <span class="bulk-actions">
+	<input type="checkbox" class="bulk-select" name="bulk"><a href="" class="bulk-select">{% trans "Select/Deselect all" %}</a>
+      </span>
+      <a href="#" class="button delete-selected" id="delete-selected">{% trans "Delete selected" %}</a>
+    </div>
+    {% if message_list %}
+        {% if is_paginated %}{% paginator %}{% endif %}
+        <ul class="listing messages">
+        {% for msg in message_list %}
+            <li class="message {% if not msg.read %}unread{% endif %} {% if msg.message_type == "S" %}notification{% endif %}">
+                <h3>{{ msg }}</h3>
+                <p>
+                    To
+                    <a href="{{ msg.user.get_absolute_url }}">{{ msg.user }}</a>
+                </p>
+                <p>{{ msg.get_content|safe }}</p>
+                <input class="bulkable" type="checkbox" value="{{msg.id}}">
+                <a class="thumb"href="{{ msg.user.get_absolute_url }}">
+                    {% with msg.user.small_avatar as user_avatar_url %}
+                        {% if user_avatar_url %}
+                            <img src="{{ user_avatar_url }}" alt="{% trans 'Avatar' %}"/>
+                        {% else %}
+                            <img src="{{ STATIC_URL }}/images/default_thumb_small.png" alt="{% trans 'Avatar' %}"/>
+                        {% endif %}
+                    {% endwith %}
+                </a>
+                <span class="timestamp">{{ msg.created|timesince }} {% trans 'ago' %}</span>
+            </li>
+        {% endfor %}
+        </ul>
+        {% if is_paginated %}{% paginator %}{% endif %}
+    {% else %}
+        <p class="empty">
+          {% trans 'You have no sent messages.' %}
+        </p>
+    {% endif %}
+{% endblock %}

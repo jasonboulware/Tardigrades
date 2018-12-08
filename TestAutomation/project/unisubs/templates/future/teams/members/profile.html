@@ -1,0 +1,90 @@
+{% extends "future/teams/base.html" %}
+{% load i18n ui %}
+{% block content %}
+<section>
+  <div class="contentHeader">
+    <div class="contentHeader-title">{% trans "Profile" %}</div>
+  </div>
+
+  <div class="memberProfile">
+    <div class="memberProfile-image">
+      <img src="{{ user.large_avatar }}">
+      <div class="memberProfile-joined">{% blocktrans with date=member.created|date %}Joined {{date }}{% endblocktrans %}</div>
+    </div>
+
+    <dl class="memberProfile-details">
+      {% if user.has_fullname_set %}
+      <dt class="inline">{% trans "Name:" %}</dt>
+      <dd class="inline">{{ user }}</dd>
+      {% endif %}
+
+      <dt class="inline">{% trans "Username:" %}</dt>
+      <dd class="inline">{{ user.username }}</dd>
+
+      {% if member.is_a_project_or_language_manager %}
+      <dt>{% trans "Roles:" %}</dt>
+      <dd>
+        <ul class="bullets">
+          {% for project in member.get_projects_managed %}
+          <li>{% blocktrans with project=project.name %}Project manager for {{ project }}{% endblocktrans %}</li>
+          {% endfor %}
+
+          {% for language in member.get_languages_managed %}
+          <li>{% blocktrans with language=language.get_code_display %}Language manager for {{ language }}{% endblocktrans %}</li>
+          {% endfor %}
+        </ul>
+      </dd>
+      {% else %}
+      <dt class="inline">{% trans "Role:" %}</dt>
+      <dd class="inline">{{ member.get_role_display }}</dd>
+      {% endif %}
+
+      <dt>{% trans "Languages:" %}</dt>
+      <dd>
+        {% if user.get_languages %}
+        <ul class="bullets">
+          {% for name in user.get_language_names %}
+          <li>{{ name }}</li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <em>{% trans "None set" %}</em>
+        {% endif %}
+      </dd>
+
+      {% if member.experience_extra %}
+      <dt>{{ team.new_workflow.get_experience_column_label }} ({{ member.experience_count}}):</dt>
+      <dd>
+      <ul>
+          {% for experience in member.experience_extra %}
+          <li><span class="icon {{ experience.icon }}"></span> {% blocktrans with count=experience.count items=experience.label %}{{ count }} {{ items }}{% endblocktrans %}</li>
+          {% endfor %}
+        </ul>
+      </dd>
+      {% else %}
+      <dt>{{ team.new_workflow.get_experience_column_label }}:</dt>
+      <dd><span class="icon icon-subtitles"></span> {{ member.experience_count }}</dd>
+      {% endif %}
+    </dl>
+
+    <ul class="memberProfile-actions blockButtonList">
+      <li><a class="button cta blockLeft" href="{% url "profiles:profile" user.username %}"><span class="fas fa-eye"></span> {% trans "View User Profile" %}</a></li>
+      <li><a class="button cta blockLeft" href="{% url "messages:new"  %}?user={{ user.username }}"><span class="fas fa-envelope"></span> {% trans "Send Message" %}</a></li>
+      {% if enabled_forms.role %}
+      <li><a class="button cta blockLeft ajaxLink" href="?form=role"><span class="fas fa-user-edit"></span> {% trans "Edit role" %}</a></li>
+      {% endif %}
+      {% if enabled_forms.remove %}
+      <li><a class="button cta blockLeft ajaxLink" href="?form=remove"><span class="fas fa-trash"></span> {% trans "Remove member" %}</a></li>
+      {% endif %}
+    </ul>
+  </div>
+</section>
+<section>
+  <div class="contentHeader">
+    <div class="contentHeader-title">{{ team.new_workflow.member_history_header }}</div>
+    {{ history_filters.q }}
+  </div>
+
+  <div id="member-history">{% include "future/teams/members/profile-history.html" %}</div>
+</section>
+{% endblock %}

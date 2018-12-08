@@ -1,0 +1,6 @@
+{% load i18n activity_tags %}
+<span class="timestamp">{% blocktrans with time=record.created|timesince %}{{ time }} ago{% endblocktrans %}</span>
+<p>
+  {% if record.user %}<a href="{{ record.user.get_absolute_url }}">{{ record.user }}</a>{% endif %}
+  {{ record|get_old_record_message:user|safe }}
+</p>

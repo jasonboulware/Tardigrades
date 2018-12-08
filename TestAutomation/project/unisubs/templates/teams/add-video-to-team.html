@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Add Video to Team" %}{% endblock %}
+{% block body_attrs %}id="teams" class="v1"{% endblock %}
+
+{% block main_content %}
+<h1>{% trans "Add Video to Team" %}</h1>
+<h3>{{ video.title_display }}</h3>
+<form method="POST" action="">
+{% csrf_token %}
+{% include "_form_field.html" with field=form.team %}
+<div class="submit">
+    <button>{% trans "Set Team" %}</button>
+</div>
+</form>
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends "future/teams/base.html" %}
+{% load i18n teams_tags %}
+{% block body-extra %} class="dashboard"{% endblock %}
+{% block content %}
+<main id="dashboard" class="pageContent">
+  <section class="pageSection">
+    <div class="container">
+      {% if no_languages_yet %}
+        {% include "future/teams/set-languages.html" %}
+      {% elif dashboard_videos %}
+      <div class="row">
+        <div class="col-xs-12">
+          <div id="" class="content">
+            {% include "future/teams/simple/dashboard_videos.html" %}
+            <a href="{% url 'teams:videos' slug=team.slug %}">{% trans 'Find more videos that need subtitling' %}</a>
+          </div>
+        </div>
+      </div>
+      {% else %}
+      <div class="zero-state">{% trans "This team has no videos ready for subtitling yet" %}</div>
+      {% endif %}      
+    </div>
+  </section>
+
+  {% if not no_languages_yet %}
+  <section class="pageSection">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <header class="dashboardHeader">
+            <h2>{% trans "Recent activity" %}</h2>
+            {% if member_history %}<a class="small" href="{{ member_profile_url }}">{% trans "See all" %}</a>{% endif %}
+          </header>
+          {% include member_history_template %}
+        </div>
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+  <section class="pageSection">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <div id="recently_added" class="content">
+            {% include "collab/newest-videos.html" %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pageSection">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-sm-8 col-lg-9">
+          <div id="newest_members" class="content">
+            {% include "collab/newest-members.html" %}
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-4 col-lg-3">
+          <div id="top_languages" class="content">
+            {% include "collab/top-languages.html" %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "styleguide/base.html" %}
+{% block content %}
+
+<p>
+Split buttons are useful if you want to pack a primary action and a set of secondary actions in a single element. For example, transcription as the primary action and translation to other languages as the secondary actions.
+</p>
+
+<p>
+The code for split buttons is at ui.utils.SplitCTA.
+
+The most important parameters for SplitCTA's constructor are `menu_id` and `dropdown_items`.
+Make sure that each SplitCTA has a unique `menu_id` whenever there are multiple of them in a single page. 
+</p>
+
+<div style="border: 1px solid black">
+<div style="margin:5px">
+  {{ form.split_button_with_tooltip }}
+</div>
+
+<div style="margin:5px">
+  {{ form.split_button_no_tooltip }}
+</div>
+
+<div style="margin:5px">
+  {{ form.split_button_with_icon }}
+</div>
+
+<div style="margin:5px">
+  {{ form.split_button_full_width }}
+</div>
+
+<div style="margin:5px">
+  {{ form.split_button_disabled }}
+</div>
+</div>
+
+{% endblock %}

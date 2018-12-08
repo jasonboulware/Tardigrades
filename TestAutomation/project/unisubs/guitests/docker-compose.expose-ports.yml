@@ -1,0 +1,5 @@
+version: "3"
+services:
+  varnish:
+    ports:
+      - "8000:80"

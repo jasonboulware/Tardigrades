@@ -1,0 +1,228 @@
+{% load i18n videos_tags  %}
+
+<button class="follow-button"></button>
+  
+<script type="text/javascript">
+    jQuery(function($){
+        $.widget("unisub.followVideoButton", {
+            options: {
+                videoId: null,
+                languageId: null,
+                languageName: null,
+                isAuthenticated: false,
+                isVideoFollower: false,
+                isLanguageFollower: false,
+                
+                followCls: 'follow',
+                unfollowCls: 'unfollow',
+                loginUrl: ''
+              },
+            _create: function() {
+                var that = this;
+                this.element.bind('click', function(){that._onClick.apply(that, arguments)})
+                this.element.hover(
+                    function() {that._onHover.apply(that, arguments); },
+                    function() {that._onStopHover.apply(that, arguments);});
+                this._render();
+            },
+            _setFollowCls: function(){
+                this.element.removeClass(this.options.unfollowCls)
+                            .addClass(this.options.followCls)
+            },
+            _setUnfollowCls: function(){
+                this.element.removeClass(this.options.followCls)
+                            .addClass(this.options.unfollowCls)
+            },            
+            _onHover: function() {
+                if(this._isFollower()) {
+                    this.element.html('{% trans "x Stop Following" %}');
+                } else {
+                    this.element.html('{% trans "✓ Click to Follow" %}');
+                }
+            },
+            _onStopHover: function() {
+                this._render();
+            },
+            _isFollower: function() {
+                if(this.options.languageId) {
+                    return this.options.isLanguageFollower;
+                } else {
+                    return this.options.isVideoFollower;
+                }
+            },
+            _render: function(){
+                if(this._isFollower()) {
+                    this.element.html('{% trans "✓ Following"|escapejs %}');
+                    this._setUnfollowCls();
+                } else {
+                    this.element.html('{% trans " Not Following"|escapejs %}');
+                    this._setFollowCls();
+                }
+            },
+            _onClick: function(e){
+                if (!this.options.isAuthenticated){
+                    this.onUnauthenticateClick();
+                    return;
+                };
+
+                if(this._isFollower()) {
+                    this.showUnfollowDialog();
+                } else {
+                    this.showFollowDialog();
+                };
+                
+                e.preventDefault();
+            },
+            _unfollowDialogCallback: function(button){
+                var that = this;
+                if (button === 'ALL'){
+                    VideosApi.unfollow(this.options.videoId, function(response){
+                        if (response.error){
+                            $.jGrowl.error(response.error);
+                        }else{
+                            $.jGrowl(response.msg);
+                            that.options.isVideoFollower = false;
+                            that.options.isLanguageFollower = false;
+                            that._render();
+                        }
+                    });                             
+                }else if(button === 'OK' && this.options.languageId){
+                    VideosApi.unfollow_language(this.options.languageId, function(response){
+                        if (response.error){
+                            $.jGrowl.error(response.error);
+                        }else{
+                            $.jGrowl(response.msg);
+                            that.options.isLanguageFollower = false;
+                            that._render();
+                        };
+                    });                        
+                }
+            },
+            showUnfollowDialog: function(){
+                if (this.options.isVideoFollower){
+                    var title = '{% trans "You will stop receiving notifications when any subtitles for this video are edited.  You can choose to follow again at any time."|escapejs %}';
+                    var button_name = "{% trans 'Stop following this video'|escapejs %}";
+                    
+                }else{
+                    var title = '{% trans "You will stop receiving notification when "|escapejs %}'
+                        +this.options.languageName
+                        +' {% trans " subtitles for this video are edited. You can choose to follow again at any time."|escapejs %}';
+                    var button_name = "{% trans 'Stop following '|escapejs %}"
+                        +this.options.languageName
+                        +"{% trans ' subtitles'|escapejs %}";
+                };
+                
+                var options = {
+                    extraButtons: []
+                };
+                
+                if (this.options.isVideoFollower){
+                    options.okButton = null;
+                    options.extraButtons.push({
+                        name: '{% trans "Unfollow all languages"|escapejs %}',
+                        id: 'unfollow-all-languages-button',
+                        type: 'ALL'
+                    });
+                };
+                
+                var that = this;
+                
+                $.jConfirm(title, button_name, function(button){
+                    that._unfollowDialogCallback(button);
+                }, options);
+            },
+            _followDialogCallback: function(button){
+                var that = this; 
+                if (button === 'ALL'){
+                    VideosApi.follow(this.options.videoId, function(response){
+                        if (response.error){
+                            $.jGrowl.error(response.error);
+                        }else{
+                            $.jGrowl(response.msg);
+                            that.options.isVideoFollower = true;
+                            that.options.isLanguageFollower = true;
+                            that._render();
+                        }
+                    });                             
+                }else if(button === 'OK' && this.options.languageId){
+                    VideosApi.follow_language(this.options.languageId, function(response){
+                        if (response.error){
+                            $.jGrowl.error(response.error);
+                        }else{
+                            $.jGrowl(response.msg);
+                            that.options.isLanguageFollower = true;
+                            that._render();
+                        };
+                    });                        
+                }                
+            },
+            showFollowDialog: function(){
+                if (this.options.languageId){
+                    var title = '{% trans "You will receive notifications when anyone edits "|escapejs %}'
+                        +this.options.languageName
+                        +' {% trans " subtitles for this video. You can stop these emails at any time."|escapejs %}';
+                    var button_name = "{% trans 'Follow '|escapejs %}"
+                        +this.options.languageName
+                        +"{% trans ' subtitles'|escapejs %}";
+                }else{
+                    var title = '{% trans "You will receive notifications when anyone edits any subtitles for this video. You can stop these emails at any time."|escapejs %}';
+                    var button_name = "{% trans 'Follow this video'|escapejs %}";
+                };
+                
+                var options = {
+                    extraButtons: []
+                };
+
+                options.extraButtons.push({
+                    name: '{% trans "Follow all languages"|escapejs %}',
+                    id: 'unfollow-all-languages-button',
+                    type: 'ALL'
+                });
+                
+                if ( ! this.options.languageId){
+                    options.okButton = null;
+                };
+                
+                var that = this;
+                
+                $.jConfirm(title, button_name, function(button){
+                    that._followDialogCallback(button);
+                }, options);                
+            },
+            onUnauthenticateClick: function(){
+                var that = this;
+                $.jAlert('{% trans "You must log in to follow a video."|escapejs %}', 
+                         '{% trans "Authentication required"|escapejs %}',
+                         function(button){
+                             if (button === 'OK'){
+                                 window.location.href = that.options.loginUrl;
+                             }
+                         });
+            }
+        });
+        
+        $('.follow-button').followVideoButton({
+            videoId: '{{ video.pk }}',
+            languageId: '{{ language.pk }}',
+            languageName: '{{ language.language_display }}',
+            isAuthenticated: {% if user.is_authenticated %} true{% else %}false{% endif %},
+            isVideoFollower: {% if video|is_follower:user %}true{% else %}false{% endif %},
+            isLanguageFollower: {% if language|is_follower:user %}true{% else %}false{% endif %},
+            loginUrl: '{% url "auth:login" %}?next={{ request.path_info|urlencode }}'
+        });
+
+        $('.follow-button').each(function(){
+            var orig = $(this).text();
+            
+            $(this).hover(function(){
+                if($(this).hasClass('unfollow')){
+                    $(this).text('{% trans "x Stop Following"|escapejs %}');
+                } else {
+                    $(this).text('{% trans "✓ Click to Follow"|escapejs %}');
+                }
+            }, function(){
+                $(this).text(orig);
+            });
+        });
+    });
+</script>

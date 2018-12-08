@@ -1,0 +1,15 @@
+{% extends "videos/email_base.html" %}
+{% comment %}
+This gets sent to the rest of the team, notifying about the new member
+{% endcomment %}
+{% load i18n localeurl_tags %}
+
+{% block content %}
+Hi {{ user }},<br/>
+
+<p>{{ parting_member}} has left the {{ team.name }} team. Any team tasks that were assigned to {{ parting_member }} have been unassigned.</p>
+
+<a href="{{url_base}}{% url "messages:new" %}">Send {{parting_member }} a message</a> or 
+ <a href="{{url_base}}{% url "teams:members" slug=team.slug %}">view the team’s members</a>.
+{% endblock %}
+{% block dont_send %}{% endblock %}

@@ -1,0 +1,23 @@
+{% load i18n %}
+<div class="imageInput" data-name="{{ name }}">
+  <div class="imageInput-previewContainer" style="width: {{ preview_width }}px; height: {{ preview_height }}px;">
+    <img class="imageInput-thumbnail"{% if thumb_url %} src="{{ thumb_url }}"{% endif %}>
+  </div>
+
+  <div class="buttonField">
+    <input type="text" class="imageInput-text">
+    <input type="hidden" class="imageInput-clear" name="{{ clear_name }}" value="">
+    <div class="imageInput-buttonContainer buttonField-button">
+      {% if thumb_url %}
+      <button type="button" class="button plum imageInput-button" data-action="remove">{% trans "Remove" %}</button>
+      {% else %}
+      <button type="button" class="button plum imageInput-button" data-action="browse">{% trans "Browse" %}</button>
+      <input type="file" name="{{ name }}" class="imageInput-fileInput">
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="imageInput-hiddenArea hidden">
+    {% if thumb_url %}<input type="file" name="{{ name }}" class="imageInput-fileInput">{% endif %}
+  </div>
+</div>

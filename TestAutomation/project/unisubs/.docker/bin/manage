@@ -1,0 +1,3 @@
+#!/bin/bash
+source /usr/local/bin/config_env
+exec python ${MANAGE_SCRIPT} "$@"

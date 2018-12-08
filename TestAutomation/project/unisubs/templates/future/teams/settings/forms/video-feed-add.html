@@ -1,0 +1,24 @@
+{% load i18n modal captureas forms %}
+
+{% captureas title %}
+  {% trans 'Add video feed' %}
+{% endcaptureas %}
+
+{% startmodal "add-video-feed" title %}
+
+<form method="POST" action="">
+    <div class="modal-content">
+        <p>
+          {% trans 'URLs for RSS feeds added to this page will add videos to this team when they are added on the other site. Supported RSS 2.0 media feeds include YouTube, Vimeo, Kaltura, and Dailymotion.' %}
+        </p>
+        {% csrf_token %}
+        {% render_field add_form.feed_url reverse_required=True %}
+        <input type="hidden" name="action" value="add">
+    </div>
+    <div class="modal-footer">
+      <button class="button borderless modal-close">Cancel</button>
+      <button class="button cta" type="submit">Add</button>
+    </div>
+</form>
+
+{% endmodal %}

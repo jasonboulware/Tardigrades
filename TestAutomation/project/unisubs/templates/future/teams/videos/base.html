@@ -1,0 +1,45 @@
+{% extends "future/teams/base.html" %}
+{% load i18n teams_tags %}
+
+{% block content %}
+{% with extra_tabs=team|team_video_page_extra_tabs:request %}
+<section>
+  <div class="container">
+    <div class="content">
+      <div class="row">
+        <div class="col-xs-12 col-sm-4">
+          <header>
+            <h2>{% trans "Filters" %}</h2>
+          </header>
+        </div>
+        <div class="col-xs-12 col-sm-8">
+          {% block tabs %}
+          {% if extra_tabs %}
+          <ul class="nav nav-tabs">
+            {% for tab in extra_tabs %}
+            <li{% if current_tab == tab.name %} class="active"{% endif %}><a href="{{ tab.url }}">{{ tab.label }}</a></li>
+            {% endfor %}
+            <li{% if current_tab == "videos" %} class="active"{% endif %}><a href="{% url "teams:videos" team.slug %}">{% trans "All videos" %}</a></li>
+          </ul>
+          {% else %}
+          <h1>{% trans "Videos" %}</h1>
+          {% endif %}
+          {% endblock %}
+        </div>
+      </div>
+      <div class="tab-pane">
+        <div class="row">
+          <div class="col-xs-12 col-sm-4">
+            {% block filters %}{% endblock %}
+          </div>
+          <div class="col-xs-12 col-sm-8">
+            <div class="filters">{% block filters2 %}{% endblock %}</div>
+            {% block videos %}{% endblock %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endwith %}
+{% endblock %}

@@ -1,0 +1,85 @@
+blockquote{
+  display:none;
+  position: relative;
+  z-index: 1;
+  /*Font*/
+  font-family: $headings-font-family;
+  font-size: 24px;
+  font-style: italic;
+  line-height: 1.2;
+  color: #fff;
+  text-align: center;
+  border-left: none;
+  &.active {
+    display: block;
+  }
+  em {
+    z-index: 9;
+  }
+  p {
+    padding: 0 20px;
+    &:before {
+      display: block;
+      content: "\201C"; /*Unicode for Left Double Quote*/
+      
+      /*Font*/
+      font-family: $headings-font-family;
+      font-size: 140px;
+      color: #fff;
+      
+      /*Positioning*/
+      position: absolute;
+      left: -20px;
+      top: -20px;
+      z-index: -1;
+    }
+    &:after {
+      display: block;
+      content: "\201D"; /*Unicode for Left Double Quote*/
+      
+      /*Font*/
+      font-family: $headings-font-family;
+      font-size: 140px;
+      color: #fff;
+      
+      /*Positioning*/
+      position: absolute;
+      right: 20px;
+      top: -20px;
+      z-index: -1;
+    }
+  }
+  small {
+    display: block;
+    margin-top: 20px;
+    color: #fff;
+    font-size: 19px;
+    font-style: normal;
+  }
+  a {
+    text-decoration: none;
+    cursor: pointer;
+    color: $brand-primary;
+    &:hover{
+     color: $charcoal;
+    }
+  }
+}
+
+
+
+
+// Media Queries
+@media(max-width: $screen-md-max) {
+
+}
+
+@media(max-width: $screen-sm-max) {
+
+}
+
+@media(max-width: $screen-xs-max) {
+  blockquote {
+    font-size: 16px;
+  }
+}

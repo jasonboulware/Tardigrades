@@ -1,0 +1,44 @@
+{% extends "teams/base.html" %}
+
+{% load i18n %}
+
+{% block html_attrs %}id="teams_activity"{% endblock %}
+{% block body_attrs %}id="teams" class="v1"{% endblock %}
+{% block title %}{{ team }} | Amara{% endblock %}
+{% block view_content %}
+    {% if team.is_old_style %}<div class="grid_8 view omega">{% else %}<div class="view">{% endif %}
+
+        {% with "activity" as current %}
+            {% include "teams/_tabs.html" %}
+        {% endwith %}
+
+        <div class="tools subnav">
+            {% include 'teams/_subnav_activity.html' with current_sub=activity_tab %}
+        </div>
+
+	{% load teams_tags %}
+	<form class="filters group no-ajax{% if filtered %} active{% endif %}">
+          <input type="hidden" name="q" value="{{ query }}" />
+          <button class="reduced" id="update">Update</button>
+            {% if filtered %}
+            <a href="{% url "teams:activity" team.slug %}{% if query %}?q={{ query }}{% endif %}" class="button cancel">Clear</a>
+            {% endif %}
+	    <div class="filter-chunk">
+              {% include "_field.html" with field=filters_form.type %}
+	    </div>
+	    <div class="filter-chunk">
+              {% include "_field.html" with field=filters_form.video_language %}
+	    </div>
+	    <div class="filter-chunk">
+              {% include "_field.html" with field=filters_form.subtitle_language %}
+	    </div>
+	    <div class="filter-chunk">
+              {% include "_field.html" with field=filters_form.sort %}
+	    </div>
+	</form>
+
+        <div id="activity-list">
+            {% include "teams/_activity-list.html" %}
+        </div>
+    </div>
+{% endblock %}

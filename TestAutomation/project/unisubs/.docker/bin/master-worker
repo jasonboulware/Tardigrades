@@ -1,0 +1,3 @@
+#!/bin/bash
+export CELERY_OPTS="-B" CELERY_QUEUES="default,priority"
+exec worker

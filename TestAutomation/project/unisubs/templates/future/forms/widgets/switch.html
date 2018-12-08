@@ -1,0 +1,15 @@
+<label{{ attrs}}>
+  <input class="switch-input" name="{{ name }}" type="checkbox" {% if value %}checked{% endif %}>
+  <div class="switch-container{%  if inline %} inline{% endif %}">
+    {% if inline %}
+    <div class="switch-slider inline">
+      <span class="switch-onText inline">{{ on_label }}</span>
+      <span class="switch-offText inline">{{ off_label }}</span>
+    </div>
+    {% else %}
+      <div class="switch-slider"> </div>
+      <span class="switch-onText">{{ on_label }}</span>
+      <span class="switch-offText">{{ off_label }}</span>
+  {% endif %}
+  </div>
+</label>

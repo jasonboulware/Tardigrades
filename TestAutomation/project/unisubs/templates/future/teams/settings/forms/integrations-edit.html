@@ -1,0 +1,57 @@
+{% load i18n forms modal captureas %}
+
+{% captureas modal_title %}
+  {% blocktrans %}
+    Edit {{ account_type_display }} integration
+  {% endblocktrans %}
+{% endcaptureas %}
+
+{% startmodal "edit-account" modal_title remove_on_close=True %}
+
+  <h4 class="modal-header">
+    {% trans 'Linked account: ' %}
+    {% if account.channel_url %}
+      <a href="{{ account.channel_url }}">{{ account.readable_account_name }}</a>
+    {% else %}
+      {{ account.readable_account_name }}
+    {% endif %}
+  </h4>
+
+  <form class="ajaxForm" method="POST" action="{% url 'externalsites:team-edit-external-account' team.slug %}">
+
+    <div class="modal-content">
+      
+        {% csrf_token %}
+        <input type="hidden" value="{{ account.account_type }}" name="accountType"/>
+        <input type="hidden" value="{{ account.pk }}" name="accountPk"/>
+
+        <!-- not all the external account types have the same fields -->
+        <!-- YouTube/Vimeo fields -->
+        {% if form.sync_subtitles %} {% render_field form.sync_subtitles %}{% endif %}
+        {% if form.sync_metadata %} 
+          <div class="syncMetadataYoutubeContainer">
+            {% render_field form.sync_metadata %}
+          </div>
+        {% endif %}
+        {% if form.fetch_initial_subtitles %} {% render_field form.fetch_initial_subtitles %}{% endif %}
+        {% if form.sync_teams %} {% render_field form.sync_teams %}{% endif %}
+        {% if form.import_team %} {% render_field form.import_team reverse_required=True %}{% endif %}
+
+        <!-- Kaltura fields -->
+        {% if form.partner_id %} {% render_field form.partner_id %}{% endif %}
+        {% if form.secret %} {% render_field form.secret %}{% endif %}
+
+        <!-- Brightcove CMS fields -->
+        {% if form.publisher_id %} {% render_field form.publisher_id %}{% endif %}
+        {% if form.client_id %} {% render_field form.client_id %}{% endif %}
+        {% if form.client_secret %} {% render_field form.client_secret %}{% endif %}
+
+    </div>
+    <div class="modal-footer">
+      <button class="button borderless modal-close">Cancel</button>
+      <button class="button cta" type="submit">Save</button>
+    </div>
+
+  </form>
+
+{% endmodal %}

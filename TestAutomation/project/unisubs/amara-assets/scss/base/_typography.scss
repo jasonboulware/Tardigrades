@@ -1,0 +1,165 @@
+// Typography
+// 
+// Amara uses two typefaces:
+//   - Raleway: Used for titling.  Provides the clear messaging of a sans
+//     serif, but with a subtle, accessible playfulness.  We use Raleway
+//     sparingly, by default only H1 tags have it.  But you can use it for any
+//     element with the .text-raleway class.
+//   - Open sans: Used for subheaders and body copy, open sans provides a more precise counterpoint to Raleway’s unconventional nature, and champions readability, especially in smaller point sizes.
+//
+// Font size for body text:
+//
+//   - base: 16px
+//   - small: 14px (less prominent elemens like filter fields)
+//   - tiny: 13px (help text, and other fine print)
+//
+//  Use the .text-small or .text-tiny classes to change the font size.  Line-height is always 20px.
+// 
+// <h3><em>Titling</em></h3>
+// <h1>Raleway</h1>
+// <h1>ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxy<br>
+// 0123456789</h1>
+// <hr>
+// <h3><em>Sub-headers, CTAs & body copy</em></h3>
+// <h1 class="type-open-sans">Open Sans</h1>
+// <h1 class="type-open-sans">ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz<br>0123456789</h1>
+// <hr>
+// <h1><em>Usage</em></h1>
+// 
+// Example:
+// <h1>h1. Amara heading</h1>
+// <h2>h2. Amara heading</h2>
+// <h3>h3. Amara heading</h3>
+// <h4>h4. Amara heading</h4>
+// <h5>h5. Amara heading</h5>
+//
+// Styleguide typography
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: $font-family-sans-serif;
+  line-height: 20px;
+  font-size: $font-size-normal;
+  color: $text-color;
+}
+
+h1, .text-raleway {
+  font-family: $headings-font-family;
+}
+
+@mixin font-h1 {
+  font-size: $font-size-h1;
+  line-height: 1.25;
+  font-family: $headings-font-family;
+}
+
+@mixin font-h2 {
+  font-size: $font-size-h2;
+  line-height: 1.25;
+  font-family: $font-family-sans-serif;
+}
+
+@mixin font-h3 {
+  font-size: $font-size-h3;
+  line-height: 1.25;
+  font-family: $font-family-sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 400;
+  color: inherit;
+  line-height: 1.25;
+  margin: 0;
+  .number {
+    font-family: $font-family-sans-serif;
+  }
+}
+
+h1, .h1 {
+  font-size: $font-size-h1;
+  margin-bottom: 8px;
+}
+
+h2, .h2 {
+  font-size: $font-size-h2;
+  margin-bottom: 8px;
+}
+
+h3, .h3 {
+  font-size: $font-size-h3;
+  margin-bottom: 4px;
+}
+
+h4, .h4 {
+  font-size: 16px;
+}
+
+.mega {
+  font-size: $font-size-mega;
+  margin-bottom: 18px;
+}
+
+.jumbo {
+  font-size: $font-size-jumbo;
+  margin-bottom: 12px;
+}
+
+.text-normal {
+  font-size: $font-size-normal;
+  font-weight: 300;
+}
+
+// .text-small is the preferred CSS class, but we also support the deprecated .small version
+
+small, .small, .text-small {
+  font-size: $font-size-small;
+  font-weight: 300;
+}
+
+.tiny, .text-tiny {
+  font-size: $font-size-tiny;
+  font-weight: 300;
+}
+
+em {
+
+}
+
+.lead {
+  font-family: $headings-font-family;
+  font-size: 24px;
+}
+
+
+// Text Utilities
+
+.text-nocase { text-transform: none !important; }
+.text-capitalize { text-transform: capitalize !important; }
+.text-lowercase { text-transform: lowercase !important; }
+.text-uppercase { text-transform: uppercase !important; }
+
+.italic {
+  font-style: italic;
+}
+
+// Media Queries
+@media(max-width: $screen-md-max) {
+
+}
+
+@media(max-width: $screen-sm-max) {
+
+}
+
+@media(max-width: $screen-xs-max) {
+
+  h1, .h1 { font-size: 35px; }
+  h2, .h2 { font-size: 20px; }
+  h3, .h3 { font-size: 18px; }
+  h4, .h4 { font-size: 14px; }
+
+  .lead {
+    font-size: 18px;
+  }
+}

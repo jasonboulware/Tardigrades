@@ -1,0 +1,33 @@
+{% load i18n subtitles_tags %}
+
+<li>
+  {% if not display_mode or display_mode == 'all' or display_mode == 'thumbnails' %}
+  <a href="{{ video.get_absolute_url }}" class="thumbnail_medium">
+      {% if video.thumbnail %}<img height="100" src="{{ video.get_thumbnail }}" />{% endif %}
+  </a>
+  {% endif %}
+  <div class="info clearfix">
+  	<h4><a href="{{ video.get_absolute_url }}">{{ video }}</a></h4>
+    <p style="margin: 0 0 15px 0;">{{ video.description|striptags|truncatewords:5|linebreaksbr|urlize }}</p>  
+    <div class="lang_avail">
+      <h2>
+          {% blocktrans count video.languages_count as number %}
+              {{ number }} language
+          {% plural %}
+              {{ number }} languages
+          {% endblocktrans %}
+      </h2>
+          {% for lang in video.langs_cache %}
+            {% with lang.subtitle_count as lines_count %}
+              {% if lines_count %}  
+              <a href="{{ lang.get_absolute_url }}">
+                  <!-- <span>{{ lines_count }} {% trans "lines" %}</span> -->
+                  <span class="{% complete_color lang %}"></span>
+                  {{ lang.language_display }}
+              </a>
+              {% endif %}
+            {% endwith %}
+          {% endfor %}
+    </div><!-- // lang_avail -->
+  </div><!-- // info -->
+</li>

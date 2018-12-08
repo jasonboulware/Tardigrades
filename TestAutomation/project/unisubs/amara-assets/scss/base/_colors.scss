@@ -1,0 +1,86 @@
+// Color palette
+//
+// <ul class="colorGrid">
+//   <li class="bg-plum"><span>Plum <br> #5a2747 </span></li>
+//   <li class="bg-teal">Teal <br> #30957b </li>
+//   <li class="bg-amaranth">Amaranth <br> #f3254d </li>
+//   <li class="bg-lime">Lime <br> #80bd3e </li>
+// </ul>
+// <ul class="colorGrid">
+//   <li class="bg-charcoal">Charcoal <br> #222626 </li>
+//   <li class="bg-gray">Gray <br> #9fa0a1 </li>
+//   <li class="bg-snow">Snow <br> #f3f4f6 </li>
+//   <li class="bg-cream">Cream <br> #fffdf8 </li>
+// </ul>
+// 
+// 
+// <hr>
+// <h3><em>Using colors</em></h3>
+// <ul>
+//  <li>Use `plum` for navigational elements like header navs, tabs, etc.  This allows users to more easily distinguish the content.</li>
+//  <li>Use `teal` for other actionable elements like links and CTAs.  This allows these elements to stand out</li>
+//  <li>Use `lime` for the active/hover state on clickable elements.  "Green means go"</li>
+//  <li>Use other colors for aesthetic purposes, when needed</li>
+//  <li>Use the `.bg-[color]` class to set the background color
+//  <li>Use the `.text-[color]` class to set the text color
+//  <li>Use [color]-light or [color]-dark to get a lighter/darker version of a color
+// </ul>
+// 
+// Styleguide palette
+
+@each $name, $color_info in $colorscheme {
+  $color: nth($color_info, 1);
+  $alternate: nth($color_info, 2);
+
+  .bg-#{$name} {
+    @include palette($color, $alternate);
+  }
+
+  .bg-#{$name}-dark {
+    @include palette(dark($color), $alternate);
+  }
+
+  .bg-#{$name}-light {
+    @include palette(light($color), $alternate);
+  }
+
+  .text-#{$name} {
+    color: $color !important;
+  }
+
+  .text-#{$name}-dark {
+    color: dark($color) !important;
+  }
+
+  .text-#{$name}-light {
+    color: light($color) !important;
+  }
+}
+
+// TODO standardize gradient code
+.bg-plum.gradient {
+  background-image: linear-gradient(#872648, #592746);
+}
+.bg-sea-green-gradient {
+  background-image: linear-gradient(#468e43, #389873);
+  color: $white;
+}
+.bg-sea-green-dark-gradient {
+  background-image: linear-gradient(#2f8665, #0f573c);
+  color: $white;
+}
+
+.bg-overlay {
+  &:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    display: block;
+    opacity: .2;
+    background-image: url(../img/assets_pattern_test-27.svg);
+    background-size: cover;
+  }
+}

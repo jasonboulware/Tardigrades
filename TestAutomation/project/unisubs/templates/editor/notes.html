@@ -1,0 +1,16 @@
+{% load i18n %}
+<div class="notes edit-area" ng-controller="NotesController">
+  <div ng-show="enabled">
+    <div class="workspace-tools group toolbar"><h3 class="heading">[[ heading ]]</h3></div>
+    <ul class="notes" note-scroller ng-click="onNoteClicked($event)">
+        <li ng-repeat="note in notes">
+            <p ng-bind-html="note.body"></p>
+            <p class="byline">[[ note.user ]] - [[ note.created ]]</p>
+        </li>
+    </ul>
+    <div class="new-note">
+        <textarea ng-model="newNoteText" new-note-focus="newNoteFocus"></textarea>
+        <button ng-click="onPostClicked($event);">Post New Note</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,79 @@
+/* ------------------------------------------------------------
+  Sitemap Styles
+------------------------------------------------------------ */
+
+.sitemap {
+  display: inline-block;
+  min-width: 100%;
+  padding: 0 40px;
+  .primary {
+    // > ul { border-left: 5px solid light($gray); }
+  }
+  .secondary {
+    padding-top: 30px;
+    margin-top: 30px;
+    border-top: 1px solid light($gray);
+  }
+  ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    li {
+      a {
+        display: block;
+        padding: 5px 30px;
+        font-family: $headings-font-family;
+        font-size: 20px;
+        font-weight: 400;
+        color: $plum;
+        border-left: 5px solid light($gray); 
+        text-transform: uppercase;
+        i {
+          font-size:13px;
+          opacity: 0.5;
+        }
+        &:after {
+          content: " "attr(href)" ";
+          display: block;
+          text-transform: lowercase;
+          text-indent: 5px;
+          font-size: 10px;
+          word-wrap: break-word;
+          color: dark($gray);
+        }
+        &:hover, &:focus {
+          background-color: rgba(0,0,0,0.01);
+          border-color: $plum;
+          &:after {
+            font-weight: bold;
+          }
+        }
+        &.home {
+          padding-left: 15px;
+        }
+        &.section {
+          font-size: 16px;
+          padding-left: 45px;
+        }
+      }
+    }
+  }
+}
+
+
+
+
+// Media Queries
+@media(max-width: $screen-md-max) {
+  .sitemap {
+    padding: 0 40px;
+  }
+}
+
+@media(max-width: $screen-sm-max) {
+
+}
+
+@media(max-width: $screen-xs-max) {
+
+}

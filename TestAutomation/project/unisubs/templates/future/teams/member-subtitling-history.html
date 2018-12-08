@@ -1,0 +1,13 @@
+{% load i18n ui %}
+{% if member_history %}
+<table class="table align-middle">
+  {% for record in member_history %}
+    <tr>
+      <td>{{ record.get_message|safe }}</td>
+      <td class="text-gray">{{ record.created|datetime }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<div class="zero-state">{% trans "No activity yet." %}</div>
+{% endif %}

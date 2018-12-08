@@ -1,0 +1,15 @@
+{% extends "styleguide/base.html" %}
+{% load ui %}
+
+{% block content %}
+<p>Use the .checkAll class to create a checkbox that controls if a group of related checkboxes are all checked (or all unchecked).</p>
+
+<table class="table">
+  <tr>
+    <th> {% checkbox "all" class="checkAll" data_name="selection" %}</th>
+    <th>Checkall</th>
+  </tr>
+  <tr><td> {% checkbox 1 name="selection" %}</td><td>My Video</td></tr>
+  <tr><td> {% checkbox 2 name="selection" %}</td><td>My other Video</td></tr>
+</table>
+{% endblock %}

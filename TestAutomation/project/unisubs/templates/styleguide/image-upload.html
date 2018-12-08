@@ -1,0 +1,14 @@
+{% extends "styleguide/base.html" %}
+{% load forms %}
+{% block content %}
+
+<form method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form.thumbnail|render_field }}
+  <div class="form-actions">
+    <button class="button cta" type="submit">Submit</button>
+  </div>
+</form>
+
+{% endblock %}
+

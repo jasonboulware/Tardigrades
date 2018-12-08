@@ -1,0 +1,7 @@
+Dear {{ user }},
+
+The {{ team.name }} team has assigned you a new task:
+{% if task_type == 'Subtitle'%}Transcribe{% else %}{{ task_type }}{% endif %} {% if task_language %}{{ task_language}}{% endif %} subtitles for {{ task.team_video.video.title }}.
+
+
+Perform this task: {{url_base}}{% url "teams:perform_task"  slug=team.slug task_pk=task.pk%}

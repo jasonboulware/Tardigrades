@@ -1,0 +1,72 @@
+{% extends "teams/base.html" %}
+
+{% load i18n l10n paginator teams_tags %}
+
+{% block title %}
+    {{ team }} | Amara
+{% endblock %}
+
+{% block body_attrs %}id="teams" class="v1 video-feed"{% endblock %}
+
+{% block view_content %}
+
+    <div class="view grid_8 omega">
+        {% with "videos" as current %}
+            {% include "teams/_tabs.html" %}
+        {% endwith %}
+
+        <div class="title group">
+            <div class="actions">
+                <form method="post" action="">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="update">
+                    <div class="submit">
+                        <input type="submit" class="reduced" value="{% trans "Import Now" %}">
+                    </div>
+                </form>
+                <a href="#confirm-delete-modal" class="button reduced open-modal">{% trans 'Delete Feed' %}</a>
+            </div>
+            <h1>{% blocktrans with feed.domain as domain %}{{ domain }} Video Feed{% endblocktrans %}</h1>
+            <a href="{{ feed.url }}">{{ feed.url }}</a>
+            <p class="last-update">
+                {% if feed.last_update %}
+                {% blocktrans with feed.last_update|localize as last_update %}
+                Last import attempt: {{ last_update }}
+                {% endblocktrans %}
+                {% else %}
+                    {% trans "No import attempts" %}
+                {% endif %}
+            </p>
+        </div>
+
+        {% if imported_videos %}
+            <h2>{% trans "Videos:" %}</h2>
+            <ul class="listing group">
+                {% for video in imported_videos %}
+                    <li class="video">
+                        <a href="{{ video.get_absolute_url }}">
+                            <img src="{{ video.get_medium_thumbnail }}" alt="">
+                            <h4>{{ video.title_display }}</h4>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+            {% if is_paginated %}{% paginator %}{% endif %}
+        {% else %}
+            <p class="empty">{% trans "No videos imported yet." %}</p>
+        {% endif %}
+    </div>
+
+    <aside id="confirm-delete-modal" class="modal" role="dialog" aria-labelledby="coniform-delete-heading">
+        <form method="post" action="">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="delete">
+            <h3 id="confirm-delete-heading">{% trans 'Are you sure you want to delete the feed?' %}</h3>
+            <footer class="buttons">
+                <button>{% trans 'Delete' %}</button>
+                <button class="close">{% trans 'Cancel' %}</button>
+            </footer>
+        </form>
+    </aside>
+
+{% endblock %}

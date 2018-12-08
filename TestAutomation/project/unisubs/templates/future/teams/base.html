@@ -1,0 +1,10 @@
+{% extends "future/base.html" %}
+{% load i18n dropdown %}
+{% block header %}{% include "future/header.html" with brand="future/teams/brand.html" brand_url=team.get_absolute_url primarynav="future/teams/primarynav.html" %}{% endblock %}
+{% block page-controls %}
+  {% if perms.teams.edit_team %}
+  {% dropdown-item _('Edit Team') "admin:teams_team_change" team.pk %}
+  {% endif %}
+  {% dropdown-item _('Video Durations') "teams:video-durations" team.slug %}
+  {% dropdown-item _('Stats')  "teams:debug-stats" team.slug %}
+{% endblock %}

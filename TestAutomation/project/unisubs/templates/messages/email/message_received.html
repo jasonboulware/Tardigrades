@@ -1,0 +1,18 @@
+{% extends "videos/email_base.html" %}
+
+{% load i18n localeurl_tags messages_tags %}
+
+{% block content %}
+
+{% blocktrans with message.author as author %}
+{{ author }} has just sent you a message on Amara:
+{% endblocktrans %}<br><br>
+
+{{ message.content|encode_html_email|safe }}<br><br>
+
+<a href="http://{{ domain }}{% filter rmlocale %}{{ message.get_reply_url }}{% endfilter %}">
+	{% trans "Reply to this message" %}
+</a><br>
+{% endblock %}
+
+{% block dont_send %}{% endblock %}

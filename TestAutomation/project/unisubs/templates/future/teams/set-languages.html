@@ -1,0 +1,13 @@
+{% load i18n captureas %}
+
+<div class="zero-state">
+    <a href="{% url 'profiles:edit' %}?next=/teams/{{ team.slug }}">
+        {% if custom_text %}
+            {% blocktrans %}
+                {{ custom_text }}
+            {% endblocktrans %}
+        {% else %}
+            {% trans 'Select the languages you can caption or translate to see available videos for subtitling' %}
+        {% endif %}
+    </a>
+</div>

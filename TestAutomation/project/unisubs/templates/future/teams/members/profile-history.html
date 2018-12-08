@@ -1,0 +1,6 @@
+{% load i18n %}
+{% include team.new_workflow.member_history_template with member_history=page show_history_headers=True %}
+
+<div class="contentFooter">
+  {% include "content-footer-paginator.html" with objects_word=_('activity records') %}
+</div>

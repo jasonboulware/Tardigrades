@@ -1,0 +1,35 @@
+{% extends "future/teams/base.html" %}
+
+{% load i18n forms dropdown %}
+
+{% block content %}
+<section class="container">
+  <div class="contentHeader">
+    <div class="contentHeader-title">{% trans "Members" %}</div>
+    {{ filters_form.q }}
+    {% if user.is_staff or show_invite_link %}
+    <button type="button" data-href="{% url "teams:invite" team.slug %}" class="contentHeader-addButton ajaxLink">
+      <span class="fa fa-plus"></span>
+      <span class="contentHeader-addButtonText">{% if user.is_staff and not show_invite_link %}{% trans 'Add members' %}{% elif user.is_staff %}{% trans 'Add/Invite members' %}{% else %}{% trans 'Invite members' %}{% endif %}</span>
+    </button>
+    {% endif %}
+  </div>
+
+  <div class="filterBox" data-sort-default="recent">
+    {% filterbox-dropdown-button "member-filters" _("Filter and Sort") %}
+    {% dropdown "member-filters" %}
+    {% dropdown-js-item _('Team role') 'role' %}
+    {% dropdown-js-item _('Language spoken') 'language' %}
+    {% dropdown-js-item _('Sort') 'sort' separator=True %}
+    {% enddropdown %}
+    <div class="filterBox-fields">
+      {% render_filter_field filters_form.role %}
+      {% render_filter_field filters_form.language %}
+      {% render_filter_field filters_form.sort %}
+    </div>
+  </div>
+  <div id="member-list-all">
+    {% include "future/teams/members/member-list.html" %}
+  </div>
+</section>
+{% endblock %}

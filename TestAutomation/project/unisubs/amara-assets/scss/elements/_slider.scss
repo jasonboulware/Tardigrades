@@ -1,0 +1,34 @@
+.slider-viewport {
+  position: relative;
+  width: 100%;
+  height: 125px;
+  margin-top: 20px;
+  overflow: hidden;
+  .slider-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: auto;
+    transform: translate3d(0, 0, 0);
+    &.animate {
+      animation: slide 30s linear infinite;
+    }
+    img {
+      display: inline-block;
+      margin: 0;
+      margin-right: 10px;
+      height: 125px;
+    }
+  }
+}
+
+
+@keyframes slide {
+  100% { 
+    transform: translateX(-50%);  
+  }
+}

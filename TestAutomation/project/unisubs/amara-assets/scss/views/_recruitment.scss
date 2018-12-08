@@ -1,0 +1,37 @@
+#languages-needed {
+  .grid {
+    .item {
+      width: 25%;
+    }
+  }
+}
+
+#apply-now {
+  iframe {
+    // min-height: 740px;
+  }
+}
+// Media Queries
+@media(max-width: $screen-md-max) {}
+
+@media(max-width: $screen-sm-max) {}
+
+@media(max-width: $screen-xs-max) {
+  #languages-needed {
+    .grid {
+      .item {
+        width: 100%;
+        ul {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+
+  #apply-now {
+    iframe {
+      height: 1474px;
+      min-height: 1474px;
+    }
+  }
+}

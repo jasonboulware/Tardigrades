@@ -1,0 +1,52 @@
+{% extends "future/teams/base.html" %}
+{% load i18n forms %}
+
+{% block content %}
+<main class="pageContent">
+<section class="pageSection">
+  <div class="container">
+    <div class="col-xs-12">
+      <div class="content">
+
+        <div class="row bg-cream">
+          <div class="col-sm-9 col-sm-offset-1">
+            <header class="pageSection">
+              <h1>{% trans "Apply to" %} {{ team }}</h1>
+              <p class="helpBlock">
+                {% blocktrans %}
+                Please fill out 'About You' and 'Languages' sections below and click 'Submit' to apply."
+                {% endblocktrans %}
+              </p>
+              </br>
+              <div class="application-form-message">
+                {% if team.application_message %}
+                {{ team.application_message|urlize|linebreaksbr }}
+                {% else %}
+                <h3>{% trans "Language skill" %}</h3>
+                <p>
+                  {% blocktrans %}
+                  No formal language training is required to translate for {{ team }}, but we do ask that all translators are confident in their translation abilities.
+                  {% endblocktrans %}
+                </p>
+                <h3>{% trans "Time commitment" %}</h3>
+                <p>
+                  {% blocktrans %}
+                  We request that each new applicant does at least one full set of subtitles within the first week of joining. Aside from that, it's up to you!
+                  {% endblocktrans %}
+                </p>
+                {% endif %}
+              </div>
+            </header>
+          </div>
+        </div>
+        <div class="row bg-snow">
+          <section class="pageSection">
+            {% include "future/teams/applications/forms/apply.html" %}
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+{% endblock %}

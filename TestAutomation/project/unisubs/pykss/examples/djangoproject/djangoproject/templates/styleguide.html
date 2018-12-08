@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load pykss %}
+
+{% block content %}
+{% comment %}
+
+{% styleguideblock styleguide "1.1" %}
+...
+{% endstyleguideblock %}
+
+{% styleguideblock styleguide "1.1" using "custom.html" %}
+...
+{% endstyleguideblock %}
+
+{% endcomment %}
+{% styleguideblock styleguide "1.1" %}
+    <button class="$modifier_class">Example Button</button>
+{% endstyleguideblock %}
+
+{% verbatim %}
+<p>This block above was created with a simple template call:</p>
+<pre>
+    <code>
+{% styleguideblock styleguide "1.1" %}
+    &lt;button class="$modifier_class"&gt;Example Button&lt;/button&gt;
+{% endstyleguideblock %}
+    </code>
+</pre>
+{% endverbatim %}
+
+{% comment %}
+
+{% renderstyleguide styleguide "2" %}
+{% renderstyleguide styleguide "2" using "custom.html" %}
+
+{% endcomment %}
+{% renderstyleguide styleguide "2" %}
+
+{% verbatim %}
+<p>This block above was created with a simple template call:</p>
+<pre>
+    <code>
+{% renderstyleguide styleguide "2" %}
+    </code>
+</pre>
+{% endverbatim %}
+{% endblock %}

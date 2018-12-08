@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <title>DFXP Wrapper Test</title>
+        <meta charset="utf-8" />
+        <script src="/site_media/js/jquery-1.7.1.js"></script>
+        <script src="/site_media/src/js/third-party/amara-jquery.min.js"></script>
+        <script type="text/javascript" src="/site_media/src/js/dfxp/dfxp.js" charset="utf-8"></script>
+    </head>
+    <body>
+        <script type="text/javascript" charset="utf-8">
+            $(function() {
+                $.ajax({
+                    type: 'get',
+                    url: '/site_media/src/js/dfxp/sample.dfxp.xml',
+                    dataType: 'xml',
+                    success: function(resp) {
+                        parser = new AmaraDFXPParser();
+                        parser.init(resp);
+                    }
+                });
+            });
+        </script>
+        <p>Open your console, and type "parser". That's your instance.</p>
+    </body>
+</html>

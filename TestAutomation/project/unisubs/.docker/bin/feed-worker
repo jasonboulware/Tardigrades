@@ -1,0 +1,3 @@
+#!/bin/bash
+export CELERY_QUEUES="feeds"
+exec worker

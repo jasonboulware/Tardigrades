@@ -1,0 +1,115 @@
+$charcoal:               #222626;
+$gray:                   #9fa0a1;
+$snow:                   #f3f4f6;
+$white:                  #ffffff;
+
+$plum:                   #5a2747;
+$teal:                   #30957b;
+$amaranth:               #f3254d;
+$lime:                   #80bd3e;
+$cream:                  #fffdf8;
+
+// Map color names to tuples of (color, alternate_color) where alternate_color is the text color to use when color is the background
+$colorscheme: (
+  "plum": ($plum, $white),
+  "teal": ($teal, $white),
+  "amaranth": ($amaranth, $white),
+  "lime": ($lime, $white),
+
+  "charcoal": ($charcoal, $white),
+  "gray": ($gray, $white),
+  "snow": ($snow, $plum),
+  "white": ($white, $charcoal),
+);
+
+$body-bg:                #ffffff;
+$text-color:             $charcoal;
+$brand-primary:          $plum;
+
+$link-color:            $teal;
+$link-hover-color:      $lime;
+
+$font-family-sans-serif:  'Open Sans', sans-serif;
+$headings-font-family:    'Raleway', sans-serif;
+$font-size-normal: 16px;
+$font-size-small: 14px;
+$font-size-tiny: 13px;
+
+$font-size-mega: 72px;
+$font-size-jumbo: 48px;
+$font-size-h1: 36px;
+$font-size-h2: 24px;
+$font-size-h3: 20px;
+
+// Animations
+$use-fadeInUp       : true;
+$use-fadeInDown     : true;
+$use-fadeInLeft     : true;
+$use-fadeInRight    : true;
+$use-pulse          : true;
+
+
+// Breakpoints
+
+// Map names to the min-size for breakpoints.  Must be ordered smallest to largest
+$breakpoints: (
+  phone: 0,
+  tablet: 756px,
+  laptop: 1024px,
+  desktop: 1440px,
+);
+// calc max-size for breakpoints
+$breakpoints-max: (
+  phone: map-get($breakpoints, tablet) - 1,
+  tablet: map-get($breakpoints, laptop) - 1,
+  laptop: map-get($breakpoints, desktop) - 1,
+  desktop: 0,
+);
+
+$max-container-size: 1440px;
+
+
+// Bootstrap variables for breakpoints -- eventually it would be nice to get rid of this stuff
+$screen-md-max:           map-get($breakpoints-max, laptop);
+$screen-sm-max:           map-get($breakpoints-max, tablet);
+$screen-xs-max:           map-get($breakpoints-max, phone);
+
+$screen-lg-min:           $max-container-size;
+$screen-md-min:           map-get($breakpoints, laptop);
+$screen-sm-min:           map-get($breakpoints, tablet);
+
+$container-lg: 1400px;
+$container-md: 1000px;
+$container-sm: 750px;
+
+// Form states and alerts
+// Define colors for form feedback states and, by default, alerts.
+
+$state-success-text:             $lime;
+$state-success-bg:               #dff0d8;
+$state-success-border:           $lime;
+
+$state-info-text:                $teal;
+$state-info-bg:                  #E5F2F0;
+$state-info-border:              $teal;
+
+$state-warning-text:             $plum;
+$state-warning-bg:               #F7EFF5;
+$state-warning-border:           $plum;
+
+$state-danger-text:              $amaranth;
+$state-danger-bg:                #FAEFF4;
+$state-danger-border:            $amaranth;
+
+// z-index values
+$z-index-behind: -1;
+$z-index-front: 1;
+// page layer
+$z-index-header: 10;
+$z-index-menu: 11;
+$z-index-action-bar: 12;
+// modal dialog layer
+$z-index-overlay: 100;
+$z-index-modal: 110;
+// top layer
+$z-index-tooltip: 200;

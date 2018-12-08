@@ -1,0 +1,13 @@
+{% load forms i18n query_string modal %}
+{% startmodal "rollback-dialog" _("Rolling back subtitles") %}
+<form class="ajaxForm" action="{% query_string form=rollback %}" method="POST">
+  {% csrf_token %}
+  <div class="modal-content">
+    <p>{% blocktrans with number=version.version_number %}Roll subtitles back to version {{ number }}{% endblocktrans %}</p>
+  </div>
+  <div class="modal-footer">
+    <button class="button borderless modal-close">{% trans "Cancel" %}</a>
+    <button class="button cta" type="submit">{% trans "Rollback" %}</button>
+  </div>
+</form>
+{% endmodal %}

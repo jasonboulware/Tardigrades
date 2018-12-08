@@ -1,0 +1,81 @@
+$break-small: 800px;
+$break-medium: 900px;
+$content-max-width: 1200px;
+$content-max-width-narrow: 900px;
+
+$z-index-overlay: 100;
+$z-index-modal: 101;
+$z-index-menu: 102;
+$z-index-floating: 103;
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+/* Implement a sticky footer using flexbox */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+#main-content {
+    padding-top: 20px;
+    flex-grow: 1;
+}
+
+.content {
+    max-width: $content-max-width;
+    padding: 0 15px;
+    margin: 0 auto;
+}
+
+.not-so-wide {
+    max-width: $content-max-width-narrow;
+}
+
+.section {
+    margin-bottom: 60px;
+}
+
+%clearfix:after, .group:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+@mixin small-screen() {
+    @media only screen and (max-width: $break-small - 1) {
+        @content;
+    }
+}
+
+@mixin not-small-screen() {
+    @media only screen and (min-width: $break-small) {
+        @content;
+    }
+}
+
+@mixin medium-screen() {
+    @media only screen and (min-width: $break-small) and (max-width: $break-medium - 1) {
+        @content;
+    }
+}
+
+%floating {
+    position: absolute;
+    display: none;
+    z-index: $z-index-floating;
+    background: $white;
+    border: 1px solid $light-gray;
+    box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.3);
+}
+
+.hidden {
+    display: none !important;
+}

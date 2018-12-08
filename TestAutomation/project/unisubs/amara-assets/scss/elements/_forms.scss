@@ -1,0 +1,754 @@
+// Forms
+//
+// Forms are used to request input from users.  They generally consist of a
+// list of inputs, followed by action buttons to submit the form.
+// 
+// Example:
+// <form>
+//   <div class="form-group">
+//     <label for="">Email</label>
+//     <input type="email" id="">
+//   </div>
+//   <div class="form-group">
+//     <label for="">Password</label>
+//     <input type="password" id="">
+//   </div>
+//   <div class="form-actions">
+//     <button class="button borderless">Cancel</button>
+//     <button type="submit" class="button cta">Submit</button>
+//   </div>
+// </form>
+//
+// Styleguide forms
+
+// Fields
+//
+// Fields input a single piece of data for a form.  Fields consist of an input,
+// along with supporting elements like labels, help text, error messages, etc.
+//
+// ### Layout
+//
+//   - We use a single column for everything.  This allows users to scan the forms easily.
+//   - We size inputs to 100% width of the containing element
+//   - Wrap the input and label together in a .form-group div.  This adds spacing between each field.
+//   - Inside a field, place the label first, followed by the form field, followed by optional help/error text.
+//
+// ### Labels and help text
+//   - Use labels for all fields.
+//   - For fields that are not obvious, add help text using the helpBlock class.
+//   - You can also use the helpList class to show a bullet list.
+//   - In general, use labels and help text instead of placeholder text.
+//
+// ### Required vs optional
+//   - Most fields in a form should be required.  This is for a couple reasons:
+//        - We want to limit the number of fields to create simlper forms .  If a field is not required, then consider removing it.
+//        - Users typically expect to fill in all fields.  Therefore the default should be required and the optional should be marked as an alternate.
+//   - Mark optional fields with "(optional)" in the label.  Use the fieldOptional class for this.
+//
+// Example:
+// <div class="form-group">
+//   <label for="">Email</label>
+//   <input type="email" id="">
+// </div>
+// <div class="form-group">
+//   <label for="">Password</label>
+//   <input type="password" id="">
+//   <span class="helpBlock">See this <a href="https://www.wikihow.com/Create-a-Secure-Password">WikiHow article</a> for advice</span>
+// </div>
+// <div class="form-group">
+//   <label for="">URL <span class="fieldOptional">(optional)</span></label>
+//   <input type="text" id="">
+// </div>
+// <div class="form-group">
+//   <label for="">Additional Information</label>
+//   <textarea class="form-control"></textarea>
+//   <ul class="helpList">
+//     <li>Keep your text concise</li>
+//     <li>Prefer active voice to passive</li>
+//     <li>Read your text aloud before submitting it</li>
+//   </ul>
+// </div>
+// <div class="form-group">
+//   <label for="">Date</label>
+//   <input type="text" id="">
+// </div>
+// <div class="form-actions">
+//   <button class="button borderless">Cancel</button>
+//   <button type="submit" class="button cta">Submit</button>
+// </div>
+//
+// Styleguide fields
+
+label {
+  display: block;
+  max-width: 100%;
+  margin-bottom: 0;
+  font-weight: 600;
+}
+textarea {
+  resize: vertical;
+}
+select {
+  appearance: none;
+}
+input,
+select,
+textarea {
+  display: block;
+  line-height: 21px;
+  width: 100%;
+  padding: 8px 10px;
+  margin: 0;
+  border: 1px solid light($gray);
+  background-color: #fff;
+  color: $charcoal;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-actions {
+  text-align: right;
+}
+
+.form-actions-top {
+  @extend .form-actions;
+  margin-bottom: 8px;
+}
+
+.fieldOptional {
+  color: dark($gray);
+}
+
+// placeholders
+
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: dark($gray);
+}
+::-moz-placeholder { /* Firefox 19+ */
+  color: dark($gray);
+}
+:-ms-input-placeholder { /* IE 10+ */
+  color: dark($gray);
+}
+:-moz-placeholder { /* Firefox 18- */
+  color: dark($gray);
+}
+
+
+// File Uploads
+//
+// TODO - needs refactor to match new design direction
+// 
+// Example:
+// <div class="form-group">
+//   <label for="">Change thumbnail</label>
+//   <div class="input-group fileUpload">
+//     <input type="text" class="fileUpload-text" readonly>
+//     <label class="input-group-btn">
+//         <span class="button buttonFile">
+//             Browse&hellip; <input type="file" style="display: none;" multiple>
+//         </span>
+//     </label>
+//   </div>
+// </div>
+//
+// Styleguide fileUpload
+
+.buttonFile {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid light($gray);
+  border-left-width: 0;
+  padding: 8px 10px;
+  line-height: 21px;
+  margin: 0;
+  font-size: $font-size-small;
+  font-weight: 400;
+  background-color: $teal;
+}
+.buttonFile input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  font-size: 100px;
+  text-align: right;
+  filter: alpha(opacity=0);
+  opacity: 0;
+  background: white;
+  cursor: inherit;
+  display: block;
+}
+.fileUpload-text {
+  border-right-width: 0;
+  background-color: light($gray);
+}
+
+
+// Checkboxes and radios
+//
+// We style our checkboxes and radioboxes.  Use the HTML below to ensure yours looks correct.
+//
+// Use the .checkbox-spacer class to add empty width the size of a checkbox.  This is usefull to align items in a list where one is missing a checkbox.
+//
+// Example:
+//
+// <div class="form-group">
+//   <div class="checkbox">
+//     <input type="checkbox" id="checkbox00" value="">
+//     <label for="checkbox00"><span class="checkbox-icon"></span> I agree</label>
+//   </div>
+// </div>
+//
+// <div class="form-group">
+//   <div class="checkbox">
+//     <input type="checkbox" id="checkbox01" value="" disabled>
+//     <label for="checkbox01"><span class="checkbox-icon"></span> I disagree (disabled)</label>
+//   </div>
+// </div>
+//
+// <div class="form-group">
+//   <div class="checkbox-spacer"></div> Spacer example
+// </div>
+//
+// <div class="form-group">
+//   <label>What's you're favorite sandwich?</label>
+//   <ul>
+//     <li class="radio">
+//       <input checked type="radio" id="radio00" value="club" name="sandwich">
+//       <label for="radio00"><span class="radio-icon"></span>Club</label>
+//     </li>
+//     <li class="radio">
+//       <input type="radio" id="radio01" value="blt" name="sandwich">
+//       <label for="radio01"><span class="radio-icon"></span>BLT</label>
+//     </li>
+//     <li class="radio">
+//       <input type="radio" id="radio02" value="sub" name="sandwich" disabled>
+//       <label for="radio02"><span class="radio-icon"></span>Submarine (disabled)</label>
+//     </li>
+//   </ul>
+// </div>
+//
+// <div class="form-group">
+//   <label>Who is you're favorite Golden Girl?</label>
+//   <ul>
+//     <li class="radio">
+//       <input type="radio" id="radio10" value="dorthy" name="golden_girl">
+//       <label for="radio10"><span class="radio-icon"></span>Dorthy
+//         <p class="helpBlock helpBlock-radio">Played by Bea Arthur</p>
+//       </label>
+//     </li>
+//     <li class="radio">
+//       <input checked type="radio" id="radio11" value="rose" name="golden_girl">
+//       <label for="radio11"><span class="radio-icon"></span>rose
+//         <p class="helpBlock helpBlock-radio">Played by Betty White</p>
+//       </label>
+//     </li>
+//     <li class="radio">
+//       <input type="radio" id="radio12" value="blanch" name="golden_girl">
+//       <label for="radio12"><span class="radio-icon"></span>blanch
+//         <p class="helpBlock helpBlock-radio">Played by Rue McClanahan</p>
+//       </label>
+//     </li>
+//     <li class="radio">
+//       <input type="radio" id="radio13" value="sophia" name="golden_girl">
+//       <label for="radio13"><span class="radio-icon"></span>sophia
+//         <p class="helpBlock helpBlock-radio">Played by Estelle Getty</p>
+//       </label>
+//     </li>
+//   </ul>
+// </div>
+//
+//
+// Styleguide checkboxes
+
+.checkbox, .radio {
+  margin: 0;
+  input[type="radio"],
+  input[type="checkbox"] {
+    display: none;
+    margin-left: 0;
+  }
+  label {
+    min-height: 20px;
+    line-height: 20px;
+    padding-left: 0px;
+    margin-bottom: 0;
+    font-weight: normal;
+    cursor: pointer;
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+
+.radio + .radio, .checkbox + .checkbox {
+  // undo bootstrap's -5px
+  margin-top: 0;
+}
+.radio {
+    padding-bottom: 4px;
+}
+
+// bootstrap has a radio-inline class so we use a different name
+.div-radio-inline {
+  display: inline-block;
+  padding-left: 0px;
+  padding-right: 20px;
+  padding-top: 10px;
+}
+
+.li-radio-inline {
+  float: left;
+}
+
+.li-radio-inline:last-of-type {
+  float: none;
+}
+
+.radio-dynamic-help-text {
+  margin-bottom: 0px;
+}
+
+.radio-icon, .checkbox-icon {
+  position: relative;
+  display: block;
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+  vertical-align: middle;
+  background: #ffffff;
+  border: 1px solid light($gray);
+  cursor: pointer;
+}
+.radio-icon {
+  border-radius: 50%;
+  &:before {
+    display: block;
+    content: "";
+    position: absolute;
+    height: 12px;
+    width: 12px;
+    top: 2px;
+    left: 2px;
+    border-radius: 50%;
+    background-color: transparent;
+  }
+}
+input:checked + label .radio-icon:before {
+  background-color: $plum;
+}
+
+input:checked + label .checkbox-icon {
+  background-color: $plum;
+  &:before {
+    font-family: 'amara';
+    @extend .icon-check:before;
+    display: block;
+    position: absolute;
+    height: 16px;
+    width: 16px;
+    font-size: 14px;
+    line-height: 14px;
+    top: 1px;
+    left: 0;
+    text-align: center;
+    color: #fff;
+  }
+}
+
+input:checked[disabled] + label, input:checked:disabled + label {
+  .checkbox-icon {
+    background: inherit;
+    border: 0;
+
+    &:before {
+      color: $lime;
+      font-size: 18px;
+      line-height: 18px;
+      width: 18px;
+      height: 18px;
+    }
+  }
+}
+
+.radio {
+    input:disabled + label, input[disabled] + label {
+        color: dark($gray);
+    }
+}
+
+.checkbox-spacer {
+    display: inline-block;
+    width: 26px;
+}
+
+
+.multiField-label {
+  float: left;
+  width: 120px;
+  text-align: right;
+  font-weight: normal;
+  line-height: 39px;
+}
+
+.multiField-input {
+  max-width: 400px;
+  margin-left: 140px;
+  margin-right: auto;
+  padding-bottom: 8px;
+  background: $snow;
+
+  &.last {
+    padding-bottom: 0;
+  }
+
+  &.checkbox {
+    margin-left: 0;
+  }
+}
+
+.multiField-separator {
+  display: none;
+}
+
+.multiField-rowEnd {
+  clear: both;
+}
+
+@supports (display: grid) {
+  @include respond-to(tablet, 0) {
+
+    .multiField {
+      display: grid;
+      grid-template-rows: auto auto;
+      grid-auto-flow: column;
+
+      @for $i from 1 through 5 {
+        &.columns-#{$i} { grid-template-columns: repeat(#{$i}, minmax(100px, auto)) 1fr; }
+      }
+      &.checkboxes {
+        margin-top: 4px;
+        grid-template-rows: auto;
+      }
+    }
+
+    .multiField-label {
+      text-align: left;
+      padding-left: 16px;
+
+      &:first-of-type {
+        padding-left: 0;
+      }
+    }
+
+    .multiField-input {
+      position: relative;
+      border: 0;
+      margin: 0;
+      padding: 10px 32px;
+      border-right: 4px solid $white;
+      &:first-of-type {
+        padding-left: 16px;
+      }
+      &.noborder {
+        border-right: 0;
+      }
+    }
+
+    .multiField-inputExtender {
+      grid-row: -2 / -1;
+      background: $snow;
+    }
+
+    .multiField-rowEnd {
+      display: none;
+    }
+
+    .multiField-separator {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 100%;
+      width: 20px;
+      height: 100%;
+      z-index: $z-index-front;
+
+      &.checked {
+        display: none;
+        color: light($gray);
+      }
+
+      &.unchecked {
+        color: $white;
+      }
+
+      &.ordered {
+        margin-left: -10px;
+        color: $white;
+      }
+    }
+
+    .multiField-input.checked {
+      background: light($gray);
+
+      .multiField-separator.checked {
+        display: block;
+      }
+      .multiField-separator.unchecked {
+        display: none;
+      }
+    }
+
+  }
+}
+
+.subtitleVisibilityLabel {
+  width: 155px;
+}
+
+.subtitleVisibilityInput {
+  margin-left: 160px;
+}
+
+@include respond-to(tablet, 0) {
+  .subtitleVisibilityInput {
+    margin: 0;
+  }
+}
+
+
+// Field errors
+//
+// To display field errors:
+//   - Add the has-error class to the form-group
+//   - Replace the help text with the error message
+// 
+// Example:
+// <div class="form-group has-error">
+//   <label for="inputError1">Email</label>
+//   <input type="text" id="inputError1" value="email.com">
+//   <span class="helpBlock">Invalid Email Address</span>
+// </div>
+//
+// Styleguide fieldErrors
+
+.form-group {
+  &.has-success {
+    .form-control, label, .helpBlock, .input-control {
+      border-color: $state-success-border;
+      color: $state-success-text;
+  }
+  }
+  &.has-warning {
+   .form-control, label, .helpBlock, .input-control {
+     border-color: $state-warning-border;
+     color: $state-warning-text; }
+  }
+  &.has-error {
+    .form-control, label, .helpBlock, .input-control {
+      border-color: $state-danger-border;
+      color: $state-danger-text;
+    }
+    .helpBlock {
+      i {
+        padding: 0 5px 0 0;
+      }
+    }
+  }
+}
+
+.bg-teal, .bg-plum {
+  .form-group.has-error {
+    .helpBlock {
+      background: $white;
+      padding: 4px 16px;
+      margin-top: 0;
+    }
+  }
+}
+
+
+
+.helpBlock {
+  display: block;
+  margin-top: 4px;
+  font-size: $font-size-tiny;
+}
+
+.helpBlock-radio {
+  margin-left: 24px;
+  margin-top: 0;
+}
+
+.helpList {
+  margin-left: 24px;
+  font-size: $font-size-tiny;
+  list-style-type: disc;
+  list-style-position: inside;
+}
+
+// Fieldsets
+//
+// Use fieldsets to group related fields in a form together.  This can help simplify forms with lots of inputs.  Use the legend element to provide a header.  Use `.fieldsetHelpBlock` to display help for the fieldset. Don't forget to place a `div.fieldset-footer` or else you will end up with a form that has no border at the bottom
+//
+// Example:
+// <form>
+//   <fieldset>
+//     <legend><h3>Personal information</h3></legend>
+//     <div class="form-group">
+//       <label for="name">Name</label>
+//       <input type="text" id="name">
+//     </div>
+//     <div class="form-group">
+//       <label for="email">Email</label>
+//       <input type="text" id="email">
+//     </div>
+//     <div class="form-group">
+//       <label for="phone_number">Phone number</label>
+//       <input type="text" id="phone_number">
+//     </div>
+//   </fieldset>
+//   <fieldset>
+//     <legend><h3>Account information</h3></legend>
+//     <div class="fieldsetHelpBlock">Details for your Amara acount</div>
+//     <div class="form-group">
+//       <label for="username">Username</label>
+//       <input type="text" id="username">
+//     </div>
+//     <div class="form-group">
+//       <label for="password1">Password</label>
+//       <input type="text" id="password1">
+//     </div>
+//     <div class="form-group">
+//       <label for="password2">Confirm password</label>
+//       <input type="text" id="password2">
+//     </div>
+//   </fieldset>
+//   <div class="form-actions fieldset-footer">
+//     <button class="button borderless">Cancel</button>
+//     <button type="submit" class="button cta">Submit</button>
+//   </div>
+// </form>
+//
+// Styleguide fieldsets
+
+fieldset {
+  border: solid 1px #cccccc;
+  border-top: none;
+  border-bottom: none;
+  padding-bottom: 25px;
+
+  legend {
+    padding-top: 15px;
+    padding-left: 20px;
+    margin-bottom: 30px;
+    height: 55px;
+    background-color: $plum;
+    border-bottom: none;
+    color: $cream;
+
+    h3 {
+      color: $cream !important;
+    }
+  }
+}
+
+fieldset > :not(legend) {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.fieldset-footer {
+  border: solid 1px #cccccc;
+  border-top: none;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 10px;
+  padding-bottom: 6px;
+}
+
+.fieldset-footer-shadow {
+  @extend .fieldset-footer;
+  background-color: #f4f4f7;
+  display: flex;
+  color: #9fa0a1;
+}
+
+.fieldset-backtotop-container {
+  display: flex;
+  align-items: center;
+  margin-right: auto;
+  cursor: pointer;
+}
+
+.fieldset-backtotop-container:hover > .small {
+  text-decoration: underline;
+}
+
+.fieldset-backtotop-chevron {
+  color: #c6c6c7;
+  margin-right: 6px;
+}
+
+.fieldsetHelpBlock {
+  font-size: $font-size-small;
+  color: $charcoal;
+  margin-top: -20px;
+  margin-bottom: 20px;
+}
+
+.buttonFile {
+  text-transform: none;
+  font-family: $font-family-sans-serif;
+}
+
+.saveChangesButton {
+  visibility: hidden;
+}
+
+.imageInput-text {
+  min-width: 0; // bug fix for Firefox not respecting flex shrinking 
+}
+
+.imageInput-previewContainer {
+  background: url("../img/image-upload-bg.png");
+  margin: 4px 0 16px 0;
+}
+
+.imageInput-thumbnail {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.imageInput-input {
+  position: relative;
+}
+
+.imageInput-buttonContainer {
+  position: relative;
+}
+
+.imageInput-fileInput {
+  z-index: $z-index-front;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  filter:progid:DXImageTransform.Microsoft.Alpha(opacity=0);
+}
+
+.imageInput-displayedInput {
+  position: absolute;
+}
+
+@import "compound_field";
+@import "button_field";

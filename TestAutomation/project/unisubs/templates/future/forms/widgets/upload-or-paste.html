@@ -1,0 +1,25 @@
+{% load i18n %}
+<div class="compoundField">
+  <div class="compoundField-selector">
+    <ul>
+      <li class="radio">
+        <input type="radio" name="{{ name }}-selector" id="{{ name }}-upload" value="upload"{% if not initial_text  %} checked{% endif %}>
+        <label for="{{ name }}-upload"><span class="radio-icon"></span>{% trans "Upload File" %}</label>
+      </li>
+      <li class="radio">
+        <input type="radio" name="{{ name }}-selector" id="{{ name }}-paste" value="paste"{% if initial_text %} checked{% endif %}>
+        <label for="{{ name }}-paste"><span class="radio-icon"></span>{% trans "Paste Text" %}</label>
+      </li>
+    </ul>
+  </div>
+  <div class="compoundField-inputs">
+    <div class="fileUpload input-group compoundField-input" data-for="upload">
+      <input type="text" class="fileUpload-text" readonly>
+      <label class="input-group-btn">
+        <span class="button buttonFile">
+          Browse&hellip; <input type="file" name="{{ name }}-upload" style="display: none;" multiple>
+        </span>
+      </label>
+    </div>
+    <textarea rows="3" class="compoundField-input" name="{{ name }}-paste" data-for="paste">{{ initial_text }}</textarea>
+  </div>

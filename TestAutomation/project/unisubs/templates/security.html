@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block body_attrs %}id="security" class="v1"{% endblock %}
+
+{% block scripts %}
+{% endblock %}
+{% block main_content %}
+
+<div class="grid_8 push_2 content">
+    <h2>Security</h2>
+    <h3>How to report an incident</h3>
+    
+    <p>We take security incidents very seriously. If you've found an exploit or any potential breach please let us know. Send an email to <a href="mailto:security@amara.org">security@amara.org</a> with as much information as possible.
+    </p>
+    
+    <p>All emails will be answered within 24 hours, even if the fix will take longer to be tested and deployed.</p>
+    
+    <p>We ask that reports not be disclosed until a fix has been released. As soon as we acknowledge the report, you'll have direct contact with our security team, where additional information can be exchanged.</p>
+    
+    <p>If you have found out an exploit and already have a fix for it, we ask that you not submit a pull request directly in Github, where our source code is hosted. This would effectively disclose the issue to the public (and any potentially malicious attackers). Instead, we ask that you please send the patch to the email address above.</p>
+    
+    <p>Once a fix is released, we'll acknowlege it publicly and give credit to the original reporter.</p>
+
+    <h3>Data and privacy</h3>
+    
+    <p>It's paramount to Amara that your data is safe. We have a distributed data storage platform will keep your data safe in the face of hardware failure and take daily data snapshots just in case.</p>
+    
+    <p>We rely industry standard practices and security conscious vendors to keep our system safe.</p>
+    
+    <p>We keep all base software up to date with the latest security patches, and all servers are monitored against intrusion.</p>
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% load i18n %}
+<footer id="page-footer">
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-md-5">
+          <div class="content">
+            <a href="{% url "home" %}"><img id="footer-logo" src="{{ LOGO_URL }}" height="50" class="img-responsive" alt="{% trans "Amara Logo" %}"></a>
+            {% include "future/navigation/legalnav.html" %}
+          </div>
+        </div>
+        <div class="col-xs-12 col-md-7">
+          <div id="footernav" class="content">
+            {% include "future/navigation/footernav.html" %} 
+            <div class="pull-right">
+              {{ staff_controls }}
+            </div>
+            <div class="pcf">
+              <a href="https://pculture.org/" target="_blank">
+                <img src="{{ PCF_LOGO_URL }}" alt="{% trans "Participatory Culture Foundation Logo" %}">
+                <small>{% trans "Amara is a project of the<br>Participatory Culture Foundation" %}</small>
+              </a>
+            </div>
+            {% if language_switcher %}
+            <select class="languageSwitcher"></select>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</footer>

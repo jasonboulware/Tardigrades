@@ -1,0 +1,41 @@
+#video_details {
+  #video_info {
+    position: relative;
+    padding-top: 30px;
+  }
+  #video_activity {
+    table {
+      tr {
+        td {
+          &:first-child {
+            width: 50px;
+          }
+        }
+      }
+    }
+  }
+  #video_urls {
+    tr.primary {
+      font-weight: bold;
+    }
+  }
+
+  .tab-pane {
+    min-height: 400px;
+  }
+}
+.videoDetails-assignments {
+  // Temp fix for responsive embedded players
+  background-color: #ffffff;
+  min-height: 500px;
+}
+
+
+
+@media (max-width: 1024px) {
+  #video_details {
+    .player {
+      min-height: 0;
+    }    
+  }
+}

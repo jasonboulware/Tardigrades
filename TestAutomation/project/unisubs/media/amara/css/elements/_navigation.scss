@@ -1,0 +1,441 @@
+// Global Navigation
+.nav {
+  >li {
+    >a {
+
+      &:hover, &:focus {
+
+      }
+    }
+  }
+
+}
+
+// Primary Navigation: Desktop
+
+#topnav {
+  position: relative;
+  height: 30px;
+  background: $gray-darker;
+  @include transition(.5s);
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    li {
+      float: left;
+      padding: 0;
+    }
+  }
+  .dropdown-menu {
+    border-radius: 0;
+    // border: none;
+    right: 0;
+    left: auto;
+    min-width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 500px;
+    &:before {
+      content: none;
+    }
+    li {
+      float: none;
+      margin: 0;
+      &.separator {
+        border-top: 1px solid $gray;
+      }
+      a {
+        display: block;
+        background-color: #fff;
+        background-image: none;
+        color: $gray-darker;
+        @include transition(.3s);
+        text-transform: none;
+        padding: 4px 20px;
+        &:hover, &:focus {
+          background-color: $gray;
+          color: #fff;
+        }
+      }
+    }
+  }
+  // Accessibility Navigation
+  .accessnav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    > ul > li {
+      margin-right: 4px;
+    }
+  }
+  // Application Navigation
+  .appnav {
+    position: absolute;
+    top: 0;
+    right: 0;
+    > ul > li {
+      margin-left: 4px;
+    }
+    ul {
+      display: inline-block;
+      li.dropdown {
+        &.open {
+          ul.dropdown-menu {
+            display: block;
+            left: auto;
+            right: 0;
+          }
+        }
+        ul.dropdown-menu {
+          display: none;
+        }
+      }
+    }
+    .dropdown {
+      .button {
+        background-color: $amaranth;
+        color: #fff;
+        .user-notifications {
+          display: inline-block;
+          height: 27px;
+          width: 25px;
+          position: absolute;
+          top: 0;
+          right: 0;
+          background-color: #cd0027;
+          text-transform: none;
+          .notification-circle {
+            border-radius: 50%;
+            width: 14px;
+            height: 14px;
+            position: absolute;
+            top: 6px;
+            left: 5px;
+            background-color: #fff;
+            color: #cd0027;
+          }
+        }
+      }
+    }
+    .count {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      line-height: 20px;
+    }
+  }
+  
+  #user-menu {
+    text-transform: none;
+    .caret {
+            display: inline-block;
+            width: 0;
+            height: 0;
+            margin-left: 2px;
+            vertical-align: middle;
+            border-top: 4px solid $cream;
+            border-right: 4px solid transparent;
+            border-left: 4px solid transparent;
+            @include transition(.2s);
+    }
+    .dropdown.open & .caret {
+            transform: rotate(180deg);
+    }
+  }
+}
+
+// Include the element to increase specificity.  This is mostly for the
+// old-style pages and we could probably remove it once we are using only
+// futurueui
+a.topnav-button, button.topnav-button {
+  display: inline-block;
+  margin: 0;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 0;
+  font-size: 14px;
+  font-family: $headings_font_family;
+  line-height: 30px;
+  color: #fff;
+  background-color: $gray-darker;
+  text-transform: uppercase;
+  font-weight: 400;
+
+  &:hover, &:visited {
+    color: #fff;
+  }
+
+  &.amaranth {
+    background-color: $amaranth;
+  }
+
+  &.plum {
+    background-color: $plum;
+  }
+
+  &.gray {
+    background-color: $gray-lighter;
+    color: $plum;
+    &:visited {
+      color: $plum;
+    }
+    &:hover {
+      color: lighten($plum, 30%);
+    }
+  }
+
+  &:hover {
+    background-color: $lime;
+    color: #fff;
+  }
+
+  &.bold {
+    font-weight: 700;
+  }
+}
+
+.topnav-search {
+  font-size: 18px;
+}
+
+
+#mainnav {
+  // Fallback for browsers that don't support grid
+  display: table;
+  // Use CSS grid for modern browsers
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  grid-template-rows: 100%;
+  grid-template-areas: "brand nav";
+  align-items: center;
+
+  padding: 0;
+
+  .primarynav {
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      li {
+        display: inline-block;
+        &.active {
+          a {
+            font-weight: 700;
+            color: $teal;
+            cursor: default;
+            pointer-events: none;
+          }
+        }
+        a {
+          display: block;
+          height: 68px;
+          line-height: 68px;
+          padding: 0 12px;
+          color: $gray-darker;
+          font-size: 17px;
+          font-weight: 400;
+          &:hover, &:focus {
+
+          }
+        }
+      }
+    }
+  }
+}
+
+.mainnav-brand {
+  // Fallback for browsers that don't support grid
+  display: table-cell;
+  width: 200px;
+  vertical-align: middle;
+  // Use CSS grid for modern browsers
+  grid-area: brand;
+  justify-self: left;
+
+  font-size: 24px;
+  white-space: nowrap;
+  line-height: 68px;
+  color: $brand-primary;
+  &:hover, &:focus {
+    color: $brand-primary;
+  }
+  img {
+    margin: auto 8px auto 0;
+  }
+  img.logo {
+    max-width: 150px;
+    width: 150px;
+    height: 30px;
+    margin-right: 10px;
+  }
+}
+
+.mainnav-nav {
+  // Fallback for browsers that don't support grid
+  display: table-cell;
+  width: auto;
+  text-align: center;
+  // Use CSS grid for modern browsers
+  grid-area: nav;
+  justify-self: center;
+  // Common code
+  margin-right: 200px;
+  &.wide {
+    justify-self: right;
+    text-align: right;
+    margin-right: 0;
+  }
+}
+
+// Primary Navigation: Mobile
+#mobilenav {
+
+  .navbar-header {
+    float: none;
+    box-shadow: 0px 2px 3px rgba(0,0,0,.1);
+    .navbar-brand {
+      width: 125px;
+      padding: 10px 0;
+      margin-left: 20px;
+    }
+    .navbar-toggle {
+      display: inline-block;
+      background-color: $lime;
+      margin: 0;
+      border-radius: 0;
+      border: 1px solid #fff;
+      padding: 18px 14px;
+      .icon-bar {
+        background-color: #fff;
+      }
+    }
+  }
+  .top-buttons {
+    clear: both;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+    .button {
+      width: 100%;
+      padding: 8px 0;
+      margin: 10px 0;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 400;
+      span {
+        display: block;
+        font-weight: 700;
+      }
+    }
+  }
+  .primarynav {
+    ul {
+      display: block;
+      position: relative;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      li {
+        display: block;
+        width: 100%;
+        border-bottom: 1px solid $gray-lighter;
+        &:last-child {
+          border: none;
+        }
+        a {
+          display: block;
+          padding: 20px;
+          background-color: #fff;
+          color: $gray-darker;
+          font-weight: 400;
+          &:hover, &:focus {
+            background-color: $gray-lighter;
+          }
+        }
+      }
+    }
+  }
+  .accessnav, .appnav {
+    ul {
+      position: relative;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      li {
+        display: block;
+        width: 100%;
+        border-bottom: 1px solid $gray-lighter;
+      }
+    }
+    .dropdown-menu {
+      position: relative;
+      float: none;
+      border-radius: 0;
+      border: none;
+      padding: 0;
+      li {
+        display: block;
+        width: 100%;
+        border-bottom: 1px solid $gray-lighter;
+        &:last-child {
+          border: none;
+        }
+      }
+    }
+  }
+
+  .topnav-button {
+    width: 100%;
+    padding: 8px 20px;
+  }
+
+  .mainnav-nav {
+    display: block;
+    text-align: left;
+  }
+}
+
+@media(max-width: $screen-lg-max) {
+  #mainnav {
+    grid-template-columns: 200px 1fr;
+    grid-template-rows: 100%;
+    grid-template-areas: "cta cta"
+                         "brand nav";
+
+    width: 100%;
+    padding: 0 20px;
+  }
+
+  .mainnav-nav {
+    justify-self: right;
+    text-align: right;
+    margin-right: 0;
+  }
+}
+
+
+// Media Queries
+@media(max-width: $screen-sm-max) {
+  #mainnav {
+    .navbar-brand {
+      img {
+        width: 110px;
+      }
+    }
+    .navbar-nav {
+      li {
+        a {
+          padding: 0 10px;
+          font-size: 15px;
+        }
+      }
+    }
+  }
+}
+
+@media(max-width: $screen-xs-max) {
+
+}

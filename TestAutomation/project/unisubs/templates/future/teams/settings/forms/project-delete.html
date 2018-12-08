@@ -1,0 +1,14 @@
+{% load i18n forms modal captureas %}
+{% captureas title %}{% trans "Delete Project" %}{% endcaptureas %}
+{% startmodal "delete-project-dialog" title %}
+<form class="ajaxForm" method="POST" action="{{ request.get_full_path }}" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="modal-content">
+      <p>{% blocktrans %}Are you sure that you want to delete {{ project }} from {{ team }}?{% endblocktrans %}</p>
+    {% include "future/forms/non-field-errors.html" %}
+  </div>
+  <div class="modal-footer">
+    <button class="button cta-reverse modal-close">{% trans "Cancel" %}</button>
+    <button class="button cta" type="submit">{% trans "Delete" %}</button>
+</form>
+{% endmodal %}

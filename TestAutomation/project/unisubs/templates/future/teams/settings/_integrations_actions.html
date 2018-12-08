@@ -1,0 +1,21 @@
+{% load i18n dropdown %}
+
+<div class="listView-actions">
+  {% if account.team == team %}
+    <button class="listView-action ajaxLink" 
+            data-href="{% url 'teams:settings_externalsites' team.slug %}?form={{ form_name }}&selection={{ account.pk }}">
+      <span class="fa fa-edit"></span>
+    </button>
+    <button class="listView-action ajaxLink"
+            data-href="{% url 'teams:settings_externalsites' team.slug %}?form={{ remove_form_name }}&selection={{ account.pk }}">
+      <span class="fa fa-trash"></span>
+    </button>
+
+    {% dropdown-button-icon menu_id "listView-action" data_selection=account.pk %}
+
+    {% dropdown menu_id %}
+    {% dropdown-js-item _('Edit') 'listview-form' form_name %}
+    {% dropdown-js-item _('Remove') 'listview-form' remove_form_name %}
+    {% enddropdown %}
+  {% endif %}
+</div>

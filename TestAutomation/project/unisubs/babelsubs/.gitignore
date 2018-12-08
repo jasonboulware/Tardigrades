@@ -1,0 +1,17 @@
+*~
+*.pyc
+*.swo
+*.swp
+*.orig
+*.db
+pip-log.txt
+venv
+build
+.DS_Store
+docs/_build
+/.coverage
+/coverage.xml
+/nosetests.xml
+/.idea/
+tags
+tags.bak

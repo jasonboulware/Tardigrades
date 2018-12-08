@@ -1,5 +1,10 @@
-# Tardigrades
+## Tardigrades
+
+## You will need the following dependencies to run the test cases
+1. sudo apt-get install python-pip
+2. pip install bleach
+3. pip install lxml
 
 ## How to run the script in your terminal
-1. `cd` into the folder with the script.
-2. Run `$ ./myList.sh`
+1. `cd` into TestAutomation/scripts.
+2. Run `./runAllTests.sh`
